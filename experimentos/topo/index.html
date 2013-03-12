@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.departamento {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v0.min.js"></script>
+<script>
+
+var width = 960,
+    height = 800;
+
+var fill = d3.scale.log()
+    .domain([10, 500])
+    .range(["brown", "steelblue"]);
+
+var projection = d3.geo.mercator()
+                .scale(7000)
+                .center([-60.951,-31.2]);
+//                .translate([width / 2, height / 2]);
+
+var path = d3.geo.path().projection(projection);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+d3.json("/departamentos.json", function(error, topology) {
+  svg.selectAll('.departamento').data(topojson.object(topology, topology.objects.departamentos).geometries)
+      .enter().append('path')
+      .attr("d", path).style('fill', '#f00')
+      .attr("class", "departamento");
+});
+
+
+</script>
+</body>

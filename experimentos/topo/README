@@ -1,0 +1,9 @@
+para convertir un shp a Topojson:
+
+  topojson ../../mapas/departamentos.shp > departamentos.json
+
+requiere instalar topojson:
+
+  npm install -g topojson
+
+
