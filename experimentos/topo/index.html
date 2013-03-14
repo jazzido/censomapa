@@ -2,11 +2,31 @@
 <meta charset="utf-8">
 <style>
 
-.departamento, .provincia {
+body {
+  background-color: #ccc;
+}
+
+.provincias path {
   fill: none;
   stroke: #fff;
+  stroke-width: 2;
   stroke-linejoin: round;
 }
+
+.departamento {
+  stroke: #000;
+  fill: none;
+}
+
+.q0-9 { fill:rgb(247,251,255); }
+.q1-9 { fill:rgb(222,235,247); }
+.q2-9 { fill:rgb(198,219,239); }
+.q3-9 { fill:rgb(158,202,225); }
+.q4-9 { fill:rgb(107,174,214); }
+.q5-9 { fill:rgb(66,146,198); }
+.q6-9 { fill:rgb(33,113,181); }
+.q7-9 { fill:rgb(8,81,156); }
+.q8-9 { fill:rgb(8,48,107); }
 
 </style>
 <body>
@@ -15,37 +35,53 @@
 <script>
 
 var width = 960,
-    height = 800;
+    height = 1000;
 
 var fill = d3.scale.log()
-    .domain([10, 500])
-    .range(["brown", "steelblue"]);
+        .domain([10, 500])
+        .range(["brown", "steelblue"]);
 
 var projection = d3.geo.mercator()
-                .scale(7000)
-                .center([-60.951,-31.2]);
+        .scale(7000)
+        .center([-60.951,-31.2]);
 //                .translate([width / 2, height / 2]);
+
+var quantize = d3.scale.quantize()
+        .domain([0, 1])
+        .range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
 
 var path = d3.geo.path().projection(projection);
 
 var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+        .attr("width", width)
+        .attr("height", height);
 
-// d3.json("/departamentos.json", function(error, topology) {
-//   svg.selectAll('.departamento').data(topojson.object(topology, topology.objects.departamentos).geometries)
-//       .enter().append('path')
-//       .attr("d", path).style('fill', '#f00')
-//       .attr("class", "departamento");
-// });
 
-d3.json("/provincias.json", function(error, topology) {
-  svg.selectAll('.departamento').data(topojson.object(topology, topology.objects.pro).geometries)
-      .enter().append('path')
-      .attr("d", path).style('fill', '#00f')
-      .attr("class", "provincia");
-
+d3.json("/departamentos.json", function(error, topology) {
+    svg.append('g')
+        .attr('class', 'departamentos')
+        .selectAll('path')
+        .data(topojson.object(topology, topology.objects.departamentos).geometries)
+        .enter().append('path')
+        .attr("class", function(d) { return quantize(Math.random()); })
+        .attr('d', path);
 });
+
+ d3.json("/provincias.json", function(error, topology) {
+     svg.append('g')
+         .attr('class', 'provincias')
+         .selectAll('path')
+         .data(topojson.object(topology, topology.objects.pro).geometries)
+         .attr('class', 'provincia')
+         .enter().append('path')
+         .attr('d', path);
+     // svg.selectAll('.departamento').data(topojson.object(topology, topology.objects.pro).geometries)
+     //     .enter().append('path')
+     //     .attr("d", path)
+     //     .attr("class", "provincia");
+
+
+ });
 
 
 </script>
