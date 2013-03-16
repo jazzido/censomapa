@@ -1,6 +1,6 @@
-para convertir un shp a Topojson:
+para convertir los .shp a Topojson:
 
-  topojson ../../mapas/departamentos.shp > departamentos.json
+  topojson -p DNE_ID -p HASC_ID -p IGN_ID -p SIDIF_JUR_ -p SIDIF_SJUR -p PROVINCIA -p DEPARTAMEN -p SUPERFICIE --id-property DNE_ID -q 1000 -o ea.json ../../mapas/departamentos.shp ../../mapas/pro.shp
 
 requiere instalar topojson:
 

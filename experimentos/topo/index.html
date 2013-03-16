@@ -6,6 +6,10 @@ body {
   background-color: #ccc;
 }
 
+div#svg {
+   width: 400px;
+}
+
 .provincias path {
   fill: none;
   stroke: #fff;
@@ -18,19 +22,46 @@ body {
   fill: none;
 }
 
-.q0-9 { fill:rgb(247,251,255); }
-.q1-9 { fill:rgb(222,235,247); }
-.q2-9 { fill:rgb(198,219,239); }
-.q3-9 { fill:rgb(158,202,225); }
-.q4-9 { fill:rgb(107,174,214); }
-.q5-9 { fill:rgb(66,146,198); }
-.q6-9 { fill:rgb(33,113,181); }
-.q7-9 { fill:rgb(8,81,156); }
-.q8-9 { fill:rgb(8,48,107); }
+.departamento:hover {
+  cursor: pointer;
+}
+
+
+.q0-9 { fill:rgb(247,251,255); background-color: rgb(247,251,255); }
+.q1-9 { fill:rgb(222,235,247); background-color: rgb(222,235,247); }
+.q2-9 { fill:rgb(198,219,239); background-color: rgb(198,219,239); }
+.q3-9 { fill:rgb(158,202,225); background-color: rgb(158,202,225); }
+.q4-9 { fill:rgb(107,174,214); background-color: rgb(107,174,214); }
+.q5-9 { fill:rgb(66,146,198);  background-color: rgb(66,146,198); }
+.q6-9 { fill:rgb(33,113,181);  background-color: rgb(33,113,181); }
+.q7-9 { fill:rgb(8,81,156); background-color: rgb(8,81,156); }
+.q8-9 { fill:rgb(8,48,107); background-color: rgb(8,48,107); }
+
+#distrito-info {
+  width: 300px;
+  border: 1px solid black;
+  min-height: 200px;
+  position: fixed;
+  left: 700px; top: 50px;
+  padding: 5px;
+  background-color: #eeeeee;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  visibility: hidden;
+}
+
+  #distrito-info h3, #distrito-info h4 {
+    text-transform: capitalize;
+  }
+
+
+#choropleth-legend {
+
+}
 
 </style>
 <body>
-  <select>
+  <div>
+  <select id="variable">
     <option value="Poblacion_Densidad_2001">Poblacion_Densidad_2001</option>
     <option value="Poblacion_Densidad_2010">Poblacion_Densidad_2010</option>
     <option value="Poblacion_Total_2001">Poblacion_Total_2001</option>
@@ -55,10 +86,10 @@ body {
     <option value="Poblacion_Nacida_Argentina_2010">Poblacion_Nacida_Argentina_2010</option>
     <option value="Hogares_Total_2001">Hogares_Total_2001</option>
     <option value="Hogares_Total_2010">Hogares_Total_2010</option>
-    <option value="Hogares_Con_Baño_2001">Hogares_Con_Baño_2001</option>
-    <option value="Hogares_Con_Baño_2010">Hogares_Con_Baño_2010</option>
-    <option value="Hogares_Sin_Baño_2001">Hogares_Sin_Baño_2001</option>
-    <option value="Hogares_Sin_Baño_2010">Hogares_Sin_Baño_2010</option>
+    <option value="Hogares_Con_Bano_2001">Hogares_Con_Bano_2001</option>
+    <option value="Hogares_Con_Bano_2010">Hogares_Con_Bano_2010</option>
+    <option value="Hogares_Sin_Bano_2001">Hogares_Sin_Bano_2001</option>
+    <option value="Hogares_Sin_Bano_2010">Hogares_Sin_Bano_2010</option>
     <option value="Hogares_Con_Gas_Corriente_2001">Hogares_Con_Gas_Corriente_2001</option>
     <option value="Hogares_Con_Gas_Corriente_2010">Hogares_Con_Gas_Corriente_2010</option>
     <option value="Hogares_Sin_Gas_Corriente_2001">Hogares_Sin_Gas_Corriente_2001</option>
@@ -102,26 +133,101 @@ body {
     <option value="Viviendas_movil_2001">Viviendas_movil_2001</option>
     <option value="Viviendas_movil_2010">Viviendas_movil_2010</option>
   </select>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<img src="img/spinner.gif" width="80" height="10" style="visibility: hidden" id="spinner">
+<select id="provincia">
+  <option value="BUENOS AIRES">BUENOS AIRES</option>
+  <option value="CAPITAL FEDERAL">CAPITAL FEDERAL</option>
+  <option value="CATAMARCA">CATAMARCA</option>
+  <option value="CHACO">CHACO</option>
+  <option value="CHUBUT">CHUBUT</option>
+  <option value="CORDOBA">CORDOBA</option>
+  <option value="CORRIENTES">CORRIENTES</option>
+  <option value="ENTRE RIOS">ENTRE RIOS</option>
+  <option value="FORMOSA">FORMOSA</option>
+  <option value="ISLAS MALVINAS">ISLAS MALVINAS</option>
+  <option value="JUJUY">JUJUY</option>
+  <option value="LA PAMPA">LA PAMPA</option>
+  <option value="LA RIOJA">LA RIOJA</option>
+  <option value="MENDOZA">MENDOZA</option>
+  <option value="MISIONES">MISIONES</option>
+  <option value="NEUQUEN">NEUQUEN</option>
+  <option value="RIO NEGRO">RIO NEGRO</option>
+  <option value="SALTA">SALTA</option>
+  <option value="SAN JUAN">SAN JUAN</option>
+  <option value="SAN LUIS">SAN LUIS</option>
+  <option value="SANTA CRUZ">SANTA CRUZ</option>
+  <option value="SANTA FE">SANTA FE</option>
+  <option value="SANTIAGO DEL ESTERO">SANTIAGO DEL ESTERO</option>
+  <option value="TIERRA DEL FUEGO">TIERRA DEL FUEGO</option>
+  <option value="TUCUMAN">TUCUMAN</option>
+</select>
+</div>
+  <div id="svg"></div>
+<!-- script src="http://d3js.org/d3.v3.min.js"></script -->
+<script src="http://d3js.org/d3.v3.js"></script>
 <script src="http://d3js.org/topojson.v0.min.js"></script>
-<script src="https://raw.github.com/wycats/handlebars.js/1.0.0-rc.3/dist/handlebars.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="/js/ftclient.js"></script>
+<script src="js/handlebars.js"></script>
+<script src="js/ftclient.js"></script>
+<script id="distrito-info-template" type="text/x-handlebars-template">
+  <h3>{{ lower DEPARTAMEN}}</h3>
+  <h4>{{ lower PROVINCIA}}</h3>
+  <p><strong>{{variable_name}}</strong>: {{variable_value}}
+</script>
 
 <script>
-var FT_CENSO = '1B_vd8nbxuBCHzK7sqzCXKeb9Aifq_igSZd7jcv8';
+// i need this.
+Object.extend = function(destination, source) {
+    for (var property in source) {
+        if (source.hasOwnProperty(property)) {
+            destination[property] = source[property];
+        }
+    }
+    return destination;
+};
+
+var to_id = function(str) {
+    return str.replace(/\s+/g, '-').toLowerCase();
+};
+
+var FT_CENSO = '1LLUZN9UWi_et0W8GVeRw_QwCkP_JUIgrfjIA8ec';
+var FT_API_KEY = 'AIzaSyBrM8jb4-i5xxm0uPZtEUaQSD8JbsKiY3E';
+
+var DISTRITO_INFO_TMPL = Handlebars.compile(d3.select('#distrito-info-template').html());
+var ftclient = new FTClient(FT_CENSO, FT_API_KEY);
+
+var currentVariable;
+var currentDataDict;
 
 
-var width = 960,
+Handlebars.registerHelper('lower', function(str) {
+    return str.toLowerCase();
+});
+
+
+var showDistritoInfo = function(d) {
+    var di = d3.select('#distrito-info');
+    di.html(
+        DISTRITO_INFO_TMPL(Object.extend(
+        {
+            variable_name: currentVariable,
+            variable_value: currentDataDict[d.id]
+        },
+        d.properties)));
+    di.style('visibility', 'visible');
+}
+
+var hideDistritoInfo = function(d) {
+    var di = d3.select('#distrito-info');
+    di.style('visibility', 'hidden');
+}
+
+var width = 400,
     height = 1000;
 
-var fill = d3.scale.log()
-        .domain([10, 500])
-        .range(["brown", "steelblue"]);
-
 var projection = d3.geo.mercator()
-        .scale(7000)
-        .center([-60.951,-31.2]);
+         .scale(7000)
+         .center([-64,-32])
+         .translate([200,250]);
 
 var quantize = d3.scale.quantize()
         .domain([0, 1])
@@ -129,36 +235,102 @@ var quantize = d3.scale.quantize()
 
 var path = d3.geo.path().projection(projection);
 
-var svg = d3.select("body").append("svg")
+
+
+var svg = d3.select("div#svg").append("svg")
         .attr("width", width)
         .attr("height", height);
 
 
-d3.json("/departamentos.json", function(error, topology) {
-    svg.append('g')
-        .attr('class', 'departamentos')
+var departamentos = svg.append('g').attr('class', 'departamentos');
+var provincias =  svg.append('g').attr('class', 'provincias')
+
+// Dibujar el mapa para la variable `variable_name`
+var drawMap = function(variable_name) {
+    var spinner = d3.select('img#spinner');
+    spinner.style('visibility', 'visible');
+    currentVariable = variable_name;
+
+    ftclient.getVariable(currentVariable, function(values) {
+
+        // buscar maximo y minimo valor
+        var values_array = d3.entries(values).map(function(v) {
+            return parseFloat(v.value);
+        });
+        var min = d3.min(values_array), max = d3.max(values_array);
+
+        // construir escala logaritmica y quantizador
+        var log = d3.scale.log()
+            .clamp(true)
+            .domain([min == 0 ? 0.1 : min, max])
+            .nice();
+        var quantize = d3.scale.quantize()
+            .domain([log(min), log(max)])
+            .range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
+
+        currentDataDict = values
+        departamentos
+            .selectAll('path')
+            .attr('class', function(d) { return quantize(log(parseFloat(values[d.id]))); });
+
+        spinner.style('visibility', 'hidden');
+    });
+
+};
+
+d3.json('ea.json', function(error, topology) {
+    var provincias_geometries = topojson.object(topology, topology.objects.provincias).geometries;
+    var departamentos_geometries =  topojson.object(topology, topology.objects.departamentos).geometries
+
+    provincias
         .selectAll('path')
-        .data(topojson.object(topology, topology.objects.departamentos).geometries)
-        .enter().append('path')
-//        .attr("class", function(d) { return quantize(Math.random()); })
+        .data(provincias_geometries)
+        .enter()
+        .append('path')
+        .attr('id', function(d) { return to_id(d.properties.PROVINCIA); })
         .attr('d', path)
-        .on('mouseover', function(e) { console.log(e); });
+        .attr('class', 'provincia');
 
+    departamentos
+        .selectAll('path')
+        .data(departamentos_geometries)
+        .enter()
+        .append('path')
+        .attr('id', function(d) { return d.id })
+        .attr('d', path)
+        .attr('class', 'departamento')
+        .on('mouseover', showDistritoInfo)
+        .on('mouseout', hideDistritoInfo)
+        .on('click', function(p) { console.log(p); });
 });
 
-d3.json("/provincias.json", function(error, topology) {
-     svg.append('g')
-         .attr('class', 'provincias')
-         .selectAll('path')
-         .data(topojson.object(topology, topology.objects.pro).geometries)
-         .attr('class', 'provincia')
-         .enter().append('path')
-         .attr('d', path);
+// onChange handler for select
+d3.select('select#variable').on('change', function() {
+    drawMap(this.value);
 });
 
-d3.select('select').on('change', function() {
-    d3.json()
+d3.select('select#provincia').on('change', function() {
+    var v = this.value;
+    var p = d3.select('.provincias path#' + to_id(v));
+
+    var centroid = path.centroid(p.datum()),
+        x = -centroid[0],
+        y = -centroid[1],
+        k = provincias[0][0].getBBox().width / p[0][0].getBBox().width;
+
+
+    console.log("scale("+k+")translate(" + (x+projection.translate()[0] / k) + "," + (y+projection.translate()[1]/k) + ")");
+    svg.selectAll('g').transition().duration(1000)
+        .attr("transform", "scale("+k+")translate(" + (x+projection.translate()[0] / k) + "," + (y+projection.translate()[1]/k) + ")")
+        .selectAll('path.provincia')
+        .style("stroke-width", 2 / k + "px");
 });
 
+document.addEventListener( "DOMContentLoaded", function() {
+    drawMap(d3.select('select#variable')[0][0].value);
+});
 </script>
+<div id="distrito-info"></div>
+<div id="choropleth-legend">
+</div>
 </body>
