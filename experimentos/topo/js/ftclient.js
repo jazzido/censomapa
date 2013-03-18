@@ -83,9 +83,10 @@ var FTClient = function(table_id, api_key) {
 FTClient.config = {
     TABLE_RE: new RegExp('<TABLE>', 'g'),
     VARIABLE_RE: new RegExp('<VARIABLE>', 'g'),
+    VARIABLE_TOTAL_RE: new RegExp('<VARIABLE_TOTAL>', 'g'),
     QUERY_PREFIX: 'https://www.googleapis.com/fusiontables/v1/query?typed=false&sql=',
     GET_VARIABLE_QUERY: 'SELECT DNE_ID, <VARIABLE> FROM <TABLE>',
-    GET_MAX_MIN_VARIABLE_QUERY: 'SELECT MAXIMUM(<VARIABLE>), MINIMUM(<VARIABLE>) FROM <TABLE>',
+    GET_VARIABLE_RATIO_QUERY: 'SELECT DNE_ID, <VARIABLE>, <VARIABLE_TOTAL>  FROM <TABLE>'
 };
 
 FTClient.prototype.executeQuery = function(query, cb) {
@@ -103,13 +104,15 @@ FTClient.prototype.getVariable = function(variable_name, callback) {
                       });
 };
 
-FTClient.prototype.getMaxMinVariable = function(variable_name, callback) {
-    this.executeQuery(FTClient.config.GET_MAX_MIN_VARIABLE_QUERY.replace(FTClient.config.VARIABLE_RE,
-                                                                        variable_name),
-                     function(json) {
-                         callback(parseFloat(json.rows[0][0]),
-                                  parseFloat(json.rows[0][1]));
-                     });
+FTClient.prototype.getVariableRatio = function(variable_name, variable_total_name, callback) {
+    var q = FTClient.config.GET_VARIABLE_RATIO_QUERY.replace(FTClient.config.VARIABLE_RE, variable_name);
+    q = q.replace(FTClient.config.VARIABLE_TOTAL_RE, variable_total_name);
+    this.executeQuery(q,
+                      function(json) {
+                          var h = {};
+                          json.rows.forEach(function(i) { h[i[0]] = parseFloat(i[1]) / parseFloat(i[2]); });
+                          callback(h);
+                      });
 };
 
 

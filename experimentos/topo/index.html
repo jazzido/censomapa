@@ -17,9 +17,9 @@ div#svg {
   stroke-linejoin: round;
 }
 
-.departamento {
-  stroke: #000;
-  fill: none;
+.departamentos path {
+  stroke: #fff;
+  stroke-width: 1px;
 }
 
 .departamento:hover {
@@ -52,6 +52,10 @@ div#svg {
   #distrito-info h3, #distrito-info h4 {
     text-transform: capitalize;
   }
+
+.departamentos g.inactive {
+  opacity: 0.2;
+}
 
 
 #choropleth-legend {
@@ -163,9 +167,13 @@ div#svg {
 </select>
 </div>
   <div id="svg"></div>
-<!-- script src="http://d3js.org/d3.v3.min.js"></script -->
-<script src="http://d3js.org/d3.v3.js"></script>
-<script src="http://d3js.org/topojson.v0.min.js"></script>
+
+<!--[if lte IE 8]><script src="js/r2d3.js" charset="utf-8"></script><![endif]-->
+<!--[if gte IE 9]><!-->
+<script src="js/d3.v3.js"></script>
+<!--<![endif]-->
+<script src="js/topojson.v0.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="js/handlebars.js"></script>
 <script src="js/ftclient.js"></script>
 <script id="distrito-info-template" type="text/x-handlebars-template">
@@ -185,6 +193,7 @@ Object.extend = function(destination, source) {
     return destination;
 };
 
+
 var to_id = function(str) {
     return str.replace(/\s+/g, '-').toLowerCase();
 };
@@ -198,7 +207,6 @@ var ftclient = new FTClient(FT_CENSO, FT_API_KEY);
 var currentVariable;
 var currentDataDict;
 
-
 Handlebars.registerHelper('lower', function(str) {
     return str.toLowerCase();
 });
@@ -208,42 +216,62 @@ var showDistritoInfo = function(d) {
     var di = d3.select('#distrito-info');
     di.html(
         DISTRITO_INFO_TMPL(Object.extend(
-        {
-            variable_name: currentVariable,
-            variable_value: currentDataDict[d.id]
-        },
-        d.properties)));
+            {
+                variable_name: currentVariable,
+                variable_value: currentDataDict[d.id]
+            },
+            d.properties)));
     di.style('visibility', 'visible');
-}
+};
 
 var hideDistritoInfo = function(d) {
     var di = d3.select('#distrito-info');
     di.style('visibility', 'hidden');
-}
+};
 
 var width = 400,
     height = 1000;
 
 var projection = d3.geo.mercator()
-         .scale(7000)
-         .center([-64,-32])
-         .translate([200,250]);
-
-var quantize = d3.scale.quantize()
-        .domain([0, 1])
-        .range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
+        .scale(7000)
+        .center([-64,-32])
+        .translate([200,300]);
 
 var path = d3.geo.path().projection(projection);
-
-
 
 var svg = d3.select("div#svg").append("svg")
         .attr("width", width)
         .attr("height", height);
 
-
 var departamentos = svg.append('g').attr('class', 'departamentos');
-var provincias =  svg.append('g').attr('class', 'provincias')
+var provincias =  svg.append('g').attr('class', 'provincias');
+var legend = svg.append('g').attr('class', 'legend');
+
+var compressRange = function(scale, ary){
+    var start = scale.domain()[0], end = scale.domain()[1];
+    var rv = [{ start: start, end: ary[0].x, color: ary[0].color }];
+    for(var i = 1; i < ary.length; i++) {
+        rv[rv.length - 1].end = ary[i].x;
+        if (ary[i].color != rv[rv.length - 1].color)
+            rv.push({start: ary[i].x, end: ary[i].x, color: ary[i].color });
+    }
+    rv[rv.length - 1].end = end;
+    console.log(rv);
+    return rv;
+};
+
+var drawLegend = function(scale, quantizer) {
+    var ticks = scale.ticks();
+    legend.selectAll('rect')
+          .data(compressRange(scale, ticks.map(function(t) {
+              return { x: t, color: quantizer(t) };
+          })))
+          .enter()
+          .append('rect')
+          .attr('x', function(d, i) { console.log(d, i); return 10; })
+          .attr('width', 20)
+          .attr('class', 'caca');
+};
 
 // Dibujar el mapa para la variable `variable_name`
 var drawMap = function(variable_name) {
@@ -260,18 +288,25 @@ var drawMap = function(variable_name) {
         var min = d3.min(values_array), max = d3.max(values_array);
 
         // construir escala logaritmica y quantizador
-        var log = d3.scale.log()
-            .clamp(true)
-            .domain([min == 0 ? 0.1 : min, max])
-            .nice();
-        var quantize = d3.scale.quantize()
-            .domain([log(min), log(max)])
-            .range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
+        var scale = d3.scale.log()
+                .clamp(true)
+                .domain([min == 0 ? 0.1 : min, max])
+                .nice();
 
-        currentDataDict = values
+        var quantize = d3.scale.quantize()
+                .domain([scale(min), scale(max)])
+                .range(d3.range(9).map(function(i) {
+                    var c = Math.floor(i/(9/3)) * (9/3);
+                    return "q" + c + "-9";
+                }));
+
+        drawLegend(scale, quantize);
+
+        currentDataDict = values;
+        // pintar el mapa
         departamentos
             .selectAll('path')
-            .attr('class', function(d) { return quantize(log(parseFloat(values[d.id]))); });
+            .attr('class', function(d) { return quantize(scale(parseFloat(values[d.id]))); });
 
         spinner.style('visibility', 'hidden');
     });
@@ -280,7 +315,7 @@ var drawMap = function(variable_name) {
 
 d3.json('ea.json', function(error, topology) {
     var provincias_geometries = topojson.object(topology, topology.objects.provincias).geometries;
-    var departamentos_geometries =  topojson.object(topology, topology.objects.departamentos).geometries
+    var departamentos_geometries =  topojson.object(topology, topology.objects.departamentos).geometries;
 
     provincias
         .selectAll('path')
@@ -291,17 +326,22 @@ d3.json('ea.json', function(error, topology) {
         .attr('d', path)
         .attr('class', 'provincia');
 
-    departamentos
-        .selectAll('path')
-        .data(departamentos_geometries)
-        .enter()
-        .append('path')
-        .attr('id', function(d) { return d.id })
-        .attr('d', path)
-        .attr('class', 'departamento')
-        .on('mouseover', showDistritoInfo)
-        .on('mouseout', hideDistritoInfo)
-        .on('click', function(p) { console.log(p); });
+    provincias_geometries.forEach(function(pg) {
+        p_id = to_id(pg.properties.PROVINCIA);
+        departamentos
+            .append('g')
+            .attr('id', 'provincia-' + p_id)
+            .selectAll('path')
+            .data(departamentos_geometries.filter(function(d) { return p_id === to_id(d.properties.PROVINCIA); }))
+            .enter()
+            .append('path')
+            .attr('id', function(d) { return d.id })
+            .attr('d', path)
+            .attr('class', 'departamento')
+            .on('mouseover', showDistritoInfo)
+            .on('mouseout', hideDistritoInfo)
+            .on('click', function(p) { console.log(p); });
+    });
 });
 
 // onChange handler for select
@@ -313,20 +353,23 @@ d3.select('select#provincia').on('change', function() {
     var v = this.value;
     var p = d3.select('.provincias path#' + to_id(v));
 
-    var centroid = path.centroid(p.datum()),
-        x = -centroid[0],
-        y = -centroid[1],
-        k = provincias[0][0].getBBox().width / p[0][0].getBBox().width;
+    svg.selectAll('g.departamentos g').classed('inactive', false);
 
+    var p_bbox = p[0][0].getBBox();
+    var provincias_bbox = provincias[0][0].getBBox();
+    var x = -(p_bbox.x + p_bbox.width/2),
+        y = -(p_bbox.y + p_bbox.height/2),
+        k = provincias_bbox.width / p_bbox.width;
 
-    console.log("scale("+k+")translate(" + (x+projection.translate()[0] / k) + "," + (y+projection.translate()[1]/k) + ")");
-    svg.selectAll('g').transition().duration(1000)
+    svg.selectAll('g.provincias, g.departamentos').transition().duration(1000)
         .attr("transform", "scale("+k+")translate(" + (x+projection.translate()[0] / k) + "," + (y+projection.translate()[1]/k) + ")")
-        .selectAll('path.provincia')
+        .selectAll('path')
         .style("stroke-width", 2 / k + "px");
+
+    svg.selectAll('g.departamentos g:not(#provincia-' + to_id(v) + ')').classed('inactive', true);
 });
 
-document.addEventListener( "DOMContentLoaded", function() {
+$(function() {
     drawMap(d3.select('select#variable')[0][0].value);
 });
 </script>
