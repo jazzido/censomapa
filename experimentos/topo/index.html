@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<link rel="stylesheet" href="css/colorbrewer.css" type="text/css">
 <style>
-
 body {
   background-color: #ccc;
 }
@@ -22,20 +22,14 @@ div#svg {
   stroke-width: 1px;
 }
 
-.departamento:hover {
-  cursor: pointer;
-}
+  .departamentos path:hover {
+    cursor: pointer;
+  }
 
+  .departamentos g.inactive {
+    opacity: 0.2;
+  }
 
-.q0-9 { fill:rgb(247,251,255); background-color: rgb(247,251,255); }
-.q1-9 { fill:rgb(222,235,247); background-color: rgb(222,235,247); }
-.q2-9 { fill:rgb(198,219,239); background-color: rgb(198,219,239); }
-.q3-9 { fill:rgb(158,202,225); background-color: rgb(158,202,225); }
-.q4-9 { fill:rgb(107,174,214); background-color: rgb(107,174,214); }
-.q5-9 { fill:rgb(66,146,198);  background-color: rgb(66,146,198); }
-.q6-9 { fill:rgb(33,113,181);  background-color: rgb(33,113,181); }
-.q7-9 { fill:rgb(8,81,156); background-color: rgb(8,81,156); }
-.q8-9 { fill:rgb(8,48,107); background-color: rgb(8,48,107); }
 
 #distrito-info {
   width: 300px;
@@ -53,9 +47,6 @@ div#svg {
     text-transform: capitalize;
   }
 
-.departamentos g.inactive {
-  opacity: 0.2;
-}
 
 
 #choropleth-legend {
@@ -76,14 +67,14 @@ div#svg {
     <option value="Poblacion_Mujeres_2010">Poblacion_Mujeres_2010</option>
     <option value="Poblacion_Analfabetos_2001">Poblacion_Analfabetos_2001</option>
     <option value="Poblacion_Analfabetos_2010">Poblacion_Analfabetos_2010</option>
-    <option value="Poblacion_Alfabetos_2001">Poblacion_Alfabetos_2001</option>
-    <option value="Poblacion_Alfabetos_2010">Poblacion_Alfabetos_2010</option>
-    <option value="Poblacion_0a14_2001">Poblacion_0a14_2001</option>
-    <option value="Poblacion_0a14_2010">Poblacion_0a14_2010</option>
-    <option value="Poblacion_15a64_2001">Poblacion_15a64_2001</option>
-    <option value="Poblacion_15a64_2010">Poblacion_15a64_2010</option>
-    <option value="Poblacion_65ymas_2001">Poblacion_65ymas_2001</option>
-    <option value="Poblacion_65ymas_2010">Poblacion_65ymas_2010</option>
+    <option value="Poblacion_Alfabetos_2001" data-relative="Poblacion_Total_2001">Poblacion_Alfabetos_2001</option>
+    <option value="Poblacion_Alfabetos_2010" data-relative="Poblacion_Total_2010">Poblacion_Alfabetos_2010</option>
+    <option value="Poblacion_0a14_2001" data-relative="Poblacion_Total_2001">Poblacion_0a14_2001</option>
+    <option value="Poblacion_0a14_2010" data-relative="Poblacion_Total_2010">Poblacion_0a14_2010</option>
+    <option value="Poblacion_15a64_2001" data-relative="Poblacion_Total_2001">Poblacion_15a64_2001</option>
+    <option value="Poblacion_15a64_2010" data-relative="Poblacion_Total_2010">Poblacion_15a64_2010</option>
+    <option value="Poblacion_65ymas_2001" data-relative="Poblacion_Total_2001">Poblacion_65ymas_2001</option>
+    <option value="Poblacion_65ymas_2010" data-relative="Poblacion_Total_2010">Poblacion_65ymas_2010</option>
     <option value="Poblacion_Nacida_Extranjero_2001">Poblacion_Nacida_Extranjero_2001</option>
     <option value="Poblacion_Nacida_Extranjero_2010">Poblacion_Nacida_Extranjero_2010</option>
     <option value="Poblacion_Nacida_Argentina_2001">Poblacion_Nacida_Argentina_2001</option>
@@ -176,6 +167,7 @@ div#svg {
 <script src="js/jquery.min.js"></script>
 <script src="js/handlebars.js"></script>
 <script src="js/ftclient.js"></script>
+<script src="js/jenks.js"></script>
 <script id="distrito-info-template" type="text/x-handlebars-template">
   <h3>{{ lower DEPARTAMEN}}</h3>
   <h4>{{ lower PROVINCIA}}</h3>
@@ -193,6 +185,16 @@ Object.extend = function(destination, source) {
     return destination;
 };
 
+Array.unique_by = function(arr, fn) {
+    var hash = {}, result = [];
+    for ( var i = 0, l = arr.length; i < l; ++i ) {
+        if ( !hash.hasOwnProperty(fn(arr[i]))) {
+            hash[ fn(arr[i]) ] = true;
+            result.push(arr[i]);
+        }
+    }
+    return result;
+}
 
 var to_id = function(str) {
     return str.replace(/\s+/g, '-').toLowerCase();
@@ -210,7 +212,6 @@ var currentDataDict;
 Handlebars.registerHelper('lower', function(str) {
     return str.toLowerCase();
 });
-
 
 var showDistritoInfo = function(d) {
     var di = d3.select('#distrito-info');
@@ -230,86 +231,114 @@ var hideDistritoInfo = function(d) {
 };
 
 var width = 400,
-    height = 1000;
+    height = 950;
 
 var projection = d3.geo.mercator()
         .scale(7000)
         .center([-64,-32])
-        .translate([200,300]);
+        .translate([190,300]);
 
 var path = d3.geo.path().projection(projection);
 
 var svg = d3.select("div#svg").append("svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .attr("class", "Blues");
 
 var departamentos = svg.append('g').attr('class', 'departamentos');
 var provincias =  svg.append('g').attr('class', 'provincias');
-var legend = svg.append('g').attr('class', 'legend');
+var legend = svg.append('g').attr('class', 'legend').attr('transform', 'translate(0, 30)');
 
-var compressRange = function(scale, ary){
-    var start = scale.domain()[0], end = scale.domain()[1];
-    var rv = [{ start: start, end: ary[0].x, color: ary[0].color }];
-    for(var i = 1; i < ary.length; i++) {
-        rv[rv.length - 1].end = ary[i].x;
-        if (ary[i].color != rv[rv.length - 1].color)
-            rv.push({start: ary[i].x, end: ary[i].x, color: ary[i].color });
-    }
-    rv[rv.length - 1].end = end;
-    console.log(rv);
-    return rv;
-};
+var drawLegend = function(quantile) {
+    legend.selectAll('rect, text').remove();
 
-var drawLegend = function(scale, quantizer) {
-    var ticks = scale.ticks();
+    var bins = {}, n_classes = quantile.range().length;
+
+    quantile.range().forEach(function(q) {
+        bins[q] = [Number.POSITIVE_INFINITY,
+                   Number.NEGATIVE_INFINITY,
+                   'q' + q + '-' + n_classes]
+    });
+    quantile.domain().forEach(function(d) {
+        var q = quantile(d)
+        bins[q][0] = d3.min([bins[q][0], d]);
+        bins[q][1] = d3.max([bins[q][0], d]);
+    });
+
+    var data = Object.keys(bins).sort().map(function(k) {
+        return bins[k];
+    });
+
     legend.selectAll('rect')
-          .data(compressRange(scale, ticks.map(function(t) {
-              return { x: t, color: quantizer(t) };
-          })))
-          .enter()
-          .append('rect')
-          .attr('x', function(d, i) { console.log(d, i); return 10; })
-          .attr('width', 20)
-          .attr('class', 'caca');
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('y', function(d, i) { return 15 * i; })
+        .attr('width', 20)
+        .attr('height', 10)
+        .attr('class', function(d) { return d[2]; })
+        .attr('data-start', function(d) { return d[0].toFixed(2); })
+        .attr('data-end', function(d) { return d[1].toFixed(2); })
+
+    legend.selectAll('text')
+        .data(data)
+        .enter()
+        .append('text')
+        .attr('y', function(d,i) { return 10 + 15 * i;})
+        .attr('x', 30)
+        .text(function(d, i) { return d[0].toFixed(2) + ' - ' + d[1].toFixed(2); })
+
 };
 
 // Dibujar el mapa para la variable `variable_name`
-var drawMap = function(variable_name) {
+var drawMap = function(variable_name, relative_to_variable) {
     var spinner = d3.select('img#spinner');
     spinner.style('visibility', 'visible');
     currentVariable = variable_name;
 
-    ftclient.getVariable(currentVariable, function(values) {
+    var valuesCallback = function(scale, n_classes) {
 
-        // buscar maximo y minimo valor
-        var values_array = d3.entries(values).map(function(v) {
-            return parseFloat(v.value);
-        });
-        var min = d3.min(values_array), max = d3.max(values_array);
+        return function(values) {
 
-        // construir escala logaritmica y quantizador
-        var scale = d3.scale.log()
-                .clamp(true)
-                .domain([min == 0 ? 0.1 : min, max])
-                .nice();
+            // buscar maximo y minimo valor
+            var values_array = d3.entries(values).map(function(v) {
+                return parseFloat(v.value);
+            });
 
-        var quantize = d3.scale.quantize()
-                .domain([scale(min), scale(max)])
-                .range(d3.range(9).map(function(i) {
-                    var c = Math.floor(i/(9/3)) * (9/3);
-                    return "q" + c + "-9";
-                }));
+//            console.log(jenks(values_array, n_classes));
 
-        drawLegend(scale, quantize);
+            var quantile = d3.scale.quantile()
+                             .domain(values_array)
+                             .range(d3.range(n_classes));
 
-        currentDataDict = values;
-        // pintar el mapa
-        departamentos
-            .selectAll('path')
-            .attr('class', function(d) { return quantize(scale(parseFloat(values[d.id]))); });
+            drawLegend(quantile);
 
-        spinner.style('visibility', 'hidden');
-    });
+            currentDataDict = values;
+
+            // pintar el mapa
+            departamentos
+                .selectAll('path')
+                .attr('class', function(d) { return 'q' + quantile(values[d.id]) + '-' + n_classes; });
+
+
+            spinner.style('visibility', 'hidden');
+        };
+    };
+
+
+    if (relative_to_variable !== undefined) {
+        ftclient.getVariableRatio(currentVariable,
+                                  relative_to_variable,
+                                  valuesCallback(d3.scale.linear(),
+                                                 7));
+    }
+    else {
+        ftclient.getVariable(currentVariable,
+                             valuesCallback(d3.scale.log().clamp(true).nice(),
+                                            7));
+    }
+
+
 
 };
 
@@ -327,7 +356,7 @@ d3.json('ea.json', function(error, topology) {
         .attr('class', 'provincia');
 
     provincias_geometries.forEach(function(pg) {
-        p_id = to_id(pg.properties.PROVINCIA);
+        var p_id = to_id(pg.properties.PROVINCIA);
         departamentos
             .append('g')
             .attr('id', 'provincia-' + p_id)
@@ -346,7 +375,8 @@ d3.json('ea.json', function(error, topology) {
 
 // onChange handler for select
 d3.select('select#variable').on('change', function() {
-    drawMap(this.value);
+    drawMap(this.value,
+            $(this.selectedOptions[0]).data('relative'));
 });
 
 d3.select('select#provincia').on('change', function() {
@@ -359,7 +389,7 @@ d3.select('select#provincia').on('change', function() {
     var provincias_bbox = provincias[0][0].getBBox();
     var x = -(p_bbox.x + p_bbox.width/2),
         y = -(p_bbox.y + p_bbox.height/2),
-        k = provincias_bbox.width / p_bbox.width;
+        k = d3.min([provincias_bbox.width / p_bbox.width, ($(window).height() - $(svg[0]).offset().top) / p_bbox.height]);
 
     svg.selectAll('g.provincias, g.departamentos').transition().duration(1000)
         .attr("transform", "scale("+k+")translate(" + (x+projection.translate()[0] / k) + "," + (y+projection.translate()[1]/k) + ")")
