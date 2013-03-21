@@ -86,7 +86,9 @@ FTClient.config = {
     VARIABLE_TOTAL_RE: new RegExp('<VARIABLE_TOTAL>', 'g'),
     QUERY_PREFIX: 'https://www.googleapis.com/fusiontables/v1/query?typed=false&sql=',
     GET_VARIABLE_QUERY: 'SELECT DNE_ID, <VARIABLE> FROM <TABLE>',
-    GET_VARIABLE_RATIO_QUERY: 'SELECT DNE_ID, <VARIABLE>, <VARIABLE_TOTAL>  FROM <TABLE>'
+    GET_VARIABLE_RATIO_QUERY: 'SELECT DNE_ID, <VARIABLE>, <VARIABLE_TOTAL> FROM <TABLE>',
+    GET_INTERCENSAL_ABSOLUTE_QUERY: 'SELECT DNE_ID, <VARIABLE_1>, <VARIABLE_2> FROM <TABLE>',
+    GET_INTERCENSAL_RATIO_QUERY: 'SELECT DNE_ID, <VARIABLE_1>, <VARIABLE_2>, <VARIABLE_TOTAL_1>, <VARIABLE_TOTAL_2> FROM <TABLE>'
 };
 
 FTClient.prototype.executeQuery = function(query, cb) {
@@ -114,6 +116,39 @@ FTClient.prototype.getVariableRatio = function(variable_name, variable_total_nam
                           callback(h);
                       });
 };
+
+FTClient.prototype.getIntercensalAbsoluteVariation = function(variable_name_1, variable_name_2, callback) {
+    var q = FTClient.config.GET_INTERCENSAL_ABSOLUTE_QUERY
+        .replace('<VARIABLE_1>', variable_name_1)
+        .replace('<VARIABLE_2>', variable_name_2);
+
+    this.executeQuery(q,
+                     function(json) {
+                         var h = {};
+                         json.rows.forEach(function(i) { h[i[0]] = (parseFloat(i[2]) - parseFloat(i[1])) / parseFloat(i[1]); });
+                         callback(h);
+                     });
+};
+
+FTClient.prototype.getIntercensalRatioVariation = function(variable_name_1, variable_total_1, variable_name_2, variable_total_2, callback) {
+    var q = FTClient.config.GET_INTERCENSAL_RATIO_QUERY
+        .replace('<VARIABLE_1>', variable_name_1)
+        .replace('<VARIABLE_2>', variable_name_2)
+        .replace('<VARIABLE_TOTAL_1>', variable_total_1)
+        .replace('<VARIABLE_TOTAL_2>', variable_total_2);
+
+    this.executeQuery(q,
+                      function(json) {
+                          var h = {};
+                          json.rows.forEach(function(i) {
+                               var ratio1 = parseFloat(i[1]) / parseFloat(i[3]),
+                                  ratio2 = parseFloat(i[2]) / parseFloat(i[4]);
+                              h[i[0]] = (ratio2 - ratio1) / ratio 1;
+                          });
+                          callback(h);
+                      });
+};
+
 
 
 // ---------- END Fusion Tables Client ----------
