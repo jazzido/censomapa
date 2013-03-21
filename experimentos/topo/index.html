@@ -47,11 +47,11 @@ div#svg {
     text-transform: capitalize;
   }
 
-
-
-#choropleth-legend {
-
+path {
+  -webkit-transition: fill 200ms linear;
+  -moz-transition: fill 200ms linear;
 }
+
 
 </style>
 <body>
@@ -75,10 +75,10 @@ div#svg {
     <option value="Poblacion_15a64_2010" data-relative="Poblacion_Total_2010">Poblacion_15a64_2010</option>
     <option value="Poblacion_65ymas_2001" data-relative="Poblacion_Total_2001">Poblacion_65ymas_2001</option>
     <option value="Poblacion_65ymas_2010" data-relative="Poblacion_Total_2010">Poblacion_65ymas_2010</option>
-    <option value="Poblacion_Nacida_Extranjero_2001">Poblacion_Nacida_Extranjero_2001</option>
-    <option value="Poblacion_Nacida_Extranjero_2010">Poblacion_Nacida_Extranjero_2010</option>
-    <option value="Poblacion_Nacida_Argentina_2001">Poblacion_Nacida_Argentina_2001</option>
-    <option value="Poblacion_Nacida_Argentina_2010">Poblacion_Nacida_Argentina_2010</option>
+    <option value="Poblacion_Nacida_Extranjero_2001" data-relative="Poblacion_Total_2001">Poblacion_Nacida_Extranjero_2001</option>
+    <option value="Poblacion_Nacida_Extranjero_2010" data-relative="Poblacion_Total_2010">Poblacion_Nacida_Extranjero_2010</option>
+    <option value="Poblacion_Nacida_Argentina_2001" data-relative="Poblacion_Total_2001">Poblacion_Nacida_Argentina_2001</option>
+    <option value="Poblacion_Nacida_Argentina_2010" data-relative="Poblacion_Total_2010">Poblacion_Nacida_Argentina_2010</option>
     <option value="Hogares_Total_2001">Hogares_Total_2001</option>
     <option value="Hogares_Total_2010">Hogares_Total_2010</option>
     <option value="Hogares_Con_Bano_2001">Hogares_Con_Bano_2001</option>
@@ -168,6 +168,8 @@ div#svg {
 <script src="js/handlebars.js"></script>
 <script src="js/ftclient.js"></script>
 <script src="js/jenks.js"></script>
+<!-- script src="js/simple_statistics.js"></script -->
+<!-- script src="js/geostats.js"></script -->
 <script id="distrito-info-template" type="text/x-handlebars-template">
   <h3>{{ lower DEPARTAMEN}}</h3>
   <h4>{{ lower PROVINCIA}}</h3>
@@ -301,17 +303,25 @@ var drawMap = function(variable_name, relative_to_variable) {
         return function(values) {
 
             // buscar maximo y minimo valor
-            var values_array = d3.entries(values).map(function(v) {
-                return parseFloat(v.value);
-            });
-
-//            console.log(jenks(values_array, n_classes));
+            var values_array = d3.entries(values)
+//                                 .filter(function(e) { return e !== ""; })
+                                 .map(function(v) {
+                                     return parseFloat(v.value);
+                                 }).filter(function(v) { return !isNaN(v);});
 
             var quantile = d3.scale.quantile()
                              .domain(values_array)
                              .range(d3.range(n_classes));
 
-            drawLegend(quantile);
+            // var j = jenks(values_array, n_classes - 1);
+            // var quantile = d3.scale.threshold()
+            //     .domain(jenks(values_array, n_classes - 1))
+            //     .range(d3.range(n_classes));
+
+//            console.log(values_array);
+//            console.log(jenks(values_array, n_classes))
+
+//            drawLegend(quantile);
 
             currentDataDict = values;
 
@@ -330,12 +340,12 @@ var drawMap = function(variable_name, relative_to_variable) {
         ftclient.getVariableRatio(currentVariable,
                                   relative_to_variable,
                                   valuesCallback(d3.scale.linear(),
-                                                 7));
+                                                 3));
     }
     else {
         ftclient.getVariable(currentVariable,
                              valuesCallback(d3.scale.log().clamp(true).nice(),
-                                            7));
+                                            3));
     }
 
 
@@ -376,7 +386,7 @@ d3.json('ea.json', function(error, topology) {
 // onChange handler for select
 d3.select('select#variable').on('change', function() {
     drawMap(this.value,
-            $(this.selectedOptions[0]).data('relative'));
+            $('select#variable option[value=' + $('select#variable').val() + ']').data('relative'));
 });
 
 d3.select('select#provincia').on('change', function() {
