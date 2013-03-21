@@ -141,9 +141,9 @@ FTClient.prototype.getIntercensalRatioVariation = function(variable_name_1, vari
                       function(json) {
                           var h = {};
                           json.rows.forEach(function(i) {
-                               var ratio1 = parseFloat(i[1]) / parseFloat(i[3]),
-                                  ratio2 = parseFloat(i[2]) / parseFloat(i[4]);
-                              h[i[0]] = (ratio2 - ratio1) / ratio 1;
+                              var ratio1 = parseFloat(i[1]) / parseFloat(i[3]);
+                              var ratio2 = parseFloat(i[2]) / parseFloat(i[4]);
+                              h[i[0]] = (ratio2 - ratio1) / ratio1;
                           });
                           callback(h);
                       });
