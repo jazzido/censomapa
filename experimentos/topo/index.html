@@ -64,12 +64,12 @@ path {
     <option value="Poblacion_Densidad_2010">Poblacion_Densidad_2010</option>
     <option value="Poblacion_Total_2001">Poblacion_Total_2001</option>
     <option value="Poblacion_Total_2010">Poblacion_Total_2010</option>
-    <option value="Poblacion_Varones_2001">Poblacion_Varones_2001</option>
-    <option value="Poblacion_Varones_2010">Poblacion_Varones_2010</option>
-    <option value="Poblacion_Mujeres_2001">Poblacion_Mujeres_2001</option>
-    <option value="Poblacion_Mujeres_2010">Poblacion_Mujeres_2010</option>
-    <option value="Poblacion_Analfabetos_2001">Poblacion_Analfabetos_2001</option>
-    <option value="Poblacion_Analfabetos_2010">Poblacion_Analfabetos_2010</option>
+    <option value="Poblacion_Varones_2001" data-relative="Poblacion_Total_2001">Poblacion_Varones_2001</option>
+    <option value="Poblacion_Varones_2010" data-relative="Poblacion_Total_2010">Poblacion_Varones_2010</option>
+    <option value="Poblacion_Mujeres_2001" data-relative="Poblacion_Total_2001">Poblacion_Mujeres_2001</option>
+    <option value="Poblacion_Mujeres_2010" data-relative="Poblacion_Total_2010">Poblacion_Mujeres_2010</option>
+    <option value="Poblacion_Analfabetos_2001" data-relative="Poblacion_Total_2001">Poblacion_Analfabetos_2001</option>
+    <option value="Poblacion_Analfabetos_2010" data-relative="Poblacion_Total_2010">Poblacion_Analfabetos_2010</option>
     <option value="Poblacion_Alfabetos_2001" data-relative="Poblacion_Total_2001">Poblacion_Alfabetos_2001</option>
     <option value="Poblacion_Alfabetos_2010" data-relative="Poblacion_Total_2010">Poblacion_Alfabetos_2010</option>
     <option value="Poblacion_0a14_2001" data-relative="Poblacion_Total_2001">Poblacion_0a14_2001</option>
@@ -199,6 +199,45 @@ Array.unique_by = function(arr, fn) {
         }
     }
     return result;
+};
+
+// 'Head/Tail breaks'
+// http://arxiv.org/pdf/1209.2801v1.pdf
+var headTailThresholds = function(data,n_classes) {
+    data = data.sort(d3.ascending);
+    var m = d3.mean(data);
+    var rv = [m];
+
+/*    console.log('mean:', m);
+    console.log('bisect idx', d3.bisectRight(data, m));
+    console.log('bisect value', data[d3.bisectRight(data, m)]);
+    console.log('sliced', data.length); */
+
+    data = data.slice(d3.bisectRight(data, m), data.length);
+    while (n_classes > 1) {
+        m = d3.mean(data);
+        rv.push(m);
+        data = data.slice(d3.bisectRight(data, m), data.length);
+        n_classes--;
+    }
+    return rv.sort(d3.ascending);
+};
+
+var nestedMeans = function(data, iterations) {
+
+    var inner = function(data) {
+
+    }
+
+    data = data.sort(d3.ascending);
+    var rv = [], m = -1;
+    while(iterations > 0) {
+        m = d3.mean(data);
+        rv.push(m);
+
+
+    }
+
 }
 
 var to_id = function(str) {
@@ -254,25 +293,23 @@ var departamentos = svg.append('g').attr('class', 'departamentos');
 var provincias =  svg.append('g').attr('class', 'provincias');
 var legend = svg.append('g').attr('class', 'legend').attr('transform', 'translate(0, 30)');
 
-var drawLegend = function(quantile) {
+var drawLegend = function(quantile, min, max) {
     legend.selectAll('rect, text').remove();
+    var precision = 2;
 
-    var bins = {}, n_classes = quantile.range().length;
+    var n_classes = quantile.range().length;
+    var domain = quantile.domain();
+    var data = [[min, domain[0] - Math.pow(10, -precision), 'q0' + '-' + n_classes]];
 
-    quantile.range().forEach(function(q) {
-        bins[q] = [Number.POSITIVE_INFINITY,
-                   Number.NEGATIVE_INFINITY,
-                   'q' + q + '-' + n_classes]
-    });
-    quantile.domain().forEach(function(d) {
-        var q = quantile(d)
-        bins[q][0] = d3.min([bins[q][0], d]);
-        bins[q][1] = d3.max([bins[q][0], d]);
+    d3.range(domain.length - 1).forEach(function(i) {
+        data.push([domain[i],
+                   domain[i+1] - Math.pow(10, -precision),
+                   'q' + (i+1) + '-' + n_classes]);
     });
 
-    var data = Object.keys(bins).sort().map(function(k) {
-        return bins[k];
-    });
+    data.push([domain[domain.length - 1],
+               max,
+               'q' + (n_classes-1) + '-' + n_classes]);
 
     legend.selectAll('rect')
         .data(data)
@@ -282,8 +319,8 @@ var drawLegend = function(quantile) {
         .attr('width', 20)
         .attr('height', 10)
         .attr('class', function(d) { return d[2]; })
-        .attr('data-start', function(d) { return d[0].toFixed(2); })
-        .attr('data-end', function(d) { return d[1].toFixed(2); })
+        .attr('data-start', function(d) { return d[0].toFixed(precision); })
+        .attr('data-end', function(d) { return d[1].toFixed(precision); })
 
     legend.selectAll('text')
         .data(data)
@@ -291,7 +328,7 @@ var drawLegend = function(quantile) {
         .append('text')
         .attr('y', function(d,i) { return 10 + 15 * i;})
         .attr('x', 30)
-        .text(function(d, i) { return d[0].toFixed(2) + ' - ' + d[1].toFixed(2); })
+        .text(function(d, i) { return d[0].toFixed(precision) + ' - ' + d[1].toFixed(precision); })
 
 };
 
@@ -301,30 +338,46 @@ var drawMap = function(variable_name, relative_to_variable) {
     spinner.style('visibility', 'visible');
     currentVariable = variable_name;
 
-    var valuesCallback = function(scale, n_classes) {
+    var valuesCallback = function(n_classes) {
 
         return function(values) {
 
             // buscar maximo y minimo valor
             var values_array = d3.entries(values)
-//                                 .filter(function(e) { return e !== ""; })
                                  .map(function(v) {
                                      return parseFloat(v.value);
-                                 }).filter(function(v) { return !isNaN(v);});
+                                 })
+                                 .filter(function(v) { return !isNaN(v);})
+                                 .sort(d3.ascending);
 
-            var quantile = d3.scale.quantile()
-                             .domain(values_array)
-                             .range(d3.range(n_classes));
+            // Quantiles
+            // var quantile = d3.scale.quantile()
+            //                  .domain(values_array)
+            //                  .range(d3.range(n_classes));
 
-            // var j = jenks(values_array, n_classes - 1);
-            // var quantile = d3.scale.threshold()
-            //     .domain(jenks(values_array, n_classes - 1))
-            //     .range(d3.range(n_classes));
 
-//            console.log(values_array);
-//            console.log(jenks(values_array, n_classes))
+            // head Tail Thresholds
+            var htt = headTailThresholds(values_array, n_classes-1);
+            var quantile = d3.scale.threshold()
+                                   .domain(htt)
+                                   .range(d3.range(n_classes));
 
-//            drawLegend(quantile);
+            // jenks optimization
+/*
+            var j = jenks(values_array, n_classes);
+            console.log(j);
+            var quantile = d3.scale.threshold()
+                .domain(j.slice(1, j.length - 1))
+                .range(d3.range(n_classes));
+*/
+
+            console.log('max', values_array[values_array.length - 1]);
+            console.log('min', values_array[0]);
+
+
+            drawLegend(quantile,
+                       values_array[0],
+                       values_array[values_array.length - 1]);
 
             currentDataDict = values;
 
@@ -342,13 +395,11 @@ var drawMap = function(variable_name, relative_to_variable) {
     if (relative_to_variable !== undefined) {
         ftclient.getVariableRatio(currentVariable,
                                   relative_to_variable,
-                                  valuesCallback(d3.scale.linear(),
-                                                 3));
+                                  valuesCallback(3));
     }
     else {
         ftclient.getVariable(currentVariable,
-                             valuesCallback(d3.scale.log().clamp(true).nice(),
-                                            3));
+                             valuesCallback(3));
     }
 
 
