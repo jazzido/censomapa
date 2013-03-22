@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* reset */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,audio,canvas,details,figcaption,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,summary,time,video{border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;margin:0;padding:0;}body{line-height:1;}article,aside,dialog,figure,footer,header,hgroup,nav,section,blockquote{display:block;}nav ul{list-style:none;}ol{list-style:decimal;}ul{list-style:disc;}ul ul{list-style:circle;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:none;}ins{text-decoration:underline;}del{text-decoration:line-through;}mark{background:none;}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help;}table{border-collapse:collapse;border-spacing:0;}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0;}input[type=submit],input[type=button],button{margin:0;padding:0;}input,select,a img{vertical-align:middle;}
+ul {list-style: none}
+@font-face{ font-family: TheSans; src: url('font/TheSans_TT7_.eot'), url('font/TheSans_TT7_.woff'); }
+.clear { clear: both; display: block;}
+body {font-family: Arial, Helvetica, sans-serif; font-size: 13px;}
+h1, h2 {font-family: TheSans, Arial, Helvetica, sans-serif;text-transform: uppercase;}
+h1 { font-size: 20px}
+div#wrapper { width: 980px; margin: 0 auto; padding: 20px 25px}
+
+header p {margin: 5px 0 0}
+nav { color: #fff; margin: 30px 0 0; text-transform: uppercase;}
+nav h2, nav #filtros { float: left; }
+nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png); height: 20px; padding: 5px 0 0 10px;  }
+nav #filtros { width: 520px; display: block; cursor: pointer;height: 25px; padding: 0;  }
+nav #filtros div.filtro { width: 50%; float: left; position: relative; height: 20px; padding: 5px 0 0 0px;}
+nav #filtros div.filtro ul li{ font-weight: bold; padding: 0 0 0 10px}
+nav #filtros div.filtro ul li h3{ background: url(../img/sprite.png) 218px -100px no-repeat; display: block;}
+.bg_2 {background: url(../img/bg_cel_2.png);}
+.bg_3 {background: url(../img/bg_cel_3.png);}
+nav #filtros div.filtro ul li ul#provincia, nav #filtros div.filtro ul li ul#categorias { z-index: 1; font-size: 11px; display: none; position:absolute; top:25px; left:0; width:250px; color: #666; list-style: none; box-shadow: 0px 5px 5px #ccc; background: #fff; max-height: 400px; overflow-y: auto}
+
+nav #filtros div.filtro ul li ul#provincia li { padding: 3px 0; }
+nav #filtros div.filtro ul li ul#provincia li:hover, nav #filtros div.filtro ul li ul#categorias li ul li:hover { background-color: #ccc; color: #000 }
+
+nav #filtros div.filtro ul li ul{ list-style: none}
+nav #filtros div.filtro ul li ul li{ font-weight: normal; padding: 2px 0; margin: 0 0 0 5px}
+nav #filtros div.filtro ul li ul li ul{ display:none}
+
+nav #filtros div.filtro ul li ul#categorias li { font-weight: bold;padding: 5px 0;}
+nav #filtros div.filtro ul li ul#categorias li ul li { font-weight: normal; padding: 2px 0;}
+nav #filtros div.filtro ul li ul li span.title { display: block; height: 15px}
+section {overflow: hidden; margin: 20px 0 0}
+article.col_1, article.col_2 {float: left}
+article.col_1 { width: 450px;}
+article.col_2 { width: 530px; position: relative}
+article ul#u_relevamiento{ overflow: hidden}
+article ul#u_relevamiento li{ display: inline-block; width: 140px; opacity: .7; cursor: pointer}
+article ul#u_relevamiento li.active, article ul#u_relevamiento li:hover{ opacity: 1}
+article ul#u_relevamiento li h3{ display: block; height: 20px; padding: 0 0 0 20px}
+article ul#u_relevamiento li.active h3{ background: url(../img/sprite.png) -60px -175px no-repeat; }
+article a#ver_mas{width:80px; position: absolute;top:160px; left: 10px; display:inline-block; background: url(../img/bg_cel_1.png); color:#fff; padding: 3px 0 2px 5px; text-decoration: none; text-transform: uppercase; font-size: 10px}
+article a#ver_mas span{ display:inline-block; background: url(../img/sprite.png) 0 -164px no-repeat; color:#fff; width: 19px; height: 15px; position: absolute; top: 0; right: 0}
+article a#ver_mas.menos span{ background-position: 0 -129px;}
+
+div#variables { margin: 35px 0 0; display: inline-block; border-top: 1px #ccc solid; padding: 20px 0 0;}
+div#variables ul {display: none; border-bottom: 1px #ccc solid;}
+div#variables ul li {display: inline-block; width: 85px; padding-bottom: 10px; cursor:pointer}
+
+footer { clear: both}
