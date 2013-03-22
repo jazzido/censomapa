@@ -92,6 +92,13 @@ def query(query):
 
 
 def get_variables(vars):
+
+    def to_f(s):
+        try:
+            return float(s)
+        except:
+            return None
+
     r = query("SELECT DNE_ID, %s FROM %s" % (', '.join(vars), TABLE_ID))
 
     # nombres de variables sin el agno
@@ -102,20 +109,20 @@ def get_variables(vars):
 
 
     indexes = dict(zip(r['columns'][1:], range(len(r['columns']) - 1)))
-    print indexes
 
     rv = {
         '_c': variable_names,
     }
 
     for row in r['rows']:
+        dne_id, row = row[0], row[1:]
 
-        rv[row[0]] = {
-            2001: map(lambda c: row[1:][indexes[c + "_2001"]], variable_names),
-            2010: map(lambda c: row[1:][indexes[c + "_2010"]], variable_names)
+        rv[dne_id] = {
+            2001: map(lambda c: to_f(row[indexes[c + "_2001"]]), variable_names),
+            2010: map(lambda c: to_f(row[indexes[c + "_2010"]]), variable_names)
         }
 
     return rv
 
 if __name__ == '__main__':
-    print get_variables(VARIABLES_POBLACION)
+    print simplejson.dumps(get_variables(VARIABLES_POBLACION))
