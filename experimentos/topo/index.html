@@ -58,7 +58,17 @@ path {
   <div>
   <select id="variable">
     <optgroup label="Variaciones Intercensales">
-
+      <option value="Poblacion_0a14" data-variation="true" data-total="Poblacion_Total">Poblacion_0a14</option>
+      <option value="Poblacion_15a64" data-variation="true" data-total="Poblacion_Total">Poblacion_15a64</option>
+      <option value="Poblacion_65ymas" data-variation="true" data-total="Poblacion_Total">Poblacion_65ymas</option>
+      <option value="Poblacion_Alfabetos" data-variation="true" data-total="Poblacion_Total">Poblacion_Alfabetos</option>
+      <option value="Poblacion_Analfabetos" data-variation="true" data-total="Poblacion_Total">Poblacion_Analfabetos</option>
+      <option value="Poblacion_Densidad" data-variation="true" data-total="Poblacion_Total">Poblacion_Densidad</option>
+      <option value="Poblacion_Mujeres" data-variation="true" data-total="Poblacion_Total">Poblacion_Mujeres</option>
+      <option value="Poblacion_Nacida_Argentina" data-variation="true" data-total="Poblacion_Total">Poblacion_Nacida_Argentina</option>
+      <option value="Poblacion_Nacida_Extranjero" data-variation="true" data-total="Poblacion_Total">Poblacion_Nacida_Extranjero</option>
+      <option value="Poblacion_Total" data-variation="true" data-total="Poblacion_Total">Poblacion_Total</option>
+      <option value="Poblacion_Varones" data-variation="true" data-total="Poblacion_Total">Poblacion_Varones</option>
     </optgroup>
     <option value="Poblacion_Densidad_2001">Poblacion_Densidad_2001</option>
     <option value="Poblacion_Densidad_2010">Poblacion_Densidad_2010</option>
@@ -208,16 +218,12 @@ var headTailThresholds = function(data,n_classes) {
     var m = d3.mean(data);
     var rv = [m];
 
-/*    console.log('mean:', m);
-    console.log('bisect idx', d3.bisectRight(data, m));
-    console.log('bisect value', data[d3.bisectRight(data, m)]);
-    console.log('sliced', data.length); */
-
-    data = data.slice(d3.bisectRight(data, m), data.length);
+//    data = data.slice(d3.bisectRight(data, m), data.length);
+    data = data.slice(0, d3.bisectLeft(data, m));
     while (n_classes > 1) {
         m = d3.mean(data);
         rv.push(m);
-        data = data.slice(d3.bisectRight(data, m), data.length);
+        data = data.slice(0, d3.bisectLeft(data, m));
         n_classes--;
     }
     return rv.sort(d3.ascending);
@@ -328,81 +334,63 @@ var drawLegend = function(quantile, min, max) {
         .append('text')
         .attr('y', function(d,i) { return 10 + 15 * i;})
         .attr('x', 30)
-        .text(function(d, i) { return d[0].toFixed(precision) + ' - ' + d[1].toFixed(precision); })
+        .text(function(d, i) { return d[0].toFixed(precision) + ' — ' + d[1].toFixed(precision); })
 
 };
 
-// Dibujar el mapa para la variable `variable_name`
-var drawMap = function(variable_name, relative_to_variable) {
+// Dibujar el mapa
+var drawMap = function(values, n_classes) {
     var spinner = d3.select('img#spinner');
     spinner.style('visibility', 'visible');
-    currentVariable = variable_name;
-
-    var valuesCallback = function(n_classes) {
-
-        return function(values) {
-
-            // buscar maximo y minimo valor
-            var values_array = d3.entries(values)
-                                 .map(function(v) {
-                                     return parseFloat(v.value);
-                                 })
-                                 .filter(function(v) { return !isNaN(v);})
-                                 .sort(d3.ascending);
-
-            // Quantiles
-            // var quantile = d3.scale.quantile()
-            //                  .domain(values_array)
-            //                  .range(d3.range(n_classes));
 
 
-            // head Tail Thresholds
-            var htt = headTailThresholds(values_array, n_classes-1);
-            var quantile = d3.scale.threshold()
-                                   .domain(htt)
-                                   .range(d3.range(n_classes));
+    // buscar maximo y minimo valor
+    var values_array = d3.entries(values)
+        .map(function(v) {
+            return parseFloat(v.value);
+        })
+        .filter(function(v) { return !isNaN(v);})
+        .sort(d3.ascending);
 
-            // jenks optimization
+    // Quantiles
+    // var quantile = d3.scale.quantile()
+    //                  .domain(values_array)
+    //                  .range(d3.range(n_classes));
+
+
+    // head Tail Thresholds
 /*
-            var j = jenks(values_array, n_classes);
-            console.log(j);
-            var quantile = d3.scale.threshold()
-                .domain(j.slice(1, j.length - 1))
-                .range(d3.range(n_classes));
-*/
+    var htt = headTailThresholds(values_array, n_classes-1);
+    var quantile = d3.scale.threshold()
+        .domain(htt)
+        .range(d3.range(n_classes)); */
 
-            console.log('max', values_array[values_array.length - 1]);
-            console.log('min', values_array[0]);
+    // jenks optimization
 
+      var j = jenks(values_array, n_classes);
 
-            drawLegend(quantile,
-                       values_array[0],
-                       values_array[values_array.length - 1]);
-
-            currentDataDict = values;
-
-            // pintar el mapa
-            departamentos
-                .selectAll('path')
-                .attr('class', function(d) { return 'q' + quantile(values[d.id]) + '-' + n_classes; });
+      var quantile = d3.scale.threshold()
+      .domain(j.slice(1, j.length - 1))
+      .range(d3.range(n_classes));
 
 
-            spinner.style('visibility', 'hidden');
-        };
-    };
+    console.log('max', values_array[values_array.length - 1]);
+    console.log('min', values_array[0]);
 
 
-    if (relative_to_variable !== undefined) {
-        ftclient.getVariableRatio(currentVariable,
-                                  relative_to_variable,
-                                  valuesCallback(3));
-    }
-    else {
-        ftclient.getVariable(currentVariable,
-                             valuesCallback(3));
-    }
+    drawLegend(quantile,
+               values_array[0],
+               values_array[values_array.length - 1]);
+
+    currentDataDict = values;
+
+    // pintar el mapa
+    departamentos
+        .selectAll('path')
+        .attr('class', function(d) { return 'q' + quantile(values[d.id]) + '-' + n_classes; });
 
 
+    spinner.style('visibility', 'hidden');
 
 };
 
@@ -439,9 +427,30 @@ d3.json('ea.json', function(error, topology) {
 
 // onChange handler for select
 d3.select('select#variable').on('change', function() {
-    console.log($('select#variable option[value=' + $('select#variable').val() + ']').data('relative'));
-    drawMap(this.value,
-            $('select#variable option[value=' + $('select#variable').val() + ']').data('relative'));
+    var o = $('select#variable option[value=' + $('select#variable').val() + ']');
+    currentVariable = this.value;
+    console.log(o.data());
+    if (o.data('relative')) {
+        var relative_to = $('select#variable option[value=' + $('select#variable').val() + ']').data('relative');
+        var values = ftclient.getVariableRatio(currentVariable,
+                                  relative_to,
+                                  function(values) { drawMap(values, 5); });
+        drawMap(values,
+                relative_to);
+    }
+    else if (o.data('variation')) {
+        var total = o.data('total')
+        drawMap(ftclient.getIntercensalRatioVariation(currentVariable + '_2010',
+                                                      total + '_2010',
+                                                      currentVariable + '_2001',
+                                                      total + '_2001',
+                                                      function(values) { drawMap(values, 5); }));
+    }
+    else {
+        drawMap(ftclient.getVariable(currentVariable,
+                                     function(values) { drawMap(values, 5); }));
+
+    }
 });
 
 d3.select('select#provincia').on('change', function() {
