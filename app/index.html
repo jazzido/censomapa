@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mapas</title>
+    <meta name="description" content="" />
+    <!--[if lt IE 9]>
+        <script type="text/javascript">
+          // create elements HTML5 for IE
+          document.createElement("article");
+          document.createElement("section");
+          document.createElement("footer");
+          document.createElement("header");
+          document.createElement("hgroup");
+          document.createElement("nav");
+        </script>
+        <![endif]-->
+    <link rel="stylesheet" href="css/colorbrewer.css" type="text/css">
+    <link href="css/styles.css" rel="stylesheet" media="all" />
+    </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <h1>Conocé las variaciones intercensales - Censo 2001 / 2010</h1>
+        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      </header>
+      <nav>
+        <h2>Población total</h2>
+        <div id="filtros">
+          <div class="filtro bg_2">
+            <ul class="nav">
+              <li><h3>Categorías</h3>
+                <ul id="categorias" class="">
+                  <li><span class="title">Categoria 1</span>
+                    <ul>
+                      <li data-value="BUENOS AIRES">BUENOS AIRES</li>
+                      <li data-value="CAPITAL FEDERAL">CAPITAL FEDERAL</li>
+                      <li data-value="CATAMARCA">CATAMARCA</li>
+                      <li data-value="CHACO">CHACO</li>
+                      <li data-value="CHUBUT">CHUBUT</li>
+                      <li data-value="CORDOBA">CORDOBA</li>
+                      <li data-value="CORRIENTES">CORRIENTES</li>
+                      <li data-value="ENTRE RIOS">ENTRE RIOS</li>
+                      <li data-value="FORMOSA">FORMOSA</li>
+                      <li data-value="ISLAS MALVINAS">ISLAS MALVINAS</li>
+                      <li data-value="JUJUY">JUJUY</li>
+                      <li data-value="LA PAMPA">LA PAMPA</li>
+                      <li data-value="LA RIOJA">LA RIOJA</li>
+                      <li data-value="MENDOZA">MENDOZA</li>
+                      <li data-value="MISIONES">MISIONES</li>
+                      <li data-value="NEUQUEN">NEUQUEN</li>
+                      <li data-value="RIO NEGRO">RIO NEGRO</li>
+                      <li data-value="SALTA">SALTA</li>
+                      <li data-value="SAN JUAN">SAN JUAN</li>
+                      <li data-value="SAN LUIS">SAN LUIS</li>
+                      <li data-value="SANTA CRUZ">SANTA CRUZ</li>
+                      <li data-value="SANTA FE">SANTA FE</li>
+                      <li data-value="SANTIAGO DEL ESTERO">SANTIAGO DEL ESTERO</li>
+                      <li data-value="TIERRA DEL FUEGO">TIERRA DEL FUEGO</li>
+                      <li data-value="TUCUMAN">TUCUMAN</li>
+                    </ul>
+                  </li>
+                  <li><span class="title">Categoria 2</span>
+                    <ul>
+                      <li data-value="BUENOS AIRES">BUENOS AIRES</li>
+                      <li data-value="CAPITAL FEDERAL">CAPITAL FEDERAL</li>
+                      <li data-value="CATAMARCA">CATAMARCA</li>
+                      <li data-value="CHACO">CHACO</li>
+                      <li data-value="CHUBUT">CHUBUT</li>
+                      <li data-value="CORDOBA">CORDOBA</li>
+                      <li data-value="CORRIENTES">CORRIENTES</li>
+                      <li data-value="ENTRE RIOS">ENTRE RIOS</li>
+                      <li data-value="FORMOSA">FORMOSA</li>
+                      <li data-value="ISLAS MALVINAS">ISLAS MALVINAS</li>
+                      <li data-value="JUJUY">JUJUY</li>
+                      <li data-value="LA PAMPA">LA PAMPA</li>
+                      <li data-value="LA RIOJA">LA RIOJA</li>
+                      <li data-value="MENDOZA">MENDOZA</li>
+                      <li data-value="MISIONES">MISIONES</li>
+                      <li data-value="NEUQUEN">NEUQUEN</li>
+                      <li data-value="RIO NEGRO">RIO NEGRO</li>
+                      <li data-value="SALTA">SALTA</li>
+                      <li data-value="SAN JUAN">SAN JUAN</li>
+                      <li data-value="SAN LUIS">SAN LUIS</li>
+                      <li data-value="SANTA CRUZ">SANTA CRUZ</li>
+                      <li data-value="SANTA FE">SANTA FE</li>
+                      <li data-value="SANTIAGO DEL ESTERO">SANTIAGO DEL ESTERO</li>
+                      <li data-value="TIERRA DEL FUEGO">TIERRA DEL FUEGO</li>
+                      <li data-value="TUCUMAN">TUCUMAN</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="filtro bg_3">
+            <ul class="nav">
+              <li><h3>Provincias</h3>
+                <ul id="provincia" class="">
+                  <li data-value="BUENOS AIRES">Todo el Pís</li>
+                  <li data-value="BUENOS AIRES">BUENOS AIRES</li>
+                  <li data-value="CAPITAL FEDERAL">CAPITAL FEDERAL</li>
+                  <li data-value="CATAMARCA">CATAMARCA</li>
+                  <li data-value="CHACO">CHACO</li>
+                  <li data-value="CHUBUT">CHUBUT</li>
+                  <li data-value="CORDOBA">CORDOBA</li>
+                  <li data-value="CORRIENTES">CORRIENTES</li>
+                  <li data-value="ENTRE RIOS">ENTRE RIOS</li>
+                  <li data-value="FORMOSA">FORMOSA</li>
+                  <li data-value="ISLAS MALVINAS">ISLAS MALVINAS</li>
+                  <li data-value="JUJUY">JUJUY</li>
+                  <li data-value="LA PAMPA">LA PAMPA</li>
+                  <li data-value="LA RIOJA">LA RIOJA</li>
+                  <li data-value="MENDOZA">MENDOZA</li>
+                  <li data-value="MISIONES">MISIONES</li>
+                  <li data-value="NEUQUEN">NEUQUEN</li>
+                  <li data-value="RIO NEGRO">RIO NEGRO</li>
+                  <li data-value="SALTA">SALTA</li>
+                  <li data-value="SAN JUAN">SAN JUAN</li>
+                  <li data-value="SAN LUIS">SAN LUIS</li>
+                  <li data-value="SANTA CRUZ">SANTA CRUZ</li>
+                  <li data-value="SANTA FE">SANTA FE</li>
+                  <li data-value="SANTIAGO DEL ESTERO">SANTIAGO DEL ESTERO</li>
+                  <li data-value="TIERRA DEL FUEGO">TIERRA DEL FUEGO</li>
+                  <li data-value="TUCUMAN">TUCUMAN</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <span class="clear"></span>
+        </div>
+        <span class="clear"></span>
+      </nav>
+      <section class="clear">
+        <article class="col_1" id="svg">
+
+        </article>
+        <article class="col_2">
+          <a data-relevamiento="densidad" href="#" id="ver_mas" class="">ver mas <span></span></a>
+          <ul id="u_relevamiento">
+            <li id="densidad" class="active" data-left="10"><h3>Población</h3><img src="img/arg_2.jpg" /></li>o
+            <li id="hogares" data-left="145"><h3>Hogares</h3><img src="img/arg_2.jpg" /></li>
+            <li id="viviendas" data-left="285"><h3>Viviendas</h3><img src="img/arg_2.jpg" /></li>
+          </ul>
+          <div id="variables">
+            <ul class="densidad">
+              <li data-value="Poblacion_Total"><h3>Población Total</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_Densidad"><h3>Densidad</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_Varones"><h3>Varones</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_Mujeres"><h3>Mujeres</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_Analfabetos"><h3>Analfabetos</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_Analfabetos"><h3>Alfabetos</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_0a14"><h3>0 a 14 años</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_15a64"><h3>15 a 64 años</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_65ymas"><h3>65 años o más</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_Nacida_Extranjero"><h3>Nacidos en el extranjero</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="Poblacion_Nacida_Argentina"><h3>Nacidos en el extranjero</h3><img src="img/arg_3.jpg" /></li>
+
+            </ul>
+            <ul class="hogares">
+              <li data-value="ISLAS MALVINAS"><h3>hogares</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>hogares</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>hogares</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>Analfabetos</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>0 a 4 años</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>15 a 64 años</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>65 y mas años</h3><img src="img/arg_3.jpg" /></li>
+            </ul>
+            <ul class="viviendas">
+              <li data-value="ISLAS MALVINAS"><h3>viviendas</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>viviendas</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>viviendas</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>Analfabetos</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>0 a 4 años</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>15 a 64 años</h3><img src="img/arg_3.jpg" /></li>
+              <li data-value="ISLAS MALVINAS"><h3>65 y mas años</h3><img src="img/arg_3.jpg" /></li>
+            </ul>
+          </div>
+          <span class="clear"></span>
+          <table>
+            <thead>
+              <tr>
+                <th colspan="3">Ranking de variación intersensal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td_1">1</td>
+                <td class="td_2">Iguazú</td>
+                <td class="td_3">Misiones</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+      </section>
+      <footer>
+        <p>
+
+        </p>
+      </footer>
+    </div>
+    <!--[if lte IE 8]><script src="js/r2d3.js" charset="utf-8"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+        <script src="js/d3.v3.js"></script>
+    <!--<![endif]-->
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/topojson.v0.min.js"></script>
+    <script src="js/handlebars.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/jenks.js"></script>
+    <script src="js/censomapa.js"></script>
+
+    <script id="distrito-info-template" type="text/x-handlebars-template">
+      <h3>{{ lower DEPARTAMEN}}</h3>
+      <h4>{{ lower PROVINCIA}}</h3>
+      <p><strong>{{variable_name}}</strong>: {{variable_value}}
+    </script>
+
+    <script type="text/javascript">
+    $(function() {
+//        var map_data;
+
+        /*var*/ getVariable = memoize(function(data, variable_name, year) {
+            var col_idx = data['_column_names'].indexOf(variable_name);
+            var year_idx = data['_years'].indexOf(year.toString());
+            if (col_idx == -1 || year_idx == -1) return null;
+            var rv = {};
+            for (var dpto_id in data['_districts']) {
+                var v = data['_districts'][dpto_id][year_idx][col_idx];
+                if (v !== null) rv[dpto_id] = v;
+            }
+            return rv;
+        });
+
+        getVariableAsRatio = memoize(function(data, variable_name, year, variable_total) {
+            var values = getVariable(data, variable_name, year);
+            var totals = getVariable(data, variable_total, year);
+
+            var rv = {};
+            for (var dpto_id in values) {
+                rv[dpto_id] = values[dpto_id] / totals[dpto_id];
+            }
+
+            return rv;
+        });
+
+        getIntercensualVariation = memoize(function(data, variable_name) {
+            var values_2001 = getVariable(data, variable_name, 2001);
+            var values_2010 = getVariable(data, variable_name, 2010);
+            var rv = {};
+            for (var dpto_id in values_2001) {
+                rv[dpto_id] = (values_2010[dpto_id] - values_2001[dpto_id]) / values_2001[dpto_id];
+            }
+
+            return rv;
+        });
+
+        // cargar geometrias
+        $.get('data/ea.json', function(topojson) {
+            mapa.drawPaths(topojson, 'article#svg');
+            // cargar datos
+            $.get('data/data.json',
+                  function(data) {
+                      map_data = data; // carga inicial de todos los datos
+             //         mapa.drawMap(getVariable(map_data, 'Poblacion_Total', '2001'), 3);
+                      mapa.drawMap(getIntercensualVariation(map_data, 'Poblacion_Analfabetos'), 3);
+                  });
+        });
+
+      });
+    </script>
+</body>
+</html>

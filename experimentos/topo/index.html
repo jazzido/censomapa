@@ -12,7 +12,7 @@ div#svg {
 
 .provincias path {
   fill: none;
-  stroke: #fff;
+  stroke: #fafafa;
   stroke-width: 2;
   stroke-linejoin: round;
 }
@@ -47,11 +47,11 @@ div#svg {
     text-transform: capitalize;
   }
 
-path {
-  -webkit-transition: fill 200ms linear;
-  -moz-transition: fill 200ms linear;
-}
+g, path {
+  -webkit-transition: fill 200ms linear, opacity 200ms linear, stroke-width 1000ms linear;
+  -moz-transition: fill 200ms linear, opacity 200ms linear, stroke-width 1000ms linear;
 
+}
 
 </style>
 <body>
@@ -143,6 +143,7 @@ path {
   </select>
 <img src="img/spinner.gif" width="80" height="10" style="visibility: hidden" id="spinner">
 <select id="provincia">
+  <option value="Todo el Pais">Todo el Pais</option>
   <option value="BUENOS AIRES">BUENOS AIRES</option>
   <option value="CAPITAL FEDERAL">CAPITAL FEDERAL</option>
   <option value="CATAMARCA">CATAMARCA</option>
@@ -181,302 +182,14 @@ path {
 <script src="js/handlebars.js"></script>
 <script src="js/ftclient.js"></script>
 <script src="js/jenks.js"></script>
-<!-- script src="js/simple_statistics.js"></script -->
-<!-- script src="js/geostats.js"></script -->
+<script src="js/queue.v1.js"></script>
+<script src="js/censomapa.js"></script>
 <script id="distrito-info-template" type="text/x-handlebars-template">
   <h3>{{ lower DEPARTAMEN}}</h3>
   <h4>{{ lower PROVINCIA}}</h3>
   <p><strong>{{variable_name}}</strong>: {{variable_value}}
 </script>
 
-<script>
-// i need this.
-Object.extend = function(destination, source) {
-    for (var property in source) {
-        if (source.hasOwnProperty(property)) {
-            destination[property] = source[property];
-        }
-    }
-    return destination;
-};
-
-Array.unique_by = function(arr, fn) {
-    var hash = {}, result = [];
-    for ( var i = 0, l = arr.length; i < l; ++i ) {
-        if ( !hash.hasOwnProperty(fn(arr[i]))) {
-            hash[ fn(arr[i]) ] = true;
-            result.push(arr[i]);
-        }
-    }
-    return result;
-};
-
-// 'Head/Tail breaks'
-// http://arxiv.org/pdf/1209.2801v1.pdf
-var headTailThresholds = function(data,n_classes) {
-    data = data.sort(d3.ascending);
-    var m = d3.mean(data);
-    var rv = [m];
-
-//    data = data.slice(d3.bisectRight(data, m), data.length);
-    data = data.slice(0, d3.bisectLeft(data, m));
-    while (n_classes > 1) {
-        m = d3.mean(data);
-        rv.push(m);
-        data = data.slice(0, d3.bisectLeft(data, m));
-        n_classes--;
-    }
-    return rv.sort(d3.ascending);
-};
-
-var nestedMeans = function(data, iterations) {
-
-    var inner = function(data) {
-
-    }
-
-    data = data.sort(d3.ascending);
-    var rv = [], m = -1;
-    while(iterations > 0) {
-        m = d3.mean(data);
-        rv.push(m);
-
-
-    }
-
-}
-
-var to_id = function(str) {
-    return str.replace(/\s+/g, '-').toLowerCase();
-};
-
-var FT_CENSO = '1LLUZN9UWi_et0W8GVeRw_QwCkP_JUIgrfjIA8ec';
-var FT_API_KEY = 'AIzaSyBrM8jb4-i5xxm0uPZtEUaQSD8JbsKiY3E';
-
-var DISTRITO_INFO_TMPL = Handlebars.compile(d3.select('#distrito-info-template').html());
-var ftclient = new FTClient(FT_CENSO, FT_API_KEY);
-
-var currentVariable;
-var currentDataDict;
-
-Handlebars.registerHelper('lower', function(str) {
-    return str.toLowerCase();
-});
-
-var showDistritoInfo = function(d) {
-    var di = d3.select('#distrito-info');
-    di.html(
-        DISTRITO_INFO_TMPL(Object.extend(
-            {
-                variable_name: currentVariable,
-                variable_value: currentDataDict[d.id]
-            },
-            d.properties)));
-    di.style('visibility', 'visible');
-};
-
-var hideDistritoInfo = function(d) {
-    var di = d3.select('#distrito-info');
-    di.style('visibility', 'hidden');
-};
-
-var width = 400,
-    height = 950;
-
-var projection = d3.geo.mercator()
-        .scale(7000)
-        .center([-64,-32])
-        .translate([190,300]);
-
-var path = d3.geo.path().projection(projection);
-
-var svg = d3.select("div#svg").append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("class", "Blues");
-
-var departamentos = svg.append('g').attr('class', 'departamentos');
-var provincias =  svg.append('g').attr('class', 'provincias');
-var legend = svg.append('g').attr('class', 'legend').attr('transform', 'translate(0, 30)');
-
-var drawLegend = function(quantile, min, max) {
-    legend.selectAll('rect, text').remove();
-    var precision = 2;
-
-    var n_classes = quantile.range().length;
-    var domain = quantile.domain();
-    var data = [[min, domain[0] - Math.pow(10, -precision), 'q0' + '-' + n_classes]];
-
-    d3.range(domain.length - 1).forEach(function(i) {
-        data.push([domain[i],
-                   domain[i+1] - Math.pow(10, -precision),
-                   'q' + (i+1) + '-' + n_classes]);
-    });
-
-    data.push([domain[domain.length - 1],
-               max,
-               'q' + (n_classes-1) + '-' + n_classes]);
-
-    legend.selectAll('rect')
-        .data(data)
-        .enter()
-        .append('rect')
-        .attr('y', function(d, i) { return 15 * i; })
-        .attr('width', 20)
-        .attr('height', 10)
-        .attr('class', function(d) { return d[2]; })
-        .attr('data-start', function(d) { return d[0].toFixed(precision); })
-        .attr('data-end', function(d) { return d[1].toFixed(precision); })
-
-    legend.selectAll('text')
-        .data(data)
-        .enter()
-        .append('text')
-        .attr('y', function(d,i) { return 10 + 15 * i;})
-        .attr('x', 30)
-        .text(function(d, i) { return d[0].toFixed(precision) + ' — ' + d[1].toFixed(precision); })
-
-};
-
-// Dibujar el mapa
-var drawMap = function(values, n_classes) {
-    var spinner = d3.select('img#spinner');
-    spinner.style('visibility', 'visible');
-
-
-    // buscar maximo y minimo valor
-    var values_array = d3.entries(values)
-        .map(function(v) {
-            return parseFloat(v.value);
-        })
-        .filter(function(v) { return !isNaN(v);})
-        .sort(d3.ascending);
-
-    // Quantiles
-    // var quantile = d3.scale.quantile()
-    //                  .domain(values_array)
-    //                  .range(d3.range(n_classes));
-
-
-    // head Tail Thresholds
-/*
-    var htt = headTailThresholds(values_array, n_classes-1);
-    var quantile = d3.scale.threshold()
-        .domain(htt)
-        .range(d3.range(n_classes)); */
-
-    // jenks optimization
-
-      var j = jenks(values_array, n_classes);
-
-      var quantile = d3.scale.threshold()
-      .domain(j.slice(1, j.length - 1))
-      .range(d3.range(n_classes));
-
-
-    console.log('max', values_array[values_array.length - 1]);
-    console.log('min', values_array[0]);
-
-
-    drawLegend(quantile,
-               values_array[0],
-               values_array[values_array.length - 1]);
-
-    currentDataDict = values;
-
-    // pintar el mapa
-    departamentos
-        .selectAll('path')
-        .attr('class', function(d) { return 'q' + quantile(values[d.id]) + '-' + n_classes; });
-
-
-    spinner.style('visibility', 'hidden');
-
-};
-
-d3.json('ea.json', function(error, topology) {
-    var provincias_geometries = topojson.object(topology, topology.objects.provincias).geometries;
-    var departamentos_geometries =  topojson.object(topology, topology.objects.departamentos).geometries;
-
-    provincias
-        .selectAll('path')
-        .data(provincias_geometries)
-        .enter()
-        .append('path')
-        .attr('id', function(d) { return to_id(d.properties.PROVINCIA); })
-        .attr('d', path)
-        .attr('class', 'provincia');
-
-    provincias_geometries.forEach(function(pg) {
-        var p_id = to_id(pg.properties.PROVINCIA);
-        departamentos
-            .append('g')
-            .attr('id', 'provincia-' + p_id)
-            .selectAll('path')
-            .data(departamentos_geometries.filter(function(d) { return p_id === to_id(d.properties.PROVINCIA); }))
-            .enter()
-            .append('path')
-            .attr('id', function(d) { return d.id })
-            .attr('d', path)
-            .attr('class', 'departamento')
-            .on('mouseover', showDistritoInfo)
-            .on('mouseout', hideDistritoInfo)
-            .on('click', function(p) { console.log(p); });
-    });
-});
-
-// onChange handler for select
-d3.select('select#variable').on('change', function() {
-    var o = $('select#variable option[value=' + $('select#variable').val() + ']');
-    currentVariable = this.value;
-    console.log(o.data());
-    if (o.data('relative')) {
-        var relative_to = $('select#variable option[value=' + $('select#variable').val() + ']').data('relative');
-        var values = ftclient.getVariableRatio(currentVariable,
-                                  relative_to,
-                                  function(values) { drawMap(values, 5); });
-        drawMap(values,
-                relative_to);
-    }
-    else if (o.data('variation')) {
-        var total = o.data('total')
-        drawMap(ftclient.getIntercensalRatioVariation(currentVariable + '_2010',
-                                                      total + '_2010',
-                                                      currentVariable + '_2001',
-                                                      total + '_2001',
-                                                      function(values) { drawMap(values, 5); }));
-    }
-    else {
-        drawMap(ftclient.getVariable(currentVariable,
-                                     function(values) { drawMap(values, 5); }));
-
-    }
-});
-
-d3.select('select#provincia').on('change', function() {
-    var v = this.value;
-    var p = d3.select('.provincias path#' + to_id(v));
-
-    svg.selectAll('g.departamentos g').classed('inactive', false);
-
-    var p_bbox = p[0][0].getBBox();
-    var provincias_bbox = provincias[0][0].getBBox();
-    var x = -(p_bbox.x + p_bbox.width/2),
-        y = -(p_bbox.y + p_bbox.height/2),
-        k = d3.min([provincias_bbox.width / p_bbox.width, ($(window).height() - $(svg[0]).offset().top) / p_bbox.height]);
-
-    svg.selectAll('g.provincias, g.departamentos').transition().duration(1000)
-        .attr("transform", "scale("+k+")translate(" + (x+projection.translate()[0] / k) + "," + (y+projection.translate()[1]/k) + ")")
-        .selectAll('path')
-        .style("stroke-width", 2 / k + "px");
-
-    svg.selectAll('g.departamentos g:not(#provincia-' + to_id(v) + ')').classed('inactive', true);
-});
-
-$(function() {
-    drawMap(d3.select('select#variable')[0][0].value);
-});
-</script>
 <div id="distrito-info"></div>
 <div id="choropleth-legend">
 </div>

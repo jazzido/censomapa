@@ -1,0 +1,1 @@
+../../maquetas/js/scripts.js

@@ -10,84 +10,82 @@ TABLE_ID = '1LLUZN9UWi_et0W8GVeRw_QwCkP_JUIgrfjIA8ec'
 QUERY_PREFIX = 'https://www.googleapis.com/fusiontables/v1/query'
 DEFAULT_PARAMS = { 'typed': 'false', 'key': API_KEY }
 
-VARIABLES_POBLACION = ["Poblacion_Densidad_2001",
-                       "Poblacion_Densidad_2010",
-                       "Poblacion_Total_2001",
-                       "Poblacion_Total_2010",
-                       "Poblacion_Varones_2001",
-                       "Poblacion_Varones_2010",
-                       "Poblacion_Mujeres_2001",
-                       "Poblacion_Mujeres_2010",
-                       "Poblacion_Analfabetos_2001",
-                       "Poblacion_Analfabetos_2010",
-                       "Poblacion_Alfabetos_2001",
-                       "Poblacion_Alfabetos_2010",
-                       "Poblacion_0a14_2001",
-                       "Poblacion_0a14_2010",
-                       "Poblacion_15a64_2001",
-                       "Poblacion_15a64_2010",
-                       "Poblacion_65ymas_2001",
-                       "Poblacion_65ymas_2010",
-                       "Poblacion_Nacida_Extranjero_2001",
-                       "Poblacion_Nacida_Extranjero_2010",
-                       "Poblacion_Nacida_Argentina_2001",
-                       "Poblacion_Nacida_Argentina_2010"]
-
-VARIABLES_HOGARES = ["Hogares_Total_2001",
-                     "Hogares_Total_2010",
-                     "Hogares_Con_Bano_2001",
-                     "Hogares_Con_Bano_2010",
-                     "Hogares_Sin_Bano_2001",
-                     "Hogares_Sin_Bano_2010",
-                     "Hogares_Con_Gas_Corriente_2001",
-                     "Hogares_Con_Gas_Corriente_2010",
-                     "Hogares_Sin_Gas_Corriente_2001",
-                     "Hogares_Sin_Gas_Corriente_2010",
-                     "Hogares_Con_Agua_Corriente_2001",
-                     "Hogares_Con_Agua_Corriente_2010",
-                     "Hogares_Sin_Agua_Corriente_2001",
-                     "Hogares_Sin_Agua_Corriente_2010",
-                     "Hogares_Con_Heladera_2001",
-                     "Hogares_Con_Heladera_2010",
-                     "Hogares_Sin_Heladera_2001",
-                     "Hogares_Sin_Heladera_2010",
-                     "Hogares_Con_Telefono_Linea_2001",
-                     "Hogares_Con_Telefono_Linea_2010",
-                     "Hogares_Sin_Telefono_Linea_2001",
-                     "Hogares_Sin_Telefono_Linea_2010",
-                     "Hogares_Con_Celular_2001",
-                     "Hogares_Con_Celular_2010",
-                     "Hogares_Sin_Celular_2001",
-                     "Hogares_Sin_Celular_2010",
-                     "Hogares_Sin_Computadora_2001",
-                     "Hogares_Sin_Computadora_2010",
-                     "Hogares_Con_Computadora_2001",
-                     "Hogares_Con_Computadora_2010"]
-
-VARIABLES_VIVIENDAS = ["Viviendas_Total_2001",
-                       "Viviendas_Total_2010",
-                       "Viviendas_Casa_2001",
-                       "Viviendas_Casa_2010",
-                       "Viviendas_Rancho_2001",
-                       "Viviendas_Rancho_2010",
-                       "Viviendas_Casilla_2001",
-                       "Viviendas_Casilla_2010",
-                       "Viviendas_Departamento_2001",
-                       "Viviendas_Departamento_2010",
-                       "Viviendas_Pieza_Inquilinato_2001",
-                       "Viviendas_Pieza_Inquilinato_2010",
-                       "Viviendas_Pieza_Hotel_Pension_2001",
-                       "Viviendas_Pieza_Hotel_Pension_2010",
-                       "Viviendas_Local_No_Construido_Para_habitacion_2001",
-                       "Viviendas_Local_No_Construido_Para_habitacion_2010",
-                       "Viviendas_movil_2001",
-                       "Viviendas_movil_2010"]
+VARIABLES = ["Poblacion_Densidad_2001",
+             "Poblacion_Densidad_2010",
+             "Poblacion_Total_2001",
+             "Poblacion_Total_2010",
+             "Poblacion_Varones_2001",
+             "Poblacion_Varones_2010",
+             "Poblacion_Mujeres_2001",
+             "Poblacion_Mujeres_2010",
+             "Poblacion_Analfabetos_2001",
+             "Poblacion_Analfabetos_2010",
+             "Poblacion_Alfabetos_2001",
+             "Poblacion_Alfabetos_2010",
+             "Poblacion_0a14_2001",
+             "Poblacion_0a14_2010",
+             "Poblacion_15a64_2001",
+             "Poblacion_15a64_2010",
+             "Poblacion_65ymas_2001",
+             "Poblacion_65ymas_2010",
+             "Poblacion_Nacida_Extranjero_2001",
+             "Poblacion_Nacida_Extranjero_2010",
+             "Poblacion_Nacida_Argentina_2001",
+             "Poblacion_Nacida_Argentina_2010",
+             "Hogares_Total_2001",
+             "Hogares_Total_2010",
+             "Hogares_Con_Bano_2001",
+             "Hogares_Con_Bano_2010",
+             "Hogares_Sin_Bano_2001",
+             "Hogares_Sin_Bano_2010",
+             "Hogares_Con_Gas_Corriente_2001",
+             "Hogares_Con_Gas_Corriente_2010",
+             "Hogares_Sin_Gas_Corriente_2001",
+             "Hogares_Sin_Gas_Corriente_2010",
+             "Hogares_Con_Agua_Corriente_2001",
+             "Hogares_Con_Agua_Corriente_2010",
+             "Hogares_Sin_Agua_Corriente_2001",
+             "Hogares_Sin_Agua_Corriente_2010",
+             "Hogares_Con_Heladera_2001",
+             "Hogares_Con_Heladera_2010",
+             "Hogares_Sin_Heladera_2001",
+             "Hogares_Sin_Heladera_2010",
+             "Hogares_Con_Telefono_Linea_2001",
+             "Hogares_Con_Telefono_Linea_2010",
+             "Hogares_Sin_Telefono_Linea_2001",
+             "Hogares_Sin_Telefono_Linea_2010",
+             "Hogares_Con_Celular_2001",
+             "Hogares_Con_Celular_2010",
+             "Hogares_Sin_Celular_2001",
+             "Hogares_Sin_Celular_2010",
+             "Hogares_Sin_Computadora_2001",
+             "Hogares_Sin_Computadora_2010",
+             "Hogares_Con_Computadora_2001",
+             "Hogares_Con_Computadora_2010",
+             "Viviendas_Total_2001",
+             "Viviendas_Total_2010",
+             "Viviendas_Casa_2001",
+             "Viviendas_Casa_2010",
+             "Viviendas_Rancho_2001",
+             "Viviendas_Rancho_2010",
+             "Viviendas_Casilla_2001",
+             "Viviendas_Casilla_2010",
+             "Viviendas_Departamento_2001",
+             "Viviendas_Departamento_2010",
+             "Viviendas_Pieza_Inquilinato_2001",
+             "Viviendas_Pieza_Inquilinato_2010",
+             "Viviendas_Pieza_Hotel_Pension_2001",
+             "Viviendas_Pieza_Hotel_Pension_2010",
+             "Viviendas_Local_No_Construido_Para_habitacion_2001",
+             "Viviendas_Local_No_Construido_Para_habitacion_2010",
+             "Viviendas_movil_2001",
+             "Viviendas_movil_2010"]
 
 def query(query):
     params = DEFAULT_PARAMS
     params.update({'sql': query})
-    r = requests.get(QUERY_PREFIX, params=params)
-    print r.json()['columns']
+    r = requests.post(QUERY_PREFIX,data=params)
+    print >>sys.stderr, r.text
     return r.json()
 
 
@@ -117,12 +115,28 @@ def get_variables(vars):
     for row in r['rows']:
         dne_id, row = row[0], row[1:]
 
-        rv[dne_id] = {
-            2001: map(lambda c: to_f(row[indexes[c + "_2001"]]), variable_names),
-            2010: map(lambda c: to_f(row[indexes[c + "_2010"]]), variable_names)
-        }
+        rv[dne_id] = [
+            map(lambda c: to_f(row[indexes[c + "_2001"]]), variable_names),
+            map(lambda c: to_f(row[indexes[c + "_2010"]]), variable_names)
+        ]
 
     return rv
 
+from collections import defaultdict
+
 if __name__ == '__main__':
-    print simplejson.dumps(get_variables(VARIABLES_POBLACION))
+
+    values = get_variables(VARIABLES)
+
+    rv = dict()
+    rv['_years'] = ['2001', '2010']
+    rv['_column_names'] = values['_c']
+    rv['_districts'] = {}
+
+    del(values['_c'])
+
+    for k, v in values.iteritems():
+        rv['_districts'][k] = v
+
+
+    print simplejson.dumps(rv)

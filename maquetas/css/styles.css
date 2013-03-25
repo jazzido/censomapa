@@ -33,7 +33,7 @@ nav #filtros div.filtro ul li ul#categorias li ul li { font-weight: normal; padd
 nav #filtros div.filtro ul li ul li span.title { display: block; height: 15px}
 section {overflow: hidden; margin: 20px 0 0}
 article.col_1, article.col_2 {float: left}
-article.col_1 { width: 450px;}
+article.col_1 { width: 450px; min-width: 450px;}
 article.col_2 { width: 530px; position: relative}
 article ul#u_relevamiento{ overflow: hidden}
 article ul#u_relevamiento li{ display: inline-block; width: 140px; opacity: .7; cursor: pointer}
@@ -49,3 +49,33 @@ div#variables ul {display: none; border-bottom: 1px #ccc solid;}
 div#variables ul li {display: inline-block; width: 85px; padding-bottom: 10px; cursor:pointer}
 
 footer { clear: both}
+
+/*********************** BEGIN Estilos del Mapa ***********************/
+#svg g.provincias path {
+  stroke: #fafafa;
+  fill: none;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+}
+
+g.departamentos path {
+  stroke: #fafafa;
+  stroke-width: 1px;
+  fill: none;
+}
+
+  #svg g.departamentos path:hover {
+    cursor: pointer;
+  }
+
+  #svg g.departamentos g.inactive {
+    opacity: 0.2;
+  }
+
+#svg g, #svg path {
+  -webkit-transition: fill 200ms linear, opacity 200ms linear, stroke-width 1000ms linear;
+  -moz-transition: fill 200ms linear, opacity 200ms linear, stroke-width 1000ms linear;
+
+}
+
+/***********************   END Estilos del Mapa ***********************/
