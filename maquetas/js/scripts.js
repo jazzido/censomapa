@@ -2,7 +2,6 @@
  * @author LNDATA
  */
 
-
 var configNav= {
     afterClickLi:function(nodoDom){ // se ejecuta despues del click en las opciones
         var $nodoDom    = $(nodoDom),
@@ -15,7 +14,6 @@ var configNav= {
 
         }else if(esVariable){ // ejecuta si es variable
             console.log("variable= "+ value)
-
         }
     },
     afterShowUl     :function(nodoDom){ // se ejecuta despues de mostrar/ocultar una lista

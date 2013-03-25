@@ -8,9 +8,9 @@ Object.extend = function(destination, source) {
     return destination;
 };
 
-Handlebars.registerHelper('lower', function(str) {
+/*Handlebars.registerHelper('lower', function(str) {
     return str.toLowerCase();
-});
+});*/
 
 (function() {
     var mapa = {};
@@ -82,6 +82,10 @@ Handlebars.registerHelper('lower', function(str) {
     var path = d3.geo.path().projection(projection);
 
     var drawLegend = function(quantile, min, max, precision) {
+
+        // TODO Esto esta roto para cuando quantile == d3.quantile
+        // arreglarlo
+
         mapa.legend.selectAll('rect, text').remove();
         var precision = precision === undefined ? 2 : precision;
 
@@ -89,7 +93,7 @@ Handlebars.registerHelper('lower', function(str) {
         var domain = quantile.domain();
         var data = [[min, domain[0] - Math.pow(10, -precision), 'q0' + '-' + n_classes]];
 
-        d3.range(domain.length - 1).forEach(function(i) {
+        d3.range(n_classes - 2).forEach(function(i) {
             data.push([domain[i],
                        domain[i+1] - Math.pow(10, -precision),
                        'q' + (i+1) + '-' + n_classes]);
@@ -135,29 +139,28 @@ Handlebars.registerHelper('lower', function(str) {
         //                  .domain(values_array)
         //                  .range(d3.range(n_classes));
 
-
         // head Tail Thresholds
-        /*
-          var htt = headTailThresholds(values_array, n_classes-1);
-          var quantile = d3.scale.threshold()
-          .domain(htt)
-          .range(d3.range(n_classes)); */
+        var htt = headTailThresholds(values_array, n_classes-1);
+        var quantile = d3.scale.threshold()
+            .domain(htt)
+            .range(d3.range(n_classes));
 
         // jenks optimization
 
-        var j = jenks(values_array, n_classes);
+        // var j = jenks(values_array, n_classes);
 
-        var quantile = d3.scale.threshold()
-            .domain(j.slice(1, j.length - 1))
-            .range(d3.range(n_classes));
+        // var quantile = d3.scale.threshold()
+        //     .domain(j.slice(1, j.length - 1))
+        //     .range(d3.range(n_classes));
 
 
         // console.log('max', values_array[values_array.length - 1]);
         // console.log('min', values_array[0]);
 
+
         drawLegend(quantile,
-                   values_array[0],
-                   values_array[values_array.length - 1]);
+                    values_array[0],
+                    values_array[values_array.length - 1]);
 
         // pintar el mapa
         mapa.departamentos
