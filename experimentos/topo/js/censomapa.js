@@ -31,7 +31,7 @@ Handlebars.registerHelper('lower', function(str) {
             else {
                 return data.slice(d3.bisectRight(data, m), data.length);
             }
-        }
+        };
 
         data = data.sort(d3.ascending);
         var m = d3.mean(data);
@@ -108,7 +108,7 @@ Handlebars.registerHelper('lower', function(str) {
             .attr('height', 10)
             .attr('class', function(d) { return d[2]; })
             .attr('data-start', function(d) { return d[0].toFixed(precision); })
-            .attr('data-end', function(d) { return d[1].toFixed(precision); })
+            .attr('data-end', function(d) { return d[1].toFixed(precision); });
 
         mapa.legend.selectAll('text')
             .data(data)
@@ -116,7 +116,7 @@ Handlebars.registerHelper('lower', function(str) {
             .append('text')
             .attr('y', function(d,i) { return 10 + 15 * i;})
             .attr('x', 30)
-            .text(function(d, i) { return d[0].toFixed(precision) + ' — ' + d[1].toFixed(precision); })
+            .text(function(d, i) { return d[0].toFixed(precision) + ' — ' + d[1].toFixed(precision); });
 
     };
 
@@ -214,33 +214,33 @@ Handlebars.registerHelper('lower', function(str) {
 
     // onChange handler for select
     /*
-    d3.select('select#variable').on('change', function() {
-        var o = $('select#variable option[value=' + $('select#variable').val() + ']');
-        currentVariable = this.value;
-        console.log(o.data());
-        if (o.data('relative')) {
-            var relative_to = $('select#variable option[value=' + $('select#variable').val() + ']').data('relative');
-            var values = ftclient.getVariableRatio(currentVariable,
-                                                   relative_to,
-                                                   function(values) { drawMap(values, 5); });
-            drawMap(values,
+      d3.select('select#variable').on('change', function() {
+      var o = $('select#variable option[value=' + $('select#variable').val() + ']');
+      currentVariable = this.value;
+      console.log(o.data());
+      if (o.data('relative')) {
+      var relative_to = $('select#variable option[value=' + $('select#variable').val() + ']').data('relative');
+      var values = ftclient.getVariableRatio(currentVariable,
+      relative_to,
+      function(values) { drawMap(values, 5); });
+      drawMap(values,
 
-                    relative_to);
-        }
-        else if (o.data('variation')) {
-            var total = o.data('total')
-            drawMap(ftclient.getIntercensalRatioVariation(currentVariable + '_2010',
-                                                          total + '_2010',
-                                                          currentVariable + '_2001',
-                                                          total + '_2001',
-                                                          function(values) { drawMap(values, 5); }));
-        }
-        else {
-            drawMap(ftclient.getVariable(currentVariable,
-                                         function(values) { drawMap(values, 5); }));
+      relative_to);
+      }
+      else if (o.data('variation')) {
+      var total = o.data('total')
+      drawMap(ftclient.getIntercensalRatioVariation(currentVariable + '_2010',
+      total + '_2010',
+      currentVariable + '_2001',
+      total + '_2001',
+      function(values) { drawMap(values, 5); }));
+      }
+      else {
+      drawMap(ftclient.getVariable(currentVariable,
+      function(values) { drawMap(values, 5); }));
 
-        }
-    }); */
+      }
+      }); */
 
     mapa.zoomToProvincia = function(v) {
         var p_tr = projection.translate();
@@ -261,7 +261,7 @@ Handlebars.registerHelper('lower', function(str) {
             x = -(p_bbox.x + p_bbox.width/2);
             y = -(p_bbox.y + p_bbox.height/2);
             k = d3.min([provincias_bbox.width / p_bbox.width, (
-                        $(window).height() - $(mapa.mapa_svg[0]).offset().top) / p_bbox.height]);
+                $(window).height() - $(mapa.mapa_svg[0]).offset().top) / p_bbox.height]);
             mapa.mapa_svg.selectAll('g.departamentos g:not(#provincia-' + to_id(v) + ')').classed('inactive', true);
             mapa.mapa_svg.selectAll('g.provincias path').style('stroke-width', '0px');
         }
@@ -270,15 +270,15 @@ Handlebars.registerHelper('lower', function(str) {
             .attr("transform", "scale("+k+")translate(" + (x+p_tr[0] / k) + "," + (y+p_tr[1] / k) + ")");
 
         mapa.mapa_svg.selectAll('g.departamentos path')
-                 .style('stroke-width', 1/k + 'px');
+            .style('stroke-width', 1/k + 'px');
 
     };
 
 })(this);
 
 /*
-$(function() {
-    //    DISTRITO_INFO_TMPL = Handlebars.compile(d3.select('#distrito-info-template').html());
-    drawMap(d3.select('select#variable')[0][0].value);
-});
+  $(function() {
+  //    DISTRITO_INFO_TMPL = Handlebars.compile(d3.select('#distrito-info-template').html());
+  drawMap(d3.select('select#variable')[0][0].value);
+  });
 */
