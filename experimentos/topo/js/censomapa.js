@@ -1,6 +1,10 @@
 // i need this.
+(function() { }());
+
+
 Object.extend = function(destination, source) {
-    for (var property in source) {
+    var property;
+    for (property in source) {
         if (source.hasOwnProperty(property)) {
             destination[property] = source[property];
         }
@@ -12,17 +16,20 @@ Object.extend = function(destination, source) {
     return str.toLowerCase();
 });*/
 
-(function() {
+(function(t) {
+
     var mapa = {};
-    this.mapa = mapa;
+    t.mapa = mapa;
 
     // TODO hacer que esto sea configurable
-    mapa.width = 400,
+    mapa.width = 400;
     mapa.height = 950;
 
     // implementacion de 'Head/Tail breaks'
     // http://arxiv.org/pdf/1209.2801v1.pdf
     var headTailThresholds = function(data, n_classes, left) {
+        data = data.sort(d3.ascending);
+        var m = d3.mean(data), rv = [m];
 
         var slice = function(data) {
             if (left) {
@@ -32,10 +39,6 @@ Object.extend = function(destination, source) {
                 return data.slice(d3.bisectRight(data, m), data.length);
             }
         };
-
-        data = data.sort(d3.ascending);
-        var m = d3.mean(data);
-        var rv = [m];
 
         data = slice(data);
         while (n_classes > 1) {
