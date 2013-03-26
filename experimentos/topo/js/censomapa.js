@@ -182,7 +182,7 @@ Object.extend = function(destination, source) {
         mapa.mapa_svg = svg.append('g').classed('mapa', true);
         mapa.departamentos = mapa.mapa_svg.append('g').attr('class', 'departamentos');
         mapa.provincias =  mapa.mapa_svg.append('g').attr('class', 'provincias');
-        mapa.legend = svg.append('g').attr('class', 'legend').attr('transform', 'translate(0, 30)');
+        mapa.legend = svg.append('g').attr('class', 'legend').attr('transform', 'translate(250, 500)');
 
 
 
@@ -251,11 +251,12 @@ Object.extend = function(destination, source) {
     mapa.zoomToProvincia = function(v) {
         var p_tr = projection.translate();
         var k, x, y;
-        if (v == 'Todo el Pais') {
+        if (v ===  null) {
             k = 1;
             x = -p_tr[0]; y = -p_tr[1];
             mapa.mapa_svg.selectAll('g.departamentos g').classed('inactive', false);
             mapa.mapa_svg.selectAll('g.provincias path').style('stroke-width', '2px');
+            mapa.zoomedTo = null;
         }
         else {
             var p = d3.select('.provincias path#' + to_id(v));
@@ -270,6 +271,8 @@ Object.extend = function(destination, source) {
                 $(window).height() - $(mapa.mapa_svg[0]).offset().top) / p_bbox.height]);
             mapa.mapa_svg.selectAll('g.departamentos g:not(#provincia-' + to_id(v) + ')').classed('inactive', true);
             mapa.mapa_svg.selectAll('g.provincias path').style('stroke-width', '0px');
+
+            mapa.zoomedTo = to_id(v);
         }
 
         mapa.mapa_svg.transition().duration(1000)

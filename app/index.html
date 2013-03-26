@@ -144,17 +144,17 @@
           </ul>
           <div id="variables">
             <ul class="densidad">
-              <li><a href="#Poblacion_Total">Población Total<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Densidad">Densidad<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Varones">Varones<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Mujeres">Mujeres<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Analfabetos">Analfabetos<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Analfabetos">Alfabetos<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_0a14">0 a 14 años<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_15a64">15 a 64 años<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_65ymas">65 años o más<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Nacida_Extranjero">Nacidos en el extranjero<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Nacida_Argentina">Nacidos en el extranjero<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_Total-intercensal" title="Población Total — Variación 2001-2010">Población Total<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_Densidad-intercensal" title="Densidad Poblacional — Variación 2001-2010">Densidad<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_Varones-intercensal">Varones<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_Mujeres-intercensal">Mujeres<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_Analfabetos-intercensal" title="Analfabetismo — Variación 2001-2010">Analfabetos<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_Alfabetos-intercensal" title="Alfabetismo — Variación 2001-2010">Alfabetos<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_0a14-intercensal" title="Población de 0 a 14 años — Variación 2001-2010">0 a 14 años<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_15a64-intercensal" title="Población de 15 a 64 años — Variación 2001-2010">15 a 64 años<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_65ymas-intercensal" title="Población de 65 años o más — Variación 2001-2010">65 años o más<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_Nacida_Extranjero-intercensal" title="Nacidos en el extranjero — Variación 2001-2010">Nacidos en el extranjero<img src="img/arg_3.jpg" /></a></li>
+              <li><a href="#Poblacion_Nacida_Argentina-intercensal" title="Nacidos en Argentina — Variación 2001-2010">Nacidos en el extranjero<img src="img/arg_3.jpg" /></a></li>
             </ul>
             <ul class="hogares">
               <li><a href="#Hogares_Total">Hogares_Total<img src="img/arg_3.jpg" /></a></li>
@@ -266,25 +266,30 @@
             return rv;
         });
 
-        drawMap = function(data, var_name, arg2, arg3) {
+        var drawMap = function(data, var_name, arg2, arg3) {
+            var rv = null;
             if (arg2 == 'intercensal') {
                 mapa.drawMap(getIntercensalVariation(map_data, var_name), 5);
+                rv = true;
             }
             else if (arg2 == 'ratio') {
                 var year = arg3;
                 console.log(var_name, arg3, var_name.split('_')[0] + '_Total');
                 mapa.drawMap(getVariableAsRatio(data, var_name, arg3, var_name.split('_')[0] + '_Total'), 5);
+                rv = true;
             }
             else {
                 mapa.drawMap(getVariable(data, var_name, arg2), 5);
+                rv = true;
             }
+            return rv;
         };
 
-
-        // Bind the event.
         $(window).hashchange( function(){
-            // Alerts every time the hash changes!
-            alert( location.hash );
+            // dibujar el mapa y setear el título
+            if (location.hash.indexOf('#') !== 0) return;
+            if (drawMap.apply(null, [map_data].concat(location.hash.substring(1).split('-'))) === null) return;
+            $('nav h2').html($('a[href="'+location.hash+'"]').attr('title'));
         });
 
         // cargar geometrias
@@ -294,11 +299,11 @@
             $.get('data/data.json',
                   function(data) {
                       map_data = data; // carga inicial de todos los datos
-                      $('div#variables li').click(function() {
-                          var v = $(this).data('value');
-                          var var_description = $('h3', $(this));
-                          mapa.drawMap(getIntercensalVariation(map_data, v), 5); // pintar el mapa
-                          $('nav h2').html(var_description.html());
+                      $(window).trigger('hashchange'); // disparo evento hashchange para carga inicial
+
+                      $('g.mapa g.departamentos g').on('click', function() {
+                          var id = $(this).attr('id').split(/provincia-(.+)/)[1];
+                          mapa.zoomToProvincia(id == mapa.zoomedTo ? null : id);
                       });
                   });
         });
