@@ -6,7 +6,7 @@ import requests
 import simplejson
 
 API_KEY = 'AIzaSyBrM8jb4-i5xxm0uPZtEUaQSD8JbsKiY3E'
-TABLE_ID = '1LLUZN9UWi_et0W8GVeRw_QwCkP_JUIgrfjIA8ec'
+TABLE_ID = '11QyLth3FORbmHba_hxPfFoGE1TxUZkIOstr9sNA'
 QUERY_PREFIX = 'https://www.googleapis.com/fusiontables/v1/query'
 DEFAULT_PARAMS = { 'typed': 'false', 'key': API_KEY }
 
@@ -85,7 +85,6 @@ def query(query):
     params = DEFAULT_PARAMS
     params.update({'sql': query})
     r = requests.post(QUERY_PREFIX,data=params)
-    print >>sys.stderr, r.text
     return r.json()
 
 
@@ -121,8 +120,6 @@ def get_variables(vars):
         ]
 
     return rv
-
-from collections import defaultdict
 
 if __name__ == '__main__':
 
