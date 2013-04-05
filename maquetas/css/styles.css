@@ -39,6 +39,15 @@ div#variables ul {/*display: none;*/ border-bottom: 1px #ccc solid;}
 div#variables ul.hogares, div#variables ul.viviendas{display: none;}
 div#variables ul li {display: inline-block; width: 85px; padding-bottom: 10px; cursor:pointer; height: 130px; vertical-align: top}
 div#variables ul li a img {display: block; }
+/* tabla ranking */
+table#ranking {width: 100%; color: #333; margin-top: 25px}
+table#ranking th { text-align: left; padding-bottom: 15px; text-transform: uppercase;}
+table#ranking th span { display: block;font-size: 13px; text-transform: none; font-weight: normal; padding-top: 3px}
+table#ranking td {height: 20px; padding-top: 3px}
+table#ranking tbody tr {border-bottom: solid 1px #ccc;}
+table#ranking td.td_1 {width: 10%; color:#32A9D3; font-weight: bold}
+table#ranking td.td_2 {width: 60%;  font-weight: bold}
+table#ranking td.td_3 {width: 30%; text-align: right;}
 
 footer { clear: both}
 
