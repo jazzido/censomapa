@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
     <title>Mapas</title>
@@ -117,10 +117,27 @@
         </p>
       </footer>
       <!-- tooltip -->
+
+    </div>
+    <!--[if lte IE 8]><script src="js/r2d3.js" charset="utf-8"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+        <script src="js/d3.v3.js"></script>
+    <!--<![endif]-->
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/jquery.ba-hashchange.js"></script>
+    <script src="js/topojson.v0.min.js"></script>
+    <script src="js/handlebars.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/jenks.js"></script>
+    <script src="js/censomapa.js"></script>
+
+    <script id="distrito-info-template" type="text/x-handlebars-template">
       <div id="tooltip">
         <div class="header">
-          <h3>Bahía Blanca</h3>
-          <p>Prov de Buenos Aires</p>
+          <h3>{{ lower DEPARTAMEN }}</h3>
+          <p>Provincia de {{ PROVINCIA }}</p>
         </div>
         <table>
           <thead>
@@ -147,109 +164,9 @@
               <td class="th3">+4%</td>
             </tr>
           </tbody>
-        </table>  
+        </table>
       </div>
-    </div>
-    <!--[if lte IE 8]><script src="js/r2d3.js" charset="utf-8"></script>
-    <![endif]-->
-    <!--[if gte IE 9]><!-->
-        <script src="js/d3.v3.js"></script>
-    <!--<![endif]-->
-    <script src="js/jquery-1.9.1.min.js"></script>
-    <script src="js/jquery.easing.min.js"></script>
-    <script src="js/jquery.ba-hashchange.js"></script>
-    <script src="js/topojson.v0.min.js"></script>
-    <script src="js/handlebars.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/jenks.js"></script>
-    <script src="js/censomapa.js"></script>
-
-    <script id="distrito-info-template" type="text/x-handlebars-template">
-      <h3>{{ lower DEPARTAMEN}}</h3>
-      <h4>{{ lower PROVINCIA}}</h3>
-      <p><strong>{{variable_name}}</strong>: {{variable_value}}
     </script>
-
-    <script type="text/javascript">
-    $(function() {
-//        var map_data;
-
-        /*var*/ getVariable = memoize(function(data, variable_name, year) {
-            var col_idx = data['_column_names'].indexOf(variable_name);
-            var year_idx = data['_years'].indexOf(year.toString());
-            if (col_idx == -1 || year_idx == -1) return null;
-            var rv = {};
-            for (var dpto_id in data['_districts']) {
-                var v = data['_districts'][dpto_id][year_idx][col_idx];
-                if (v !== null) rv[dpto_id] = v;
-            }
-            return rv;
-        });
-
-        getVariableAsRatio = memoize(function(data, variable_name, year, variable_total) {
-            var values = getVariable(data, variable_name, year);
-            var totals = getVariable(data, variable_total, year);
-
-            var rv = {};
-            for (var dpto_id in values) {
-                rv[dpto_id] = values[dpto_id] / totals[dpto_id];
-            }
-            return rv;
-        });
-
-        getIntercensalVariation = memoize(function(data, variable_name) {
-            var values_2001 = getVariable(data, variable_name, 2001);
-            var values_2010 = getVariable(data, variable_name, 2010);
-            var rv = {};
-            for (var dpto_id in values_2001) {
-                rv[dpto_id] = (values_2010[dpto_id] - values_2001[dpto_id]) / values_2001[dpto_id];
-            }
-
-            return rv;
-        });
-
-        var drawMap = function(data, var_name, arg2, arg3) {
-            var rv = null;
-            if (arg2 == 'intercensal') {
-                mapa.drawMap(getIntercensalVariation(map_data, var_name), 5);
-                rv = true;
-            }
-            else if (arg2 == 'ratio') {
-                var year = arg3;
-                console.log(var_name, arg3, var_name.split('_')[0] + '_Total');
-                mapa.drawMap(getVariableAsRatio(data, var_name, arg3, var_name.split('_')[0] + '_Total'), 5);
-                rv = true;
-            }
-            else {
-                mapa.drawMap(getVariable(data, var_name, arg2), 5);
-                rv = true;
-            }
-            return rv;
-        };
-
-        $(window).hashchange( function(){
-            // dibujar el mapa y setear el título
-            if (location.hash.indexOf('#') !== 0) return;
-            if (drawMap.apply(null, [map_data].concat(location.hash.substring(1).split('-'))) === null) return;
-            $('nav h2').html($('a[href="'+location.hash+'"]').attr('title'));
-        });
-
-        // cargar geometrias
-        $.get('data/ea.json', function(topojson) {
-            mapa.drawPaths(topojson, 'article#svg');
-            // cargar datos
-            $.get('data/data.json',
-                  function(data) {
-                      map_data = data; // carga inicial de todos los datos
-                      $(window).trigger('hashchange'); // disparo evento hashchange para carga inicial
-
-                      $('g.mapa g.departamentos g').on('click', function() {
-                          var id = $(this).attr('id').split(/provincia-(.+)/)[1];
-                          mapa.zoomToProvincia(id == mapa.zoomedTo ? null : id);
-                      });
-                  });
-        });
-    });
-    </script>
+    <script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>

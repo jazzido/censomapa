@@ -212,8 +212,6 @@ Object.extend = function(destination, source) {
                 .attr('id', function(d) { return d.id })
                 .attr('d', path)
                 .attr('class', 'departamento');
-            //                    .on('mouseover', showDistritoInfo)
-            //                    .on('mouseout', hideDistritoInfo);
         });
     };
 
