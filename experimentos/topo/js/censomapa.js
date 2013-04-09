@@ -1,7 +1,3 @@
-// i need this.
-(function() { }());
-
-
 Object.extend = function(destination, source) {
     var property;
     for (property in source) {
@@ -11,10 +7,6 @@ Object.extend = function(destination, source) {
     }
     return destination;
 };
-
-/*Handlebars.registerHelper('lower', function(str) {
-    return str.toLowerCase();
-});*/
 
 (function(t) {
 
@@ -205,7 +197,7 @@ Object.extend = function(destination, source) {
                 .attr('id', 'provincia-' + p_id)
                 .selectAll('path')
                 .data(departamentos_geometries.filter(function(d) {
-                    return p_id === to_id(d.properties.PROVINCIA);
+                    return p_id === to_id(d.properties.p);
                 }))
                 .enter()
                 .append('path')
@@ -285,7 +277,7 @@ Object.extend = function(destination, source) {
 
 /*
   $(function() {
-  //    DISTRITO_INFO_TMPL = Handlebars.compile(d3.select('#distrito-info-template').html());
+  //    ;
   drawMap(d3.select('select#variable')[0][0].value);
   });
 */
