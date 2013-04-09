@@ -7,10 +7,15 @@ $(function() {
     Handlebars.registerHelper('lower', function(str) {
         return str.toLowerCase();
     });
+
+    Handlebars.registerHelper('mais_um', function(context) {
+        return context + 1;
+    });
+
     var DISTRITO_INFO_TMPL = Handlebars.compile($('#distrito-info-template').html());
     var RANKING_TABLE_TMPL = Handlebars.compile($('#tabla-ranking-template').html());
     var tooltip_el = $('#tooltip');
-    var ranking_table_el = $('#ranking');
+    var ranking_tbody_el = $('#ranking tbody');
 
     getVariable = memoize(function(data, variable_name, year) {
         var col_idx = data['_column_names'].indexOf(variable_name);
@@ -71,14 +76,16 @@ $(function() {
             mapa.drawMap(data, 5);
 
             // setear el título
-            $('nav h2').html($('a[href="'+location.hash+'"]').attr('title'));
+            var t = $('a[href="'+location.hash+'"]').attr('title').split('—');
+            t = '<strong>' + t[0] + '</strong> — ' + t[1];
+            $('nav h2, #ranking th').html(t);
 
             // actualizar la tabla de ranking
             for (var k in data)
                 if (distrito_info_dict[k])
                     distrito_info_dict[k].data = data[k];
 
-            ranking_table_el.html(RANKING_TABLE_TMPL({
+            ranking_tbody_el.html(RANKING_TABLE_TMPL({
                 data: d3.entries(distrito_info_dict).sort(function(a,b) {
                     return a.value.data - b.value.data;
                 })

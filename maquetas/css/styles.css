@@ -13,7 +13,7 @@ div#wrapper { width: 980px; margin: 0 auto; padding: 20px 25px; position: relati
 header p {margin: 5px 0 0}
 nav { color: #fff; margin: 30px 0 0; text-transform: uppercase;}
 nav h2, nav #filtros { float: left; }
-nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png); height: 20px; padding: 5px 0 0 10px;  }
+nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png); height: 20px; padding: 5px 0 0 10px;  font-weight: normal; }
 nav #filtros { width: 520px; display: block; cursor: pointer;height: 25px; padding: 0;  }
 nav #filtros div.filtro { width: 33%; float: left; position: relative; height: 20px; padding: 5px 0 0 0px;background: url(../img/bg_cel_2.png);}
 nav #filtros div.filtro h3{ margin: 0 0 0 10px}
@@ -41,7 +41,7 @@ div#variables ul li {display: inline-block; width: 85px; padding-bottom: 10px; c
 div#variables ul li a img {display: block; }
 /* tabla ranking */
 table#ranking {width: 100%; color: #333; margin-top: 25px}
-table#ranking th { text-align: left; padding-bottom: 15px; text-transform: uppercase;}
+table#ranking th { text-align: left; padding-bottom: 15px; text-transform: uppercase; font-weight: normal;}
 table#ranking th span { display: block;font-size: 13px; text-transform: none; font-weight: normal; padding-top: 3px}
 table#ranking td {height: 20px; padding-top: 3px}
 table#ranking tbody tr {border-bottom: solid 1px #ccc;}
@@ -93,7 +93,7 @@ g.departamentos path {
 
 /* SCROLLABLE TABLE WITH FIXED HEADER */
 /* Taken from: http://www.imaputz.com/cssStuff/bigFourVersion.html# */
-/* define height and width of scrollable area. Add 16px to width for scrollbar          */
+/* define height and width of scrollable area. Add 16px to width for scrollbar */
 div.tableContainer {
 	clear: both;
 	height: 335px;
@@ -110,12 +110,6 @@ div.tableContainer table {
 	float: left;
 }
 
-/* define width of table. Add 16px to width for scrollbar.           */
-/* All other non-IE browsers.                                        */
-html>body div.tableContainer table {
-	width: 756px
-}
-
 /* set table header to a fixed position. WinIE 6.x only                                       */
 /* In WinIE 6.x, any element with a position property set to relative and is a child of       */
 /* an element that has an overflow property set, the relative value translates into fixed.    */
@@ -130,23 +124,6 @@ html>body thead.fixedHeader tr {
 	display: block
 }
 
-/* make the A elements pretty. makes for nice clickable headers                */
-thead.fixedHeader a, thead.fixedHeader a:link, thead.fixedHeader a:visited {
-	color: #FFF;
-	display: block;
-	text-decoration: none;
-	width: 100%
-}
-
-/* make the A elements pretty. makes for nice clickable headers                */
-/* WARNING: swapping the background on hover may cause problems in WinIE 6.x   */
-thead.fixedHeader a:hover {
-	color: #FFF;
-	display: block;
-	text-decoration: underline;
-	width: 100%
-}
-
 /* define the table content to be scrollable                                              */
 /* set TBODY element to have block level attributes. All other non-IE browsers            */
 /* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
@@ -156,34 +133,4 @@ html>body tbody.scrollContent {
 	height: 262px;
 	overflow: auto;
 	width: 100%
-}
-
-/* define width of TH elements: 1st, 2nd, and 3rd respectively.          */
-/* Add 16px to last TH for scrollbar padding. All other non-IE browsers. */
-/* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors        */
-html>body thead.fixedHeader th {
-	width: 200px
-}
-
-html>body thead.fixedHeader th + th {
-	width: 240px
-}
-
-html>body thead.fixedHeader th + th + th {
-	width: 316px
-}
-
-/* define width of TD elements: 1st, 2nd, and 3rd respectively.          */
-/* All other non-IE browsers.                                            */
-/* http://www.w3.org/TR/REC-CSS2/selector.html#adjacent-selectors        */
-html>body tbody.scrollContent td {
-	width: 200px
-}
-
-html>body tbody.scrollContent td + td {
-	width: 240px
-}
-
-html>body tbody.scrollContent td + td + td {
-	width: 300px
 }
