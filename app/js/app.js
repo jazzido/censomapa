@@ -1,16 +1,20 @@
 $(function() {
     //        var map_data;
 
+    var to_id = function(str) {
+        return str.replace(/\s+/g, '-').toLowerCase();
+    };
+
     var map_data;
     var distrito_info_dict = {};
 
     Handlebars.registerHelper('lower', function(str) {
         return str.toLowerCase();
     });
-
     Handlebars.registerHelper('mais_um', function(context) {
         return context + 1;
     });
+    Handlebars.registerHelper('to_id', to_id);
 
     var DISTRITO_INFO_TMPL = Handlebars.compile($('#distrito-info-template').html());
     var RANKING_TABLE_TMPL = Handlebars.compile($('#tabla-ranking-template').html());
@@ -67,6 +71,16 @@ $(function() {
 
     };
 
+    filterRankingTable = function(provincia_id) {
+        if (provincia_id)
+            $('#ranking tbody tr')
+              .not('[data-provincia="'+provincia_id+'"]')
+              .css('display', 'none');
+        else
+            $('#ranking tbody tr').css('display', 'table-row');
+
+    };
+
     $(window).hashchange( function(){
         if (location.hash.indexOf('#') !== 0) return;
 
@@ -85,11 +99,14 @@ $(function() {
                 if (distrito_info_dict[k])
                     distrito_info_dict[k].data = data[k];
 
+
             ranking_tbody_el.html(RANKING_TABLE_TMPL({
                 data: d3.entries(distrito_info_dict).sort(function(a,b) {
                     return a.value.data - b.value.data;
                 })
             }));
+
+            filterRankingTable(mapa.zoomedTo);
         }
     });
 
@@ -124,8 +141,6 @@ $(function() {
         });
         $('.departamentos').on('mouseout', hideDistritoTooltip);
 
-
-
         // cargar datos
         $.get('data/data.json',
               function(data) {
@@ -136,7 +151,14 @@ $(function() {
 
                   $('g.mapa g.departamentos g').on('click', function() {
                       var id = $(this).attr('id').split(/provincia-(.+)/)[1];
-                      mapa.zoomToProvincia(id == mapa.zoomedTo ? null : id);
+                      var zoomTo = id == mapa.zoomedTo ? null : id;
+
+                      if (!zoomTo || mapa.zoomedTo) filterRankingTable(null);
+                      if (zoomTo) filterRankingTable(id);
+
+                      mapa.zoomToProvincia(zoomTo);
+
+
                   });
               });
     });
