@@ -69,10 +69,10 @@ table#ranking th span { display: block;font-size: 13px; text-transform: none; fo
 table#ranking td {height: 20px; padding-top: 3px}
 table#ranking tbody tr {border-bottom: solid 1px #ccc;}
 table#ranking td.td_1 {width: 6%; font-weight: bold}
-table#ranking td.td_1 { color:#006766;}
-table#ranking.poblacion td.td_1 { color:#08529D;}
-table#ranking.viviendas td.td_1 { color:#54278E;}
-table#ranking.hogares td.td_1 { color:#006766;}
+table#ranking td.td_1 { color:#339A99;}
+table#ranking.poblacion td.td_1 { color:#339A99;}
+table#ranking.viviendas td.td_1 { color:#756BB0;}
+table#ranking.hogares td.td_1 { color:#339A99;}
 table#ranking td.td_2 {width: 60%; }
 table#ranking td.td_3 {width: 34%; text-align: right;}
 table#ranking td strong { font-weight: bold; text-transform: uppercase;}
