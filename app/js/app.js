@@ -5,6 +5,18 @@ $(function() {
         return str.replace(/\s+/g, '-').toLowerCase();
     };
 
+    var memoize = function(func) {
+        var memo = {};
+        var slice = Array.prototype.slice;
+        return function() {
+            var args = slice.call(arguments);
+            if (args in memo)
+                return memo[args];
+            else
+                return (memo[args] = func.apply(this, args));
+        }
+    };
+
     var map_data;
     var distrito_info_dict = {};
 
@@ -68,7 +80,6 @@ $(function() {
             rv = getVariable(data, var_name, arg2);
 
         return rv;
-
     };
 
     filterRankingTable = function(provincia_id) {
@@ -89,6 +100,10 @@ $(function() {
         if (data = interpretFragment(location.hash, map_data)) {
             mapa.drawMap(data, 5);
 
+            // setear 'active' en el boton correspondiente
+            $('#variables li').removeClass('active');
+            $('#variables a[href="'+ location.hash +'"]').parent().addClass('active');
+
             // setear el título
             var t = $('a[href="'+location.hash+'"]').attr('title').split('—');
             t = '<strong>' + t[0] + '</strong> — ' + t[1];
@@ -98,7 +113,6 @@ $(function() {
             for (var k in data)
                 if (distrito_info_dict[k])
                     distrito_info_dict[k].data = data[k];
-
 
             ranking_tbody_el.html(RANKING_TABLE_TMPL({
                 data: d3.entries(distrito_info_dict).sort(function(a,b) {
@@ -157,8 +171,6 @@ $(function() {
                       if (zoomTo) filterRankingTable(id);
 
                       mapa.zoomToProvincia(zoomTo);
-
-
                   });
               });
     });
