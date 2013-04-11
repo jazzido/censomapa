@@ -83,14 +83,14 @@ div#tooltip table .th1 { width:60%; /*text-align: left;*/} div#tooltip table .th
 
 /*********************** BEGIN Estilos del Mapa ***********************/
 #svg g.provincias path {
-  stroke: #fafafa;
+  stroke: #ddd;
   fill: none;
   stroke-width: 2px;
   stroke-linejoin: round;
 }
 
 g.departamentos path {
-  stroke: #fafafa;
+  stroke: #ddd;
   stroke-width: 1px;
   fill: none;
 }
