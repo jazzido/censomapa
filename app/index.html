@@ -28,15 +28,15 @@
       <nav>
         <h2>Población total</h2>
         <div id="filtros">
-          <div class="filtro active">
+          <div data-urel="poblacion" class="filtro active">
             <h3>Población</h3>
             <span>&nbsp</span>
           </div>
-          <div class="filtro">
+          <div data-urel="viviendas" class="filtro">
             <h3>Vivienda</h3>
             <span>&nbsp</span>
           </div>
-          <div class="filtro">
+          <div data-urel="hogares" class="filtro">
             <h3>Hogares</h3>
             <span>&nbsp</span>
           </div>
@@ -50,10 +50,10 @@
         </article>
         <article class="col_2">
           <div id="cont_mapas">
-            <ul id="u_relevamiento">
-              <li id="densidad" class="active" data-left="10"><h3>Variación intercensal 2001 - 2010</h3><span>&nbsp</span></li>
-              <li id="hogares" data-left="145"><h3>Censo 2001</h3><span>&nbsp</span></li>
-              <li id="viviendas" data-left="285"><h3>Censo 2010</h3><span>&nbsp</span></li>
+            <ul id="variaciones">
+              <li id="variacion" class="active" data-left="10"><h3>Variación <span class="num">2001 - 2010 (%)</span></h3><span class="flecha">&nbsp</span></li>
+              <li id="censo_2001" data-left="145"><h3>Censo <span class="num">2001</span></h3><span class="flecha">&nbsp</span></li>
+              <li id="censo_2010" data-left="285"><h3>Censo <span class="num">2010</span></h3><span class="flecha">&nbsp</span></li>
             </ul>
             <div id="variables">
               <ul class="densidad">
@@ -107,6 +107,9 @@
                 <tr>
                   <th colspan="3">Ranking de variación intercensal</th>
                 </tr>
+                <tr>
+                  <th colspan="3" class="parrafo">Ranking de todo el país</th>
+                </tr>
               </thead>
               <tbody class="scrollContent">
               </tbody>
@@ -157,7 +160,7 @@
       {{#data}}
       <tr data-id="{{this.key}}" data-provincia="{{to_id this.value.p}}">
         <td class="td_1">{{mais_um @index}}</td>
-        <td class="td_2"><strong>{{this.value.a}}</strong>, {{this.value.p}}</td>
+        <td class="td_2"><strong>{{this.value.a}}</strong>, {{lower this.value.p}}</td>
         <td class="td_3">{{this.value.data}}</td>
       </tr>
       {{/data}}
