@@ -99,7 +99,6 @@ function filtros(){ // eventos unidades de relevamiento
     $(".filtro").click(function(){
         var oThis = $(this);
         check_active(oThis, $(".filtro.active"));
-        console.log(oThis.data("urel"))
         $("table#ranking").attr("class", oThis.data("urel"));
         return false;
     });

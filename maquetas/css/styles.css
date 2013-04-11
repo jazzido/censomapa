@@ -13,7 +13,7 @@ h1 { font-size: 20px}
 div#wrapper { width: 980px; margin: 0 auto; padding: 20px 25px; position: relative;}
 
 header p {margin: 5px 0 0; font-size: 13.5px}
-.num { font-family: arial; position: static;}
+.num { /*font-family: arial; position: static;*/}
 /* barra de navegacion principal */
 nav { color: #fff; margin: 30px 0 0; }
 nav h2, nav #filtros { float: left; }
@@ -73,8 +73,8 @@ table#ranking td.td_1 { color:#339A99;}
 table#ranking.poblacion td.td_1 { color:#339A99;}
 table#ranking.viviendas td.td_1 { color:#756BB0;}
 table#ranking.hogares td.td_1 { color:#339A99;}
-table#ranking td.td_2 {width: 60%; }
-table#ranking td.td_3 {width: 34%; text-align: right;}
+table#ranking td.td_2 {width: 60%; text-transform: capitalize; }
+table#ranking td.td_3 {width: 34%; text-align: left;}
 table#ranking td strong { font-weight: bold; text-transform: uppercase;}
 
 footer { clear: both}
