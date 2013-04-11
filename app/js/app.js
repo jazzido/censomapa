@@ -17,7 +17,7 @@ $(function() {
         }
     };
 
-    var map_data;
+//    var map_data;
     var distrito_info_dict = {};
 
     Handlebars.registerHelper('lower', function(str) {
@@ -103,7 +103,6 @@ $(function() {
             // setear 'active' en el boton correspondiente
             $('#variables li').removeClass('active');
             $('#variables a[href="'+ location.hash +'"]').parent().addClass('active');
-
             // setear el título
             var t = $('a[href="'+location.hash+'"]').attr('title').split('—');
             t = '<strong>' + t[0] + '</strong> — ' + t[1];

@@ -6,9 +6,10 @@ import requests
 import simplejson
 
 API_KEY = 'AIzaSyBrM8jb4-i5xxm0uPZtEUaQSD8JbsKiY3E'
-TABLE_ID = '11QyLth3FORbmHba_hxPfFoGE1TxUZkIOstr9sNA'
+TABLE_ID = '1sDFx5KHuZ_aqRlAAaQb6aAdEMGKogWNM1Ib8tR0'
 QUERY_PREFIX = 'https://www.googleapis.com/fusiontables/v1/query'
 DEFAULT_PARAMS = { 'typed': 'false', 'key': API_KEY }
+
 
 VARIABLES = ["Poblacion_Densidad_2001",
              "Poblacion_Densidad_2010",
@@ -34,18 +35,18 @@ VARIABLES = ["Poblacion_Densidad_2001",
              "Poblacion_Nacida_Argentina_2010",
              "Hogares_Total_2001",
              "Hogares_Total_2010",
-             "Hogares_Con_Bano_2001",
-             "Hogares_Con_Bano_2010",
-             "Hogares_Sin_Bano_2001",
-             "Hogares_Sin_Bano_2010",
-             "Hogares_Con_Gas_Corriente_2001",
-             "Hogares_Con_Gas_Corriente_2010",
-             "Hogares_Sin_Gas_Corriente_2001",
-             "Hogares_Sin_Gas_Corriente_2010",
-             "Hogares_Con_Agua_Corriente_2001",
-             "Hogares_Con_Agua_Corriente_2010",
-             "Hogares_Sin_Agua_Corriente_2001",
-             "Hogares_Sin_Agua_Corriente_2010",
+             # "Hogares_Con_Bano_2001",
+             # "Hogares_Con_Bano_2010",
+             # "Hogares_Sin_Bano_2001",
+             # "Hogares_Sin_Bano_2010",
+             # "Hogares_Con_Gas_Corriente_2001",
+             # "Hogares_Con_Gas_Corriente_2010",
+             # "Hogares_Sin_Gas_Corriente_2001",
+             # "Hogares_Sin_Gas_Corriente_2010",
+             # "Hogares_Con_Agua_Corriente_2001",
+             # "Hogares_Con_Agua_Corriente_2010",
+             # "Hogares_Sin_Agua_Corriente_2001",
+             # "Hogares_Sin_Agua_Corriente_2010",
              "Hogares_Con_Heladera_2001",
              "Hogares_Con_Heladera_2010",
              "Hogares_Sin_Heladera_2001",

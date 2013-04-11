@@ -152,7 +152,6 @@ Object.extend = function(destination, source) {
         // console.log('max', values_array[values_array.length - 1]);
         // console.log('min', values_array[0]);
 
-
         drawLegend(quantile,
                     values_array[0],
                     values_array[values_array.length - 1]);
@@ -169,7 +168,9 @@ Object.extend = function(destination, source) {
         var svg = d3.select(container_element_selector).append("svg")
             .attr("width", mapa.width)
             .attr("height", mapa.height)
-            .attr("class", "Blues");
+
+
+            .attr("class", "Poblacion");
 
         mapa.mapa_svg = svg.append('g').classed('mapa', true);
         mapa.departamentos = mapa.mapa_svg.append('g').attr('class', 'departamentos');
