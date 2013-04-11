@@ -5,43 +5,59 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 ul {list-style: none}
 @font-face{ font-family: TheSans; src: url('font/TheSans_TT7_.eot'), url('font/TheSans_TT7_.woff'); }
 .clear { clear: both; display: block;}
+.bold { font-weight: bold;}
 body {font-family: Arial, Helvetica, sans-serif; font-size: 13px;}
 h1, h2 {font-family: TheSans, Arial, Helvetica, sans-serif;text-transform: uppercase;}
 h1 { font-size: 20px}
 div#wrapper { width: 980px; margin: 0 auto; padding: 20px 25px; position: relative;}
 
 header p {margin: 5px 0 0}
+
+/* barra de navegacion principal */
 nav { color: #fff; margin: 30px 0 0; text-transform: uppercase;}
 nav h2, nav #filtros { float: left; }
-nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png); height: 20px; padding: 5px 0 0 10px;  font-weight: normal; }
-nav #filtros { width: 520px; display: block; cursor: pointer;height: 25px; padding: 0;  }
-nav #filtros div.filtro { width: 33%; float: left; position: relative; height: 20px; padding: 5px 0 0 0px;background: url(../img/bg_cel_2.png);}
-nav #filtros div.filtro h3{ margin: 0 0 0 10px}
+nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png); height: 20px; padding: 5px 0 0 10px;  }
+nav #filtros { width: 520px; display: block; cursor: pointer;height: 25px; padding: 0; }
+nav #filtros div.filtro { width: 172px; float: left; position: relative; height: 19px; padding: 6px 0 0 0px;background: #81C9E2;margin-left: 1px; text-align: center;}
+nav #filtros div.filtro h3 { padding-right: 20px; display: block; }
+/*nav #filtros div.filtro h3 span { display: block; background: url(../img/sprite.png) 10px -100px no-repeat; width: 15px; height: 15px}*/
+nav #filtros div.filtro:hover {background: #33AAD4;}
+/*nav #filtros div.filtro.active h3 { background: url(../img/sprite.png) 10px -100px no-repeat;}*/
+nav #filtros div.filtro.active {background: #33AAD4;}
 .bg_2 {background: url(../img/bg_cel_2.png);}
 .bg_3 {background: url(../img/bg_cel_3.png);}
+nav #filtros div.filtro.active span,
+article ul#u_relevamiento li.active span
+{ position: absolute; top: -15px; left: calc(50% - 8px); width: 15px; height: 15px; background: url(../img/sprite.png) -2px -197px no-repeat;}
 
-
+/* maqueta seccion mapas */
 section {overflow: hidden; margin: 20px 0 0}
 article.col_1, article.col_2 {float: left}
 article.col_1 { width: 450px; min-width: 450px; min-height: 100px}
 article.col_2 { width: 530px; position: relative}
+div#cont_mapas { background: #F2F2F2; border: 1px solid #D3D3D3}
 article ul#u_relevamiento{ overflow: hidden}
-article ul#u_relevamiento li{ display: inline-block; width: 140px; opacity: .7; cursor: pointer}
-article ul#u_relevamiento li.active, article ul#u_relevamiento li:hover{ opacity: 1}
-article ul#u_relevamiento li h3{ display: block; height: 20px; padding: 0 0 0 20px}
-article ul#u_relevamiento li.active h3{ background: url(../img/sprite.png) -60px -175px no-repeat; }
-article a#ver_mas{width:80px; position: absolute;top:160px; left: 10px; display:inline-block; background: url(../img/bg_cel_1.png); color:#fff; padding: 3px 0 2px 5px; text-decoration: none; text-transform: uppercase; font-size: 10px}
+article ul#u_relevamiento li { display: inline-block; cursor: pointer; float: left; margin-right: 1px; position: relative;}
+article ul#u_relevamiento li h3{ display: inline-block; padding: 3px 20px; background: #81C9E2; color: #fff; font-weight: bold;}
+article ul#u_relevamiento li.active h3, article ul#u_relevamiento li:hover h3{ background: #33AAD4; }
+/*article ul#u_relevamiento li.active h3{ background: #33AAD4; }*/
+/*article a#ver_mas{width:80px; position: absolute;top:160px; left: 10px; display:inline-block; background: url(../img/bg_cel_1.png); color:#fff; padding: 3px 0 2px 5px; text-decoration: none; text-transform: uppercase; font-size: 10px}
 article a#ver_mas span{ display:inline-block; background: url(../img/sprite.png) 0 -164px no-repeat; color:#fff; width: 19px; height: 15px; position: absolute; top: 0; right: 0}
-article a#ver_mas.menos span{ background-position: 0 -129px;}
+article a#ver_mas.menos span{ background-position: 0 -129px;}*/
 
-div#variables { margin: 35px 0 0; display: inline-block; border-top: 1px #ccc solid; padding: 20px 0 0;}
-div#variables ul {/*display: none;*/ border-bottom: 1px #ccc solid;}
+div#variables { display: inline-block; padding: 20px;}
+div#variables ul {}
 div#variables ul.hogares, div#variables ul.viviendas{display: none;}
-div#variables ul li {display: inline-block; width: 85px; padding-bottom: 10px; cursor:pointer; height: 130px; vertical-align: top}
-div#variables ul li a img {display: block; }
+div#variables ul li {display: inline-block; width: 93px; padding-bottom: 10px; cursor:pointer; height: 130px; vertical-align: top; position: relative;}
+div#variables ul li {display: inline-block; width: 93px; padding-bottom: 10px; cursor:pointer; height: 130px; vertical-align: top; position: relative;}
+div#variables ul li a {color: #404040; font-weight: bold; text-decoration: none;}
+div#variables ul li a img {position: absolute; top: 30px; left: 0 }
+div#variables ul li {opacity: .7}
+div#variables ul li.active, div#variables ul li:hover {opacity: 1}
+
 /* tabla ranking */
 table#ranking {width: 100%; color: #333; margin-top: 25px}
-table#ranking th { text-align: left; padding-bottom: 15px; text-transform: uppercase; font-weight: normal;}
+table#ranking th { text-align: left; padding-bottom: 15px; text-transform: uppercase;}
 table#ranking th span { display: block;font-size: 13px; text-transform: none; font-weight: normal; padding-top: 3px}
 table#ranking td {height: 20px; padding-top: 3px}
 table#ranking tbody tr {border-bottom: solid 1px #ccc;}
@@ -51,13 +67,18 @@ table#ranking td.td_3 {width: 30%; text-align: right;}
 
 footer { clear: both}
 
-div#tooltip { width: 250px; position: absolute;top: 600px; left: 270px; border: 1px solid #ccc; border-radius: 5px; background: #fff; padding: 10px}
-div#tooltip div.header { margin-bottom: 5px}
-div#tooltip div.header h3 { }
+div#tooltip { width: 250px; position: absolute;top: 765px; left: 200px; border: 1px solid #ccc; /*border-radius: 5px;*/ background: #fff;}
+div#tooltip div.header { margin-bottom: 5px; border-bottom: 1px solid #ccc; }
+div#tooltip div.header, div#tooltip div.tabla {padding: 5px}
+div#tooltip div.header h3 { font-weight: bold; text-transform: uppercase; }
+div#tooltip div.header h3 span { font-weight: normal; text-transform: capitalize; }
+div#tooltip div.header p { color: #33AAD4; margin-top: 3px }
+div#tooltip div.tabla {}
 div#tooltip table { width:100%;}
 div#tooltip table thead { }
 div#tooltip table tbody { }
-div#tooltip table .th1 { width:50%; text-align: left;} div#tooltip table .th2 { width:30%;text-align: center;} div#tooltip table .th3 { width:20%; text-align: right;}
+div#tooltip table td { padding-bottom: 5px}
+div#tooltip table .th1 { width:60%; /*text-align: left;*/} div#tooltip table .th2 { width:40%;/* text-align: right;*/}
 
 
 /*********************** BEGIN Estilos del Mapa ***********************/

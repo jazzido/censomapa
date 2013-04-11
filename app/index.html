@@ -28,14 +28,17 @@
       <nav>
         <h2>Población total</h2>
         <div id="filtros">
-          <div class="filtro">
+          <div class="filtro active">
             <h3>Población</h3>
+            <span>&nbsp</span>
           </div>
           <div class="filtro">
             <h3>Vivienda</h3>
+            <span>&nbsp</span>
           </div>
           <div class="filtro">
             <h3>Hogares</h3>
+            <span>&nbsp</span>
           </div>
           <span class="clear"></span>
         </div>
@@ -43,55 +46,59 @@
       </nav>
       <section class="clear">
         <article class="col_1" id="svg">
+
         </article>
         <article class="col_2">
-          <ul id="u_relevamiento">
-            <li id="densidad" class="active" data-left="10"><h3>Variación</h3></li>
-            <li id="hogares" data-left="145"><h3>Censo 2001</h3></li>
-            <li id="viviendas" data-left="285"><h3>Censo 2010</h3></li>
-          </ul>
-          <div id="variables">
-            <ul class="densidad">
-              <li><a href="#Poblacion_Total-intercensal" title="Población Total — Variación 2001-2010">Población Total<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Densidad-intercensal" title="Densidad Poblacional — Variación 2001-2010">Densidad<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Varones-intercensal" title="Varones — Variación 2001-2010">Varones<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Mujeres-intercensal" title="Mujeres — Variación 2001-2010">Mujeres<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Analfabetos-intercensal" title="Analfabetismo — Variación 2001-2010">Analfabetos<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Alfabetos-intercensal" title="Alfabetismo — Variación 2001-2010">Alfabetos<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_0a14-intercensal" title="Población de 0 a 14 años — Variación 2001-2010">0 a 14 años<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_15a64-intercensal" title="Población de 15 a 64 años — Variación 2001-2010">15 a 64 años<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_65ymas-intercensal" title="Población de 65 años o más — Variación 2001-2010">65 años o más<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Nacida_Extranjero-intercensal" title="Nacidos en el extranjero — Variación 2001-2010">Nacidos en el extranjero<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Poblacion_Nacida_Argentina-intercensal" title="Nacidos en Argentina — Variación 2001-2010">Nacidos en el extranjero<img src="img/arg_3.jpg" /></a></li>
+          <div id="cont_mapas">
+            <ul id="u_relevamiento">
+              <li id="densidad" class="active" data-left="10"><h3>Variación intercensal 2001 - 2010</h3><span>&nbsp</span></li>
+              <li id="hogares" data-left="145"><h3>Censo 2001</h3><span>&nbsp</span></li>
+              <li id="viviendas" data-left="285"><h3>Censo 2010</h3><span>&nbsp</span></li>
             </ul>
-            <ul class="hogares">
-              <li><a href="#Hogares_Total">Hogares_Total<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Con_Bano">Hogares_Con_Bano<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Sin_Bano">Hogares_Sin_Bano<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Con_Gas_Corriente">Hogares_Con_Gas_Corriente<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Sin_Gas_Corriente">Hogares_Sin_Gas_Corriente<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Con_Agua_Corriente">Hogares_Con_Agua_Corriente<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Sin_Agua_Corriente">Hogares_Sin_Agua_Corriente<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Con_Heladera">Hogares_Con_Heladera<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Sin_Heladera">Hogares_Sin_Heladera<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Con_Telefono_Linea">Hogares_Con_Telefono_Linea<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Sin_Telefono_Linea">Hogares_Sin_Telefono_Linea<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Con_Celular">Hogares_Con_Celular<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Sin_Celular">Hogares_Sin_Celular<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Sin_Computadora">Hogares_Sin_Computadora<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Hogares_Con_Computadora">Hogares_Con_Computadora<img src="img/arg_3.jpg" /></a></li>
-            </ul>
-            <ul class="viviendas">
-              <li><a href="#Viviendas_Total"><span>Viviendas_Total</span> <img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Viviendas_Casa">Viviendas_Casa<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Viviendas_Rancho">Viviendas_Rancho<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Viviendas_Casilla">Viviendas_Casilla<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Viviendas_Departamento">Viviendas_Departamento<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Viviendas_Pieza_Inquilinato">Viviendas_Pieza_Inquilinato<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Viviendas_Pieza_Hotel_Pension">Viviendas_Pieza_Hotel_Pension<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Viviendas_Local_No_Construido_Para_habitacion">Viviendas_Local_No_Construido_Para_habitacion<img src="img/arg_3.jpg" /></a></li>
-              <li><a href="#Viviendas_movil">Viviendas_movil<img src="img/arg_3.jpg" /></a></li>
-            </ul>
+            <div id="variables">
+              <ul class="densidad">
+                <li class="active"><a href="#Poblacion_Total-intercensal" title="Población Total — Variación 2001-2010">Población Total<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_Densidad-intercensal" title="Densidad Poblacional — Variación 2001-2010">Densidad<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_Varones-intercensal">Varones<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_Mujeres-intercensal">Mujeres<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_Analfabetos-intercensal" title="Analfabetismo — Variación 2001-2010">Analfabetos<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_Alfabetos-intercensal" title="Alfabetismo — Variación 2001-2010">Alfabetos<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_0a14-intercensal" title="Población de 0 a 14 años — Variación 2001-2010">0 a 14 años<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_15a64-intercensal" title="Población de 15 a 64 años — Variación 2001-2010">15 a 64 años<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_65ymas-intercensal" title="Población de 65 años o más — Variación 2001-2010">65 años o más<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_Nacida_Extranjero-intercensal" title="Nacidos en el extranjero — Variación 2001-2010">Nacidos en el extranjero<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Poblacion_Nacida_Argentina-intercensal" title="Nacidos en Argentina — Variación 2001-2010">Nacidos en el extranjero<img src="img/arg_3.jpg" /></a></li>
+              </ul>
+              <ul class="hogares">
+                <li><a href="#Hogares_Total">Hogares_Total<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Con_Bano">Hogares_Con_Bano<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Sin_Bano">Hogares_Sin_Bano<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Con_Gas_Corriente">Hogares_Con_Gas_Corriente<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Sin_Gas_Corriente">Hogares_Sin_Gas_Corriente<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Con_Agua_Corriente">Hogares_Con_Agua_Corriente<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Sin_Agua_Corriente">Hogares_Sin_Agua_Corriente<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Con_Heladera">Hogares_Con_Heladera<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Sin_Heladera">Hogares_Sin_Heladera<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Con_Telefono_Linea">Hogares_Con_Telefono_Linea<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Sin_Telefono_Linea">Hogares_Sin_Telefono_Linea<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Con_Celular">Hogares_Con_Celular<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Sin_Celular">Hogares_Sin_Celular<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Sin_Computadora">Hogares_Sin_Computadora<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Hogares_Con_Computadora">Hogares_Con_Computadora<img src="img/arg_3.jpg" /></a></li>
+              </ul>
+              <ul class="viviendas">
+                <li><a href="#Viviendas_Total"><span>Viviendas_Total</span> <img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Viviendas_Casa">Viviendas_Casa<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Viviendas_Rancho">Viviendas_Rancho<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Viviendas_Casilla">Viviendas_Casilla<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Viviendas_Departamento">Viviendas_Departamento<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Viviendas_Pieza_Inquilinato">Viviendas_Pieza_Inquilinato<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Viviendas_Pieza_Hotel_Pension">Viviendas_Pieza_Hotel_Pension<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Viviendas_Local_No_Construido_Para_habitacion">Viviendas_Local_No_Construido_Para_habitacion<img src="img/arg_3.jpg" /></a></li>
+                <li><a href="#Viviendas_movil">Viviendas_movil<img src="img/arg_3.jpg" /></a></li>
+              </ul>
+            </div>
+            <span class="clear"></span>
           </div>
           <span class="clear"></span>
           <div class="tableContainer">
@@ -161,6 +168,7 @@
     <!--<![endif]-->
     <!-- BEGIN_JS --> <!-- no borrar este comentario -->
     <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
     <script src="js/jquery.ba-hashchange.js"></script>
     <script src="js/topojson.v0.min.js"></script>
     <script src="js/handlebars.js"></script>
