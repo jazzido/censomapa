@@ -1,4 +1,4 @@
-DATE=`date +'%Y%m%d%H%M'`
+DATE=$(shell date +'%Y%m%d%H%M')
 all:
 	mkdir -p build
 	rm -rf build/*
