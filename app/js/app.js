@@ -149,10 +149,16 @@ $(function() {
         });
 
         // tooltip en mouseover sobre los distritos
-        $('.departamentos path').on('mouseover', function() {
-            showDistritoTooltip(this);
+        $('.departamentos path')
+            .on('mouseover', function() {
+                $(this).css('opacity', 0.1);
+                showDistritoTooltip(this);
+            })
+            .on('mouseout', function() { $(this).css('opacity', 1); });
+
+        $('.departamentos').on('mouseout', function() {
+            hideDistritoTooltip();
         });
-        $('.departamentos').on('mouseout', hideDistritoTooltip);
 
         // cargar datos
         $.get('data/data.json',
