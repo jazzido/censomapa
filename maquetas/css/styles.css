@@ -11,7 +11,8 @@ h1, h2, nav, article ul#variaciones li,table#ranking th
 {font-family: TheSans, Arial, Helvetica, sans-serif;text-transform: uppercase;}
 h1 { font-size: 20px}
 div#wrapper { width: 980px; margin: 0 auto; padding: 20px 25px; position: relative;}
-
+a#descargar
+{ background: url(../img/sprite.png) 0 -227px no-repeat;padding: 5px 0 5px 23px;display: inline-block; position: absolute; top: 25px; right: 30px; text-decoration: none; text-transform:uppercase; color: #333 }
 header p {margin: 5px 0 0; font-size: 13.5px}
 .num { /*font-family: arial; position: static;*/}
 /* barra de navegacion principal */
@@ -39,7 +40,7 @@ section {/*overflow: hidden;*/ padding: 20px 0 0}
 article.col_1, article.col_2 {float: left}
 article.col_1 { width: 450px; min-width: 450px; min-height: 100px}
 article.col_2 { width: 530px; position: relative}
-div#cont_mapas { background: #F2F2F2; border: 1px solid #D3D3D3}
+div#cont_mapas { /*background: #F2F2F2;*/ border: 1px solid #D3D3D3}
 article ul#variaciones{ /*overflow: hidden*/}
 article ul#variaciones li { width: 155px; display: block; cursor: pointer; float: left; margin-right: 1px; position: relative;background: #81C9E2; color: #fff; font-weight: bold; text-align: center; }
 article ul#variaciones li#variacion { width: 215px;}
@@ -53,7 +54,7 @@ article a#ver_mas.menos span{ background-position: 0 -129px;}*/
 
 /*div.variables { display: none; padding: 20px;}*/
 /*div.variables.active { display: inline-block;}*/
-div.variables ul { display: none}
+div.variables ul { display: none; padding: 35px 20px 20px }
 div.variables.active ul.active { display: block;}
 div.variables.censo_2001 ul { }
 div.variables.censo_2010 ul { }
@@ -90,11 +91,11 @@ div#tooltip div.header h3 { font-weight: bold; text-transform: uppercase; }
 div#tooltip div.header h3 span { font-weight: normal; text-transform: capitalize; }
 div#tooltip div.header p { color: #33AAD4; margin-top: 3px }
 div#tooltip div.tabla {}
-div#tooltip table { width:100%;}
+div#tooltip table { width:95%; margin: 0 auto}
 div#tooltip table thead { }
 div#tooltip table tbody { }
 div#tooltip table td { padding-bottom: 5px}
-div#tooltip table .th1 { width:60%; text-align: left;} div#tooltip table .th2 { width:40%; text-align: center;}
+div#tooltip table .th1 { width:60%; text-align: left;} div#tooltip table .th2 { width:40%; text-align: left;}
 
 /*********************** BEGIN Estilos del Mapa ***********************/
 g.provincias path {
