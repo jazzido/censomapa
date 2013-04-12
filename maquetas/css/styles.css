@@ -94,7 +94,7 @@ div#tooltip table .th1 { width:60%; /*text-align: left;*/} div#tooltip table .th
 
 
 /*********************** BEGIN Estilos del Mapa ***********************/
-#svg g.provincias path {
+g.provincias path {
   stroke: #ddd;
   fill: none;
   stroke-width: 2px;
@@ -107,18 +107,21 @@ g.departamentos path {
   fill: none;
 }
 
-  #svg g.departamentos path:hover {
+  g.departamentos path:hover {
     cursor: pointer;
   }
 
-  #svg g.departamentos g.inactive {
+  g.departamentos g.inactive {
     opacity: 0.2;
   }
 
-#svg g, #svg path {
+g, #svg path {
   -webkit-transition: fill 200ms linear, opacity 200ms linear;/* , stroke-width 1000ms linear; */
   -moz-transition: fill 200ms linear, opacity 200ms linear;/* , stroke-width 1000ms linear; */
+}
 
+g.legend text {
+    font-size: 10px;
 }
 
 
