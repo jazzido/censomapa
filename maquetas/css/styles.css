@@ -51,15 +51,18 @@ article ul#variaciones li.active, article ul#variaciones li:hover{ background: #
 article a#ver_mas span{ display:inline-block; background: url(../img/sprite.png) 0 -164px no-repeat; color:#fff; width: 19px; height: 15px; position: absolute; top: 0; right: 0}
 article a#ver_mas.menos span{ background-position: 0 -129px;}*/
 
-div#variables { display: inline-block; padding: 20px;}
-div#variables ul {}
-div#variables ul.hogares, div#variables ul.viviendas{display: none;}
-div#variables ul li {display: inline-block; width: 93px; padding-bottom: 10px; cursor:pointer; height: 130px; vertical-align: top; position: relative;}
-div#variables ul li {display: inline-block; width: 93px; padding-bottom: 10px; cursor:pointer; height: 130px; vertical-align: top; position: relative;}
-div#variables ul li a {color: #404040; font-weight: bold; text-decoration: none;}
-div#variables ul li a img {position: absolute; top: 30px; left: 0 }
-div#variables ul li {opacity: .7}
-div#variables ul li.active, div#variables ul li:hover {opacity: 1}
+div.variables { display: inline-block; padding: 20px;}
+div.variables ul { display: none}
+div.variables.active ul.active { display: block;}
+div.variables.censo_2001 ul { }
+div.variables.censo_2010 ul { }
+/*div.variables ul.hogares, div.variables ul.viviendas{display: none;}*/
+div.variables ul li {display: inline-block; width: 93px; padding-bottom: 10px; cursor:pointer; height: 130px; vertical-align: top; position: relative;}
+div.variables ul li {display: inline-block; width: 93px; padding-bottom: 10px; cursor:pointer; height: 130px; vertical-align: top; position: relative;}
+div.variables ul li a {color: #404040; font-weight: bold; text-decoration: none;}
+div.variables ul li a img {position: absolute; top: 30px; left: 0 }
+div.variables ul li {opacity: .7}
+div.variables ul li.active, div.variables ul li:hover {opacity: 1}
 
 /* tabla ranking */
 table#ranking {width: 100%; color: #333; margin-top: 25px}

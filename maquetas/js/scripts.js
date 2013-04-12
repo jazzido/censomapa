@@ -99,7 +99,6 @@ function filtros(){ // eventos unidades de relevamiento
     $(".filtro").click(function(){
         var oThis = $(this);
         check_active(oThis, $(".filtro.active"));
-        $("table#ranking").attr("class", oThis.data("urel"));
         return false;
     });
 }
@@ -112,17 +111,34 @@ function variables(){ // eventos unidades de relevamiento
     });
 }
 
-function check_active(btn, active){ // ambia el estado del btn
+
+function check_active(btn, active){ // cambia el estado del btn
     if(!btn.hasClass("active")) {
             active.removeClass("active");
             btn.addClass("active")
         }
+    var urel ={};
+    if(btn.hasClass("filtro")){ // si es unidad de relevamiento
+        urel.str= btn.data("urel");
+        urel.obj= $("#cont_mapas ."+urel.str);
+        if(!urel.obj.hasClass("active")){
+            $("#cont_mapas .variables ul.active").removeClass("active");  
+            urel.obj.addClass("active")
+        }
+        $("table#ranking").attr("class", urel.str); // para el color de los numeros
+    }
+    if(btn.parent().attr("id") == "variaciones") { // es variable
+        urel.str= btn.attr("id");
+        urel.obj= $(".variables."+urel.str);
+        if(!urel.obj.hasClass("active")){
+            $("#cont_mapas .variables.active").removeClass("active");  
+            urel.obj.addClass("active");
+        }
+    }
 }
 
 
 $(function(){
     filtros();
     variables();
-    // $("#filtros").navUl(configNav);
-    // $("#u_relevamiento").navMapas()
 });
