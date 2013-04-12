@@ -142,6 +142,7 @@ $(function() {
     // cargar geometrias
     $.get('data/ea.json', function(topojson) {
         mapa.drawPaths(topojson, 'article#svg');
+        var tootip = new moverObjMouseOver($("path"), $("#tooltip"), $("svg"));
 
         // popular distrito_info_dict (convenience)
         topojson.objects.departamentos.geometries.forEach(function(g) {
