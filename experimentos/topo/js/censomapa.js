@@ -71,8 +71,14 @@ Object.extend = function(destination, source) {
 
     var projection = d3.geo.mercator()
         .scale(7000)
-        .center([-64,-32])
-        .translate([190,230]);
+//        .center([-64,-32])
+        .center([-65,-38])
+//        .translate([190,230]);
+        .translate([mapa.width / 2 - 30 , mapa.height / 2 - 100]);
+
+    console.log([mapa.width / 2 - 30 , mapa.height / 2 - 100]);
+
+    mapa.projection = projection;
 
     var path = d3.geo.path().projection(projection);
 
@@ -247,9 +253,17 @@ Object.extend = function(destination, source) {
             k = 1;
             x = -p_tr[0]; y = -p_tr[1];
             mapa.mapa_svg.selectAll('g.departamentos g').classed('inactive', false);
-            mapa.mapa_svg.selectAll('g.provincias path').style('stroke-width', '2px');
-            mapa.mapa_svg.selectAll('g.departamentos path').style('stroke-width', '1px');
 
+            mapa.mapa_svg
+                .selectAll('g.provincias path')
+                .transition()
+                .duration(750)
+                .style('stroke-width','2px');
+
+            mapa.mapa_svg
+                .selectAll('g.departamentos path')
+                .style('stroke-width', '1px');
+            
             mapa.mapa_svg.transition().duration(750).attr('transform', '');
             mapa.zoomedTo = null;
         }
@@ -258,17 +272,31 @@ Object.extend = function(destination, source) {
 
             mapa.mapa_svg.selectAll('g.departamentos g').classed('inactive', false);
             var b = path.bounds(p[0][0].__data__);
-            k = .95 / Math.max((b[1][0] - b[0][0]) / mapa.width, (b[1][1] - b[0][1]) / mapa.height);
+            k = 1 / Math.max((b[1][0] - b[0][0]) / mapa.width, (b[1][1] - b[0][1]) / mapa.height);
+            console.log(k);
+
             mapa.mapa_svg
                 .transition()
                 .duration(750)
                 .attr("transform",
-                      "translate(" + projection.translate() + ")"
-                      + "scale(" + .95 / Math.max((b[1][0] - b[0][0]) / mapa.width, (b[1][1] - b[0][1]) / mapa.height) + ")"
+                      "translate(" + (projection.translate()[0] + 30) + "," + (projection.translate()[1] + 100) + ")"
+                      + "scale(" + k + ")"
                       + "translate(" + -(b[1][0] + b[0][0]) / 2 + "," + -(b[1][1] + b[0][1]) / 2 + ")");
 
+            mapa.mapa_svg
+                .selectAll('g.provincias path')
+                .transition()
+                .duration(750)
+                .style('stroke-width', 2/k + 'px');
+
+            mapa.mapa_svg
+                .selectAll('g.departamentos path')
+                .style('stroke-width', 1/k + 'px');
+                
+
             mapa.mapa_svg.selectAll('g.departamentos g:not(#provincia-' + to_id(v) + ')').classed('inactive', true);
-//            mapa.mapa_svg.selectAll('g.provincias path').style('stroke-width', '0px');
+//            mapa.mapa_svg.selectAll('g.provincias path').style('stroke-width', 2/k + 'px');
+//            mapa.mapa_svg.selectAll('g.departamentos path').style('stroke-width', 1/k + 'px');
             mapa.zoomedTo = to_id(v);
         }
 

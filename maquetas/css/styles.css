@@ -116,10 +116,11 @@ g.departamentos path {
   }
 
 #svg g, #svg path {
-  -webkit-transition: fill 200ms linear, opacity 200ms linear, stroke-width 1000ms linear;
-  -moz-transition: fill 200ms linear, opacity 200ms linear, stroke-width 1000ms linear;
+  -webkit-transition: fill 200ms linear, opacity 200ms linear;/* , stroke-width 1000ms linear; */
+  -moz-transition: fill 200ms linear, opacity 200ms linear;/* , stroke-width 1000ms linear; */
 
 }
+
 
 /***********************   END Estilos del Mapa ***********************/
 
