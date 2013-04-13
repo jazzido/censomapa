@@ -6,7 +6,7 @@ import requests
 import simplejson
 
 API_KEY = 'AIzaSyBrM8jb4-i5xxm0uPZtEUaQSD8JbsKiY3E'
-TABLE_ID = '1sDFx5KHuZ_aqRlAAaQb6aAdEMGKogWNM1Ib8tR0'
+TABLE_ID = '1SgJ4aJEsxG2unWQA_qW__bSA_b2yu6_1Gn-vZHo'
 QUERY_PREFIX = 'https://www.googleapis.com/fusiontables/v1/query'
 DEFAULT_PARAMS = { 'typed': 'false', 'key': API_KEY }
 
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     del(values['_c'])
 
     for k, v in values.iteritems():
-        rv['_districts'][k] = v
-
+        if k not in ('ISLAS', 'D24003'):
+            rv['_districts'][k] = v
 
     print simplejson.dumps(rv)

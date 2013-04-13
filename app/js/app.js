@@ -17,7 +17,45 @@ $(function() {
         }
     };
 
-//    var map_data;
+    var DataAccessor = function(data) {
+        var data = data;
+
+        this.getVariable = memoize(function(variable_name, year) {
+            var col_idx = data['_column_names'].indexOf(variable_name);
+            var year_idx = data['_years'].indexOf(year.toString());
+            if (col_idx == -1 || year_idx == -1) return null;
+            var rv = {};
+            for (var dpto_id in data['_districts']) {
+                var v = data['_districts'][dpto_id][year_idx][col_idx];
+                if (v !== null) rv[dpto_id] = v;
+            }
+            return rv;
+        });
+
+        this.getVariableAsRatio = memoize(function(variable_name, year, variable_total) {
+            var values = this.getVariable(variable_name, year);
+            var totals = this.getVariable(variable_total, year);
+
+            var rv = {};
+            for (var dpto_id in values) {
+                rv[dpto_id] = (values[dpto_id] / totals[dpto_id]).toFixed(2) * 100;
+            }
+            return rv;
+        });
+
+        this.getIntercensalVariation = memoize(function(variable_name) {
+            var values_2001 = this.getVariable(variable_name, 2001);
+            var values_2010 = this.getVariable(variable_name, 2010);
+            var rv = {};
+            for (var dpto_id in values_2001) {
+                rv[dpto_id] = (values_2010[dpto_id] / (values_2001[dpto_id] == 0 ? 1 : values_2001[dpto_id]) - 1).toFixed(2) * 100;
+            }
+            return rv;
+        });
+    };
+
+
+    //    var map_data;
     var distrito_info_dict = {};
 
     Handlebars.registerHelper('lower', function(str) {
@@ -33,51 +71,18 @@ $(function() {
     var tooltip_el = $('#tooltip');
     var ranking_tbody_el = $('#ranking tbody');
 
-    getVariable = memoize(function(data, variable_name, year) {
-        var col_idx = data['_column_names'].indexOf(variable_name);
-        var year_idx = data['_years'].indexOf(year.toString());
-        if (col_idx == -1 || year_idx == -1) return null;
-        var rv = {};
-        for (var dpto_id in data['_districts']) {
-            var v = data['_districts'][dpto_id][year_idx][col_idx];
-            if (v !== null) rv[dpto_id] = v;
-        }
-        return rv;
-    });
-
-    getVariableAsRatio = memoize(function(data, variable_name, year, variable_total) {
-        var values = getVariable(data, variable_name, year);
-        var totals = getVariable(data, variable_total, year);
-
-        var rv = {};
-        for (var dpto_id in values) {
-            rv[dpto_id] = values[dpto_id] / totals[dpto_id];
-        }
-        return rv;
-    });
-
-    getIntercensalVariation = memoize(function(data, variable_name) {
-        var values_2001 = getVariable(data, variable_name, 2001);
-        var values_2010 = getVariable(data, variable_name, 2010);
-        var rv = {};
-        for (var dpto_id in values_2001) {
-            rv[dpto_id] = (values_2010[dpto_id] - values_2001[dpto_id]) / values_2001[dpto_id];
-        }
-        return rv;
-    });
-
     // obtener datos de acuerdo al fragment (hash) del URL
-    interpretFragment = function(fragment, data) {
+    interpretFragment = function(fragment, data_accessor) {
         var parts = fragment.substring(1).split('-');
         var var_name = parts[0], arg2 = parts[1], arg3 = parts[2];
 
         var rv = null;
         if (arg2 == 'intercensal')
-            rv = getIntercensalVariation(data, var_name);
+            rv = data_accessor.getIntercensalVariation(var_name);
         else if (arg2 == 'ratio')
-            rv = getVariableAsRatio(data, var_name, arg3, var_name.split('_')[0] + '_Total');
+            rv = data_accessor.getVariableAsRatio(var_name, arg3, var_name.split('_')[0] + '_Total');
         else
-            rv = getVariable(data, var_name, arg2);
+            rv = data_accessor.getVariable(var_name, arg2);
 
         return rv;
     };
@@ -97,18 +102,26 @@ $(function() {
 
         // dibujar el mapa
         var data;
+
         if (data = interpretFragment(location.hash, map_data)) {
             mapa.drawMap(data, 5);
 
+            // setear clase del mapa segun unidad de relevamiento
+            var m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
+            if (m.length == 2) 
+                $('svg').attr('class', m[1]);
+
             // setear 'active' en el boton correspondiente
-            $('#variables li').removeClass('active');
-            $('#variables a[href="'+ location.hash +'"]').parent().addClass('active');
+            $('.variables li.active').removeClass('active');
+            $('.variables a[href="'+ location.hash +'"]').parent().addClass('active');
+
             // setear el título
             var t = $('a[href="'+location.hash+'"]').attr('title').split('—');
             t = '<strong>' + t[0] + '</strong> — ' + t[1];
             $('nav h2, #ranking th').html(t);
 
             // actualizar la tabla de ranking
+            // TODO optimizar.
             for (var k in data)
                 if (distrito_info_dict[k])
                     distrito_info_dict[k].data = data[k];
@@ -164,9 +177,17 @@ $(function() {
         // cargar datos
         $.get('data/data.json',
               function(data) {
-                  map_data = data; // carga inicial de todos los datos
+                  map_data = new DataAccessor(data);
 
-                  // disparo evento hashchange para carga inicial
+                  // disparo click sobre los tabs correspondientes en carga inicial
+                  if (location.hash.indexOf('#') == 0) {
+                      var m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
+                      if (m.length == 2) 
+                          $('#filtros h3:contains('+m[1]+')').parent().trigger('click')
+                      
+                  }
+
+                  // disparo evento hashchange en carga inicial
                   $(window).trigger('hashchange');
 
                   $('g.mapa g.departamentos g').on('click', function() {

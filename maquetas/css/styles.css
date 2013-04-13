@@ -18,7 +18,7 @@ header p {margin: 5px 0 0; font-size: 13.5px}
 /* barra de navegacion principal */
 nav { color: #fff; margin: 30px 0 0; }
 nav h2, nav #filtros { float: left; }
-nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png); height: 18px; padding: 7px 0 0 10px;  }
+nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png); height: 18px; padding: 7px 0 0 10px; font-weight: normal; }
 nav #filtros { width: 530px; display: block; cursor: pointer;height: 25px; padding: 0; }
 nav #filtros div.filtro { width: 175px; float: left; position: relative; height: 19px; padding: 6px 0 0 0px;background: #81C9E2;margin-left: 1px; text-align: center;}
 nav #filtros div.filtro h3 { display: block; }
@@ -120,8 +120,8 @@ g.departamentos path {
   }
 
 g, #svg path {
-  -webkit-transition: fill 200ms linear, opacity 200ms linear;/* , stroke-width 1000ms linear; */
-  -moz-transition: fill 200ms linear, opacity 200ms linear;/* , stroke-width 1000ms linear; */
+  -webkit-transition: fill 200ms linear, opacity 200ms linear , stroke-width 750ms linear; 
+  -moz-transition: fill 200ms linear, opacity 200ms linear , stroke-width 750ms linear; 
 }
 
 g.legend text {
