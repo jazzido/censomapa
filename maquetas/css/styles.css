@@ -82,12 +82,13 @@ table#ranking td.td_2 {width: 60%; text-transform: capitalize; }
 table#ranking td.td_3 {width: 9%; text-align: left;}
 table#ranking td strong { font-weight: bold; text-transform: uppercase;}
 
-footer { border-top: 1px solid #ccc; padding: 20px 0 }
+footer { border-top: 1px solid #ccc; padding: 20px 0; position: relative; }
 footer ul#especificaciones{  overflow: hidden;}
 footer ul#especificaciones li 
 { float: left;  padding: 3px 10px; display: inline-block; border-left:  1px solid #ccc}
 footer ul#especificaciones li:first-child { border: none} 
 footer ul#especificaciones li a { color: #333; font-weight: normal; text-decoration: none;}
+footer a#ver_creditos{ display: inline-block; color: #fff; padding: 3px 5px; background: #999; text-decoration: none; position: absolute; top: 20px; right: 20px }
 
 
 div#tooltip { width: 250px; position: absolute;top: 765px; left: 200px; border: 1px solid #ccc; /*border-radius: 5px;*/ background: #fff;}
@@ -102,6 +103,55 @@ div#tooltip table thead { }
 div#tooltip table tbody { }
 div#tooltip table td { padding-bottom: 5px}
 div#tooltip table .th1 { width:60%; text-align: left;} div#tooltip table .th2 { width:40%; text-align: left;}
+
+/* creditos */
+div#creditos { z-index: 999; display: none;}
+div#creditos div.bg_box{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; opacity: .6 }
+div#creditos div.box {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-radius: 5px 5px 5px 5px;
+  top: 10%;
+  height: auto;
+  left: calc(50% - 280px);
+  min-height: 260px;
+  padding: 20px;
+  position: fixed;
+  width: 560px;
+  display: none;
+}
+div#creditos div.box ul li {  
+  line-height: 16px;
+  font-size: 14px;
+  margin: 10px 0 0;
+  overflow: hidden;
+}
+div#creditos div.box ul li.resp {
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+div#creditos div.box ul li span.rol {
+  font-weight: bold;
+}
+div#creditos div.box ul li hr {
+  float: left;
+  margin-top: 5px;
+  width: 25%;
+  border-width: 2px;
+  border-color: #666
+}
+div#creditos div.box ul li.link,
+div#creditos div.box ul li.cerrar { cursor: pointer; position: absolute;} 
+div#creditos div.box ul li.cerrar {
+    background: url("../img/cerrar.jpg") no-repeat scroll 0 0 transparent; display: block; height: 30px; right: 10px;
+    text-indent: -5000px;
+    top: 0;
+    width: 35px;
+}
+div#creditos div.box ul li.link { display: inline-block; bottom: 20px; left: 15px}
+div#creditos div.box ul li.link.Knight-Center { left: 225px; bottom: 17px;}
+div#creditos div.box ul li.link.lanacion { left: 420px; bottom: 15px;}
+
 
 /*********************** BEGIN Estilos del Mapa ***********************/
 g.provincias path {

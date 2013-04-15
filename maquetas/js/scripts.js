@@ -88,9 +88,29 @@ function moverObjMouseOver(objetoOver, objetoMover, parent){
         objetoMover.hide();
     });
 }
-
+function creditos(){
+    var ctos= {
+        mostrar: $("a#ver_creditos"),
+        cont: $("div#creditos"),
+        box: $("div#creditos div.box"),  
+        cerrar: $("div#creditos div.box li.cerrar")  
+    }
+    ctos.mostrar.click(function(){
+        ctos.cont.fadeIn("slow", function(){
+            ctos.box.slideDown("fast");
+        });   
+        return false; 
+    });
+    ctos.cerrar.click(function(){
+        ctos.box.slideUp("slow", function(){
+            ctos.cont.fadeOut("slow");
+        });
+        return false; 
+    });
+}
 $(function(){
     filtros();
     variables();
+    creditos();
 });
 
