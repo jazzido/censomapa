@@ -7,7 +7,7 @@ ul {list-style: none}
 .clear { clear: both; display: block;}
 .bold { font-weight: bold;}
 body {font-family: Arial, Helvetica, sans-serif; font-size: 13px;}
-h1, h2, nav, article ul#variaciones li,table#ranking th
+h1, h2, nav, article ul#variaciones li,table#ranking th, footer
 {font-family: TheSans, Arial, Helvetica, sans-serif;text-transform: uppercase;}
 h1 { font-size: 20px}
 div#wrapper { width: 980px; margin: 0 auto; padding: 20px 25px; position: relative;}
@@ -82,7 +82,13 @@ table#ranking td.td_2 {width: 60%; text-transform: capitalize; }
 table#ranking td.td_3 {width: 34%; text-align: left;}
 table#ranking td strong { font-weight: bold; text-transform: uppercase;}
 
-footer { clear: both}
+footer { border-top: 1px solid #ccc; padding: 20px 0 }
+footer ul#especificaciones{  overflow: hidden;}
+footer ul#especificaciones li 
+{ float: left;  padding: 3px 10px; display: inline-block; border-left:  1px solid #ccc}
+footer ul#especificaciones li:first-child { border: none} 
+footer ul#especificaciones li a { color: #333; font-weight: normal; text-decoration: none;}
+
 
 div#tooltip { width: 250px; position: absolute;top: 765px; left: 200px; border: 1px solid #ccc; /*border-radius: 5px;*/ background: #fff;}
 div#tooltip div.header { margin-bottom: 5px; border-bottom: 1px solid #ccc; }
@@ -135,35 +141,36 @@ g.legend text {
 /* SCROLLABLE TABLE WITH FIXED HEADER */
 /* Taken from: http://www.imaputz.com/cssStuff/bigFourVersion.html# */
 /* define height and width of scrollable area. Add 16px to width for scrollbar */
-div.tableContainer {
+/*div.tableContainer {
 	clear: both;
 	height: 335px;
 	overflow: auto;
-}
+}*/
 
 /* Reset overflow value to hidden for all non-IE browsers. */
-html>body div.tableContainer {
+/*html>body div.tableContainer {
 	overflow: hidden;
-}
+}*/
 
 /* define width of table. IE browsers only                 */
-div.tableContainer table {
+/*div.tableContainer table {
 	float: left;
-}
+}*/
 
 /* set table header to a fixed position. WinIE 6.x only                                       */
 /* In WinIE 6.x, any element with a position property set to relative and is a child of       */
 /* an element that has an overflow property set, the relative value translates into fixed.    */
 /* Ex: parent element DIV with a class of tableContainer has an overflow property set to auto */
-thead.fixedHeader tr {
+
+/*thead.fixedHeader tr {
     position: relative
-}
+}*/
 
 /* set THEAD element to have block level attributes. All other non-IE browsers            */
 /* this enables overflow to work on TBODY element. All other non-IE, non-Mozilla browsers */
-html>body thead.fixedHeader tr {
+/*html>body thead.fixedHeader tr {
 	display: block
-}
+}*/
 
 /* define the table content to be scrollable                                              */
 /* set TBODY element to have block level attributes. All other non-IE browsers            */
