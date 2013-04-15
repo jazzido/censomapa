@@ -104,6 +104,17 @@ div#tooltip table tbody { }
 div#tooltip table td { padding-bottom: 5px}
 div#tooltip table .th1 { width:60%; text-align: left;} div#tooltip table .th2 { width:40%; text-align: left;}
 
+.Poblacion div#tooltip .header p {
+    color: #3282BD ;
+}
+.Viviendas div#tooltip .header p {
+    color: #006766;
+}
+.Hogares div#tooltip .header p {
+    color: #54278E;
+}
+
+
 /* creditos */
 div#creditos { z-index: 999; display: none;}
 div#creditos div.bg_box{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; opacity: .6 }
@@ -155,7 +166,14 @@ div#creditos div.box ul li.link.Knight-Center { left: 225px; bottom: 17px;}
 div#creditos div.box ul li.link.lanacion { left: 420px; bottom: 15px;}
 
 
+
 /*********************** BEGIN Estilos del Mapa ***********************/
+
+g, #svg path {
+  -webkit-transition: fill 200ms linear, opacity 200ms linear; /*, stroke-width 750ms linear, stroke-opacity 200ms linear; */
+/*  -moz-transition: fill 200ms linear, opacity 200ms linear; */
+}
+
 g.provincias path {
   stroke: #ddd;
   fill: none;
@@ -174,13 +192,11 @@ g.departamentos path {
   }
 
   g.departamentos g.inactive {
-    opacity: 0.2;
+    opacity: 0.1;
   }
 
-g, #svg path {
-  -webkit-transition: fill 200ms linear, opacity 200ms linear , stroke-width 750ms linear; 
-  -moz-transition: fill 200ms linear, opacity 200ms linear , stroke-width 750ms linear; 
-}
+
+
 
 g.legend text {
     font-size: 10px;

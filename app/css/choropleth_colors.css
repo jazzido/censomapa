@@ -1,15 +1,83 @@
-.Poblacion .q0-5 { fill: #EFF3FF; }
-.Poblacion .q1-5 { fill: #BDD7E6; }
-.Poblacion .q2-5 { fill: #6BAFD6; }
-.Poblacion .q3-5 { fill: #3282BD; }
-.Poblacion .q4-5 { fill: #08529D; }
-.Hogares .q0-5 { fill: #F1F0F6; }
-.Hogares .q1-5 { fill: #CCCAE2; }
-.Hogares .q2-5 { fill: #9E9BC8; }
-.Hogares .q3-5 { fill: #756BB0; }
-.Hogares .q4-5 { fill: #54278E; }
-.Viviendas .q0-5 { fill: #F5FAF6; }
-.Viviendas .q1-5 { fill: #B1D2D9; }
-.Viviendas .q2-5 { fill: #66B2BF; }
-.Viviendas .q3-5 { fill: #339A99; }
-.Viviendas .q4-5 { fill: #006766; }
+/*************** POBLACION ***************/
+
+.Poblacion .q0-5-0n { fill: #EFF3FF; }
+.Poblacion .q1-5-0n { fill: #BDD7E6; }
+.Poblacion .q2-5-0n { fill: #6BAFD6; }
+.Poblacion .q3-5-0n { fill: #3282BD; }
+.Poblacion .q4-5-0n { fill: #08529D; }
+
+.Poblacion .q0-5-1n { fill: #cd773a; }
+.Poblacion .q1-5-1n { fill: #BDD7E6; }
+.Poblacion .q2-5-1n { fill: #6BAFD6; }
+.Poblacion .q3-5-1n { fill: #3282BD; }
+.Poblacion .q4-5-1n { fill: #08529D; }
+
+.Poblacion .q0-5-2n { fill: #cd773a; }
+.Poblacion .q1-5-2n { fill: #efcbb1; }
+.Poblacion .q2-5-2n { fill: #BDD7E6; }
+.Poblacion .q3-5-2n { fill: #3282BD; }
+.Poblacion .q4-5-2n { fill: #08529D; }
+
+.Poblacion .q0-5-3n { fill: #bd4d00; }
+.Poblacion .q1-5-3n { fill: #cd773a; }
+.Poblacion .q2-5-3n { fill: #efcbb1; }
+.Poblacion .q3-5-3n { fill: #BDD7E6; }
+.Poblacion .q4-5-3n { fill: #08529D; }
+
+.Poblacion .q0-5-4n { fill: #bd4d00; }
+.Poblacion .q1-5-4n { fill: #cd773a; }
+.Poblacion .q2-5-4n { fill: #dea175; }
+.Poblacion .q3-5-4n { fill: #efcbb1; }
+.Poblacion .q4-5-4n { fill: #08529d; }
+
+/*************** HOGARES ***************/
+
+.Hogares .q0-5-0n { fill: #F1F0F6; }
+.Hogares .q1-5-0n { fill: #CCCAE2; }
+.Hogares .q2-5-0n { fill: #9E9BC8; }
+.Hogares .q3-5-0n { fill: #756BB0; }
+.Hogares .q4-5-0n { fill: #54278E; }
+
+.Hogares .q0-5-1n { fill: #cd773a; }
+.Hogares .q1-5-1n { fill: #CCCAE2; }
+.Hogares .q2-5-1n { fill: #9E9BC8; }
+.Hogares .q3-5-1n { fill: #756BB0; }
+.Hogares .q4-5-1n { fill: #54278E; }
+
+.Hogares .q0-5-2n { fill: #cd773a; }
+.Hogares .q1-5-2n { fill: #efcbb1; }
+.Hogares .q2-5-2n { fill: #CCCAE2; }
+.Hogares .q3-5-2n { fill: #756BB0; }
+.Hogares .q4-5-2n { fill: #54278E; }
+
+.Hogares .q0-5-3n { fill: #bd4d00; }
+.Hogares .q1-5-3n { fill: #cd773a; }
+.Hogares .q2-5-3n { fill: #efcbb1; }
+.Hogares .q3-5-3n { fill: #CCCAE2; }
+.Hogares .q4-5-3n { fill: #54278E; }
+
+.Hogares .q0-5-4n { fill: #bd4d00; }
+.Hogares .q1-5-4n { fill: #cd773a; }
+.Hogares .q2-5-4n { fill: #dea175; }
+.Hogares .q3-5-4n { fill: #efcbb1; }
+.Hogares .q4-5-4n { fill: #54278E; }
+
+/*************** VIVIENDAS ***************/
+
+.Viviendas .q0-5-0n { fill: #F5FAF6; }
+.Viviendas .q1-5-0n { fill: #B1D2D9; }
+.Viviendas .q2-5-0n { fill: #66B2BF; }
+.Viviendas .q3-5-0n { fill: #339A99; }
+.Viviendas .q4-5-0n { fill: #006766; }
+
+.Viviendas .q0-5-1n { fill: #cd773a; }
+.Viviendas .q1-5-1n { fill: #B1D2D9; }
+.Viviendas .q2-5-1n { fill: #66B2BF; }
+.Viviendas .q3-5-1n { fill: #339A99; }
+.Viviendas .q4-5-1n { fill: #006766; }
+
+.Viviendas .q0-5-2n { fill: #cd773a; }
+.Viviendas .q1-5-2n { fill: #efcbb1; }
+.Viviendas .q2-5-2n { fill: #B1D2D9; }
+.Viviendas .q3-5-2n { fill: #339A99; }
+.Viviendas .q4-5-2n { fill: #006766; }

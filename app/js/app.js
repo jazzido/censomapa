@@ -93,8 +93,8 @@ $(function() {
                 data: data_accessor.getIntercensalVariation(var_name),
                 data_label: 'Variación Intercensal',
                 other_data: [
-                    ['2001', data_accessor.getVariable(var_name, '2001')],
-                    ['2010', data_accessor.getVariable(var_name, '2010')],
+                    ['Censo 2001', data_accessor.getVariable(var_name, '2001')],
+                    ['Censo 2010', data_accessor.getVariable(var_name, '2010')],
                 ]
             };
         }
@@ -102,16 +102,14 @@ $(function() {
             rv = {
                 data: data_accessor.getVariableAsRatio(var_name, arg3, total_var_name),
                 other_data: [['Total', data_accessor.getVariable(var_name, arg3)]],
-                data_label: 'Proporción'
+                data_label: 'Porcentaje'
             };
-                
         }
         else {
             rv = { 
                 data: data_accessor.getVariable(var_name, arg2) 
             };
         }
-
         return rv;
     };
 
@@ -125,6 +123,20 @@ $(function() {
 
     };
 
+    var setActiveMapContainer = function() {
+        if (location.hash.indexOf('intercensal') !== -1) {
+            $('#variaciones #variacion').trigger('click');
+        }
+        else if (location.hash.indexOf('2001') !== -1) {
+            $('#variaciones #censo_2001').trigger('click');
+        }
+        else if (location.hash.indexOf('2010') !== -1) {
+            $('#variaciones #censo_2010').trigger('click');
+        }
+    };
+
+
+
     $(window).hashchange( function(){
         if (location.hash.indexOf('#') !== 0) return;
 
@@ -137,7 +149,9 @@ $(function() {
             // setear clase del mapa segun unidad de relevamiento
             var m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
             if (m.length == 2) 
-                $('svg').attr('class', m[1]);
+                $('body').attr('class', m[1]);
+
+            setActiveMapContainer();
 
             // setear 'active' en el boton correspondiente
             $('.variables li.active').removeClass('active');
@@ -168,6 +182,7 @@ $(function() {
         }
     });
 
+
     showDistritoTooltip = function(distrito_path) {
         // busco el puesto del ranking en la tabla
         var d = {
@@ -194,7 +209,7 @@ $(function() {
 
 
     // cargar geometrias
-    $.get('data/ea.json', function(topojson) {
+    $.getJSON('data/ea.json', function(topojson) {
         mapa.drawPaths(topojson, 'article#svg');
         var tootip = new moverObjMouseOver($("path, #ranking"), $("#tooltip"), $("svg"));
 
@@ -216,44 +231,32 @@ $(function() {
         });
 
         // cargar datos
-        $.get('data/data.json',
+        $.getJSON('data/data.json',
               function(data) {
                   map_data = new DataAccessor(data);
 
+                  if (location.hash == '') location.hash = '#Poblacion_Total-intercensal';
+
+                  var m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
+
                   // disparo click sobre los tabs correspondientes en carga inicial
-                  if (location.hash.indexOf('#') == 0) {
-                      var m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
-
-                      if (m.length == 2) {
-                          $('#filtros h3:contains('+m[1]+')').parent().trigger('click')
-                      }
-
-                      if (location.hash.indexOf('intercensal') !== -1) {
-                          $('#variaciones #variacion').trigger('click');
-                      }
-                      else if (location.hash.indexOf('2001') !== -1) {
-                          $('#variaciones #censo_2001').trigger('click');
-                      }
-                      else if (location.hash.indexOf('2010') !== -1) {
-                          $('#variaciones #censo_2010').trigger('click');
-                      }
-
-                      
+                  if (m.length == 2) {
+                      $('#filtros h3:contains('+m[1]+')').parent().trigger('click')
                   }
 
+                  setActiveMapContainer();
                   // disparo evento hashchange en carga inicial
                   $(window).trigger('hashchange');
+
 
                   $('g.mapa g.departamentos g').on('click', function() {
                       var id = $(this).attr('id').split(/provincia-(.+)/)[1];
                       var zoomTo = id == mapa.zoomedTo ? null : id;
-
-                      if (!zoomTo || mapa.zoomedTo) filterRankingTable(null);
-                      if (zoomTo) filterRankingTable(id);
-
-                      mapa.zoomToProvincia(zoomTo);
+                      mapa.zoomToProvincia(zoomTo, function() { 
+                          if (!zoomTo || mapa.zoomedTo) filterRankingTable(null);
+                          if (zoomTo) filterRankingTable(id);
+                      });
                   });
-              },
-             'json');
+              });
     });
 });

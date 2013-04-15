@@ -32,14 +32,9 @@
         return rv.sort(d3.ascending);
     };
 
-
     var to_id = function(str) {
         return str.replace(/\s+/g, '-').toLowerCase();
     };
-
-    var DISTRITO_INFO_TMPL;
-    var currentVariable;
-    var currentDataDict;
 
     var projection = d3.geo.mercator()
         .scale(7000)
@@ -50,27 +45,30 @@
 
     var path = d3.geo.path().projection(projection);
 
-    var drawLegend = function(quantile, min, max, precision) {
+    var drawLegend = function(quantile, min, max, n_negative_classes, precision) {
 
         // TODO Esto esta roto para cuando quantile == d3.quantile
         // arreglarlo
+
+        var rangeClassName = function(i) {
+            return 'q' + i + '-' + n_classes + '-' + n_negative_classes + 'n'
+        };
 
         mapa.legend.selectAll('rect, text').remove();
         var precision = precision === undefined ? 2 : precision;
 
         var n_classes = quantile.range().length;
         var domain = quantile.domain();
-        var data = [[min, domain[0] - Math.pow(10, -precision), 'q0' + '-' + n_classes]];
 
+        var data = [[min, domain[0] - Math.pow(10, -precision), rangeClassName(0)]];
         d3.range(n_classes - 2).forEach(function(i) {
             data.push([domain[i],
                        domain[i+1] - Math.pow(10, -precision),
-                       'q' + (i+1) + '-' + n_classes]);
+                       rangeClassName(i+1)]);
         });
-
         data.push([domain[domain.length - 1],
                    max,
-                   'q' + (n_classes-1) + '-' + n_classes]);
+                   rangeClassName(n_classes-1)]);
 
         var legend_element_width = mapa.width / n_classes;
         mapa.legend.selectAll('rect')
@@ -99,17 +97,22 @@
 
     };
 
-    mapa.fixNegativeBreaks = function(breaks) {
-        var n_classes = breaks.length;
-        for(var i = 1; i < breaks.length; i++) {
-            if (breaks[i] >= 0 && breaks[i-1] < 0)
-                breaks.splice(i, 1, 0);
-        }
-        return breaks;
-    };
-
     // Dibujar el mapa
-    mapa.drawMap = function(values, n_classes) {
+    mapa.drawMap = function(values, n_classes, breaks_method) {
+
+        //  metodo bastante burdo para forzar un 'quiebre' en cero
+        var fixNegativeBreaks = function(breaks) {
+            var n_classes = breaks.length;
+            for(var i = 1; i < breaks.length; i++) {
+                if (breaks[i] >= 0 && breaks[i-1] < 0)
+                    breaks.splice(i, 1, 0);
+            }
+            return breaks;
+        };
+
+        if (breaks_method === undefined)
+            breaks_method = 'jenks';
+
         // buscar maximo y minimo valor
         var values_array = d3.entries(values)
                               .map(function(v) {
@@ -127,7 +130,7 @@
         var htt = headTailThresholds(values_array, n_classes-1);
 
         // console.log('htt', htt);
-        // var fixed_htt = mapa.fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
+        // var fixed_htt = fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
         // console.log(fixed_htt);
 
 //        var quantile = d3.scale.threshold()
@@ -135,28 +138,32 @@
     //        .range(d3.range(n_classes));
 
         // jenks optimization
-
         var j = jenks(values_array, n_classes);
+        var fixed_jenks = fixNegativeBreaks(j);
         console.log('jenks', j);
-        var fixed_jenks = mapa.fixNegativeBreaks(j);
-//
-       var quantile = d3.scale.threshold()
-//           .domain(j.slice(1, j.length - 1))
-           .domain(fixed_jenks.splice(1,4))
-           .range(d3.range(n_classes));
+        console.log('jenks fixeado', fixed_jenks);
 
+        var n_negative_classes = 0;
+        fixed_jenks.forEach(function(v) { if (v < 0) n_negative_classes++; });
+
+        var quantile = d3.scale.threshold()
+            .domain(fixed_jenks.splice(1,4))
+            .range(d3.range(n_classes));
 
         // console.log('max', values_array[values_array.length - 1]);
         // console.log('min', values_array[0]);
 
         drawLegend(quantile,
-                    values_array[0],
-                    values_array[values_array.length - 1]);
+                   values_array[0],
+                   values_array[values_array.length - 1],
+                   n_negative_classes);
 
         // pintar el mapa
         mapa.departamentos
             .selectAll('path')
-            .attr('class', function(d) { return 'q' + quantile(values[d.id]) + '-' + n_classes; });
+            .attr('class', function(d) { 
+                return 'q' + quantile(values[d.id]) + '-' + n_classes + '-' + n_negative_classes + 'n'; 
+            });
 
     };
 
@@ -171,6 +178,7 @@
 
         mapa.mapa_svg = svg.append('g').classed('mapa', true).attr('transform', 'translate(0, 20)');
         mapa.departamentos = mapa.mapa_svg.append('g').attr('class', 'departamentos');
+//        mapa.gran_buenos_aires = mapa.departamentos.append('g').attr('class', 'gran-buenos-aires');
         mapa.provincias =  mapa.mapa_svg.append('g').attr('class', 'provincias');
         mapa.legend = svg.append('g').attr('class', 'legend');
 
@@ -203,26 +211,34 @@
         });
     };
 
-    mapa.zoomToProvincia = function(v) {
+    mapa.zoomToProvincia = function(v, callback) {
         var p_tr = projection.translate();
         var k, x, y;
         if (v ===  null) {
             k = 1;
             x = -p_tr[0]; y = -p_tr[1];
-            mapa.mapa_svg.selectAll('g.departamentos g').classed('inactive', false);
-
-            mapa.mapa_svg
-                .selectAll('g.provincias path')
-//                .transition()
-//                .duration(750)
-                .style('stroke-width','1.5px');
-
-            mapa.mapa_svg
-                .selectAll('g.departamentos path')
-                .style('stroke-width', '1px');
             
-            mapa.mapa_svg.transition().duration(750).attr('transform', '');
-            mapa.zoomedTo = null;
+            mapa.mapa_svg
+                .transition()
+                .duration(750)
+                .attr('transform', 'translate(0,20)')
+                .each('end', function() {
+                    mapa.mapa_svg.selectAll('g.departamentos g').classed('inactive', false);
+
+                    mapa.mapa_svg
+                        .selectAll('g.provincias path')
+                        .style('stroke-opacity',1);
+
+                    mapa.mapa_svg
+                        .selectAll('g.departamentos path')
+                        .style('stroke-width', '1px');
+
+                    mapa.zoomedTo = null;
+
+                    if (callback !== undefined) callback();
+              
+                });
+
         }
         else {
             var p = d3.select('.provincias path#' + to_id(v));
@@ -237,21 +253,20 @@
                 .attr("transform",
                       "translate(" + (projection.translate()[0] + 30) + "," + (projection.translate()[1] + 100) + ")"
                       + "scale(" + k + ")"
-                      + "translate(" + -(b[1][0] + b[0][0]) / 2 + "," + -(b[1][1] + b[0][1]) / 2 + ")");
+                      + "translate(" + -(b[1][0] + b[0][0]) / 2 + "," + -(b[1][1] + b[0][1]) / 2 + ")")
+                .each('end', function() {
+                    mapa.mapa_svg
+                        .selectAll('g.provincias path')
+                        .style('stroke-opacity', 0);
 
-            mapa.mapa_svg
-                .selectAll('g.provincias path')
-//                .transition()
-//                .duration(750)
-                .style('stroke-width', 1.5/k + 'px');
+                    mapa.mapa_svg
+                        .selectAll('g.departamentos path')
+                        .style('stroke-width', 1/k + 'px');
+                    mapa.mapa_svg.selectAll('g.departamentos g:not(#provincia-' + to_id(v) + ')').classed('inactive', true);
+                    mapa.zoomedTo = to_id(v);
+                    if (callback !== undefined) callback();
+                });
 
-            mapa.mapa_svg
-                .selectAll('g.departamentos path')
-                .style('stroke-width', 1/k + 'px');
-                
-
-            mapa.mapa_svg.selectAll('g.departamentos g:not(#provincia-' + to_id(v) + ')').classed('inactive', true);
-            mapa.zoomedTo = to_id(v);
         }
     };
 

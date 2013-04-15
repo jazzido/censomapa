@@ -6,6 +6,8 @@ function filtros(){ // eventos unidades de relevamiento
     $(".filtro").click(function(){
         var oThis = $(this);
         check_active(oThis, $(".filtro.active"));
+        var dm;
+        if (dm = $(this).data('default-map')) location.hash = dm;
         return false;
     });
 }
