@@ -253,6 +253,7 @@ $(function() {
 
                       mapa.zoomToProvincia(zoomTo);
                   });
-              });
+              },
+             'json');
     });
 });
