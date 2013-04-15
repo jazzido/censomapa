@@ -126,22 +126,24 @@
         // head Tail Thresholds
         var htt = headTailThresholds(values_array, n_classes-1);
 
-        console.log('htt', htt);
-        var fixed_htt = mapa.fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
-        console.log(fixed_htt);
+        // console.log('htt', htt);
+        // var fixed_htt = mapa.fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
+        // console.log(fixed_htt);
 
-        var quantile = d3.scale.threshold()
-            .domain(fixed_htt.splice(1,4))
-            .range(d3.range(n_classes));
+//        var quantile = d3.scale.threshold()
+  //          .domain(fixed_htt.splice(1,4))
+    //        .range(d3.range(n_classes));
 
         // jenks optimization
 
         var j = jenks(values_array, n_classes);
         console.log('jenks', j);
+        var fixed_jenks = mapa.fixNegativeBreaks(j);
 //
-//        var quantile = d3.scale.threshold()
-//            .domain(j.slice(1, j.length - 1))
-//            .range(d3.range(n_classes));
+       var quantile = d3.scale.threshold()
+//           .domain(j.slice(1, j.length - 1))
+           .domain(fixed_jenks.splice(1,4))
+           .range(d3.range(n_classes));
 
 
         // console.log('max', values_array[values_array.length - 1]);
