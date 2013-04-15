@@ -1,13 +1,3 @@
-Object.extend = function(destination, source) {
-    var property;
-    for (property in source) {
-        if (source.hasOwnProperty(property)) {
-            destination[property] = source[property];
-        }
-    }
-    return destination;
-};
-
 (function(t) {
 
     var mapa = {};
@@ -109,6 +99,15 @@ Object.extend = function(destination, source) {
 
     };
 
+    mapa.fixNegativeBreaks = function(breaks) {
+        var n_classes = breaks.length;
+        for(var i = 1; i < breaks.length; i++) {
+            if (breaks[i] >= 0 && breaks[i-1] < 0)
+                breaks.splice(i, 1, 0);
+        }
+        return breaks;
+    };
+
     // Dibujar el mapa
     mapa.drawMap = function(values, n_classes) {
         // buscar maximo y minimo valor
@@ -126,13 +125,19 @@ Object.extend = function(destination, source) {
 
         // head Tail Thresholds
         var htt = headTailThresholds(values_array, n_classes-1);
+
+        console.log('htt', htt);
+        var fixed_htt = mapa.fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
+        console.log(fixed_htt);
+
         var quantile = d3.scale.threshold()
-            .domain(htt)
+            .domain(fixed_htt.splice(1,4))
             .range(d3.range(n_classes));
 
         // jenks optimization
 
-//        var j = jenks(values_array, n_classes);
+        var j = jenks(values_array, n_classes);
+        console.log('jenks', j);
 //
 //        var quantile = d3.scale.threshold()
 //            .domain(j.slice(1, j.length - 1))

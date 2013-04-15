@@ -13,7 +13,7 @@ all:
 	cp -RL css build
 	cp -RL data build
 
-TOPOJSON_QUANTIZATION=5000
+TOPOJSON_QUANTIZATION=3000
 TOPOJSON_SIMPLIFY_PROPORTION=.45
 data:
 	# genero mapa en topojson
