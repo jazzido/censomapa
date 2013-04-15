@@ -125,6 +125,7 @@ div#creditos div.box ul li {
   margin: 10px 0 0;
   overflow: hidden;
 }
+div#creditos div.box ul li a { color: #333} 
 div#creditos div.box ul li.resp {
   font-size: 13px;
   margin-top: 5px;
@@ -142,6 +143,7 @@ div#creditos div.box ul li hr {
 }
 div#creditos div.box ul li.link,
 div#creditos div.box ul li.cerrar { cursor: pointer; position: absolute;} 
+div#creditos div.box ul li.link a { text-decoration: none;}
 div#creditos div.box ul li.cerrar {
     background: url("../img/cerrar.jpg") no-repeat scroll 0 0 transparent; display: block; height: 30px; right: 10px;
     text-indent: -5000px;
