@@ -23,8 +23,8 @@
     <iframe src="http://especiales.lanacion.com.ar/varios/censo-argentina/header.html" width="100%" height="150" scrolling="no"></iframe>
     <div id="wrapper">
       <header>
-        <h1>Conocé las variaciones intercensales - Censo 2001 / 2010</h1>
-        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h1>PROYECTO CENSO - 2001 y 2010</h1>
+        <p>Examine las unidades de relevamiento censadas por el Indec en 2001 y 2010, incluyendo las principales variables reportadas. <br />Acceda a los datos en crudo y a las variaciones porcentuales entre un año y otro, para cada departamento del país.</p>
       </header>
       <a href="lanacion-censo.csv" id="descargar"> Descargar Datos</a>
       <nav>
@@ -47,9 +47,9 @@
         <span class="clear"></span>
       </nav>
       <section class="clear">
-        <!--[if lte IE 9]> 
-            <p class="clear">Esta aplicación fué desarrollada con tecnologías muy recientes. Le recomendamos actualizar su navegador web por uno mas actual.</p>
-           <![endif]-->
+        <!--[if lte IE 9]>
+            <p class="clear" style="display:inline-block; width:50%">Para visualizar correctamente esta aplicacione recomendamos utilizar Chrome, Firefox o Internet Explorer 9 o superior.</p>
+        <![endif]-->
         <article class="col_1" id="svg">
 
         </article>
@@ -195,15 +195,40 @@
         </article>
         <div class="clear">&nbsp</div>
       </section>
+      
+      <!-- footer -->
       <footer class="clear">
         <ul id="especificaciones">
           <li><a target="_blank" href="http://www.indec.gov.ar/redatam/CPV2001ARG/docs/Definiciones%20CD%20Base%20CNPHV2001_d.pdf">Glosario Censo 2001</a></li>
           <li><a target="_blank" href="http://www.censo2010.indec.gov.ar/glosario.asp">Glosario Censo 2010</a></li>
           <li><a target="_blank" href="https://docs.google.com/spreadsheet/ccc?key=0AuNh4LTzbqXMdGRKV0xzanZQaFlsaVhFN3EwWDU2X1E#gid=0">Especificaciones</a></li>
         </ul>
+        <a href="#" id="ver_creditos">créditos</a>
       </footer>
-      <!-- tooltip -->
     </div>
+    <!-- creditos! -->
+    <div id="creditos">
+      <div class="bg_box"></div>
+      <div class="box">
+        Producción y análisis de datos: Gabriela Bouret y Romina Colman
+
+Diseño interactivo: Mariana Trigo Viera
+
+Programación: Manuel Aristarán (Knight Mozilla OpenNews) y Cristian Bertelegni
+
+Consultora: Sandra Crucianelli (Knight International Journalism Fellow)
+
+Consultor estadístico: Roberto Kalauz
+
+-------------------------------------
+
+Jefe de diseño interactivo: Juan Diego López
+
+Editor responsable: Gastón Roitberg
+      </div>
+    </div>
+    
+    <!-- tooltip -->
     <div id="tooltip" style="visibility: hidden;"></div>
     <script id="distrito-info-template" type="text/x-handlebars-template">
       <div class="header">
