@@ -49,11 +49,11 @@
         <span class="clear"></span>
       </nav>
       <section class="clear">
-        <!--[if lte IE 9]>
-            <p class="clear" style="display:inline-block; width:50%">Para visualizar correctamente esta aplicacione recomendamos utilizar Chrome, Firefox o Internet Explorer 9 o superior.</p>
-        <![endif]-->
         <article class="col_1" id="svg">
-
+        <!--[if lte IE 9]>
+            <p class="clear" style="color:red;display:inline-block;">Para visualizar correctamente esta aplicacione recomendamos utilizar Chrome, Firefox o Internet Explorer 9 o superior.</p>
+        <![endif]-->
+        <a href="#" id="volver">Volver</a>
         </article>
         <article class="col_2">
           <div id="cont_mapas">
@@ -75,7 +75,7 @@
                 <li><a href="#Poblacion_15a64-intercensal" title="Población de 15 a 64 años — Variación 2001-2010">15 a 64 años<img src="img/map_thumbs/thumb_Poblacion_15a64-intercensal.png" /></a></li>
                 <li><a href="#Poblacion_65ymas-intercensal" title="Población de 65 años o más — Variación 2001-2010">65 años o más<img src="img/map_thumbs/thumb_Poblacion_65ymas-intercensal.png" /></a></li>
                 <li><a href="#Poblacion_Nacida_Extranjero-intercensal" title="Nacidos en el extranjero — Variación 2001-2010">Nacidos en el extranjero<img src="img/map_thumbs/thumb_Poblacion_Nacida_Extranjero-intercensal.png" /></a></li>
-                <li><a href="#Poblacion_Nacida_Argentina-intercensal" title="Nacidos en Argentina — Variación 2001-2010">Nacidos en el extranjero<img src="img/map_thumbs/thumb_Poblacion_Nacida_Argentina-intercensal.png" /></a></li>
+                <li><a href="#Poblacion_Nacida_Argentina-intercensal" title="Nacidos en Argentina — Variación 2001-2010">Nacidos en Argentina<img src="img/map_thumbs/thumb_Poblacion_Nacida_Argentina-intercensal.png" /></a></li>
               </ul>
               <ul class="hogares">
                 <li><a href="#Hogares_Total-intercensal" title="Total Hogares — Variación 2001-2010">Total hogares<img src="img/map_thumbs/thumb_Hogares_Total-intercensal.png" /></a></li>
@@ -113,7 +113,7 @@
                 <li><a href="#Poblacion_15a64-ratio-2001" title="Población de 15 a 64 años — Censo 2001">15 a 64 años<img src="img/map_thumbs/thumb_Poblacion_15a64-ratio-2001.png" /></a></li>
                 <li><a href="#Poblacion_65ymas-ratio-2001" title="Población de 65 años o más — Censo 2001">65 años o más<img src="img/map_thumbs/thumb_Poblacion_65ymas-ratio-2001.png" /></a></li>
                 <li><a href="#Poblacion_Nacida_Extranjero-ratio-2001" title="Nacidos en el extranjero — Censo 2001">Nacidos en el extranjero<img src="img/map_thumbs/thumb_Poblacion_Nacida_Extranjero-ratio-2001.png" /></a></li>
-                <li><a href="#Poblacion_Nacida_Argentina-ratio-2001" title="Nacidos en Argentina — Censo 2001">Nacidos en el extranjero<img src="img/map_thumbs/thumb_Poblacion_Nacida_Argentina-ratio-2001.png" /></a></li>
+                <li><a href="#Poblacion_Nacida_Argentina-ratio-2001" title="Nacidos en Argentina — Censo 2001">Nacidos en Argentina<img src="img/map_thumbs/thumb_Poblacion_Nacida_Argentina-ratio-2001.png" /></a></li>
 
               </ul>
               <ul class="hogares">
@@ -233,7 +233,7 @@
     <script id="distrito-info-template" type="text/x-handlebars-template">
       <div class="header">
         <h3>{{ d }} <span>- {{ lower p }}</span></h3>
-        <p>Puesto Nro. {{ rank }} </p>
+        <p>Puesto nro. {{ rank }} </p>
       </div>
       <table>
       <!--
