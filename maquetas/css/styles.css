@@ -40,7 +40,7 @@ section {/*overflow: hidden;*/ padding: 20px 0 0}
 article.col_1, article.col_2 {float: left}
 article.col_1 { width: 450px; min-width: 450px; min-height: 100px; position: relative;}
 article.col_2 { width: 530px; position: relative}
-article.col_1 a#volver{ display: block; background: #fff url(../img/sprite.png) 5px -293px no-repeat; width: 60px; height: 22px; position: absolute; top: 50px; right: 10px; text-indent: -5000px; box-shadow: 2px 2px 5px #ccc}
+article.col_1 a#volver{ display: block; background: #fff url(../img/sprite.png) 5px -293px no-repeat; width: 60px; height: 22px; position: absolute; top: 50px; right: 55px; text-indent: -5000px; box-shadow: 2px 2px 5px #ccc}
 
 div#cont_mapas { /*background: #F2F2F2;*/ border: 1px solid #D3D3D3}
 article ul#variaciones{ /*overflow: hidden*/}
