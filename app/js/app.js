@@ -74,7 +74,11 @@ $(function() {
         return context + 1;
     });
     Handlebars.registerHelper('to_id', to_id);
-    Handlebars.registerHelper('prec', function(n) { return n.toPrecision(4); });
+    Handlebars.registerHelper('prec', function(n) { return n % 1 === 0 ? n : n.toPrecision(4); });
+    Handlebars.registerHelper('display_number',
+                             function(n) {
+                                 n % 1 === 0 ? Math.round(n) : n;
+                             });
 
     var DISTRITO_INFO_TMPL = Handlebars.compile($('#distrito-info-template').html());
     var RANKING_TABLE_TMPL = Handlebars.compile($('#tabla-ranking-template').html());
@@ -167,9 +171,11 @@ $(function() {
             for (var k in data.data) {
                 if (!distrito_info_dict[k]) continue;
                 distrito_info_dict[k].data = data.data[k];
-                distrito_info_dict[k].other_data = data.other_data.map(function(od) { 
-                    return [od[0], od[1][k]]; 
-                });
+                if (data.other_data) {
+                    distrito_info_dict[k].other_data = data.other_data.map(function(od) { 
+                        return [od[0], od[1][k]]; 
+                    });
+                }
                 distrito_info_dict[k].data_label = data.data_label;
             }
             ranking_tbody_el.html(RANKING_TABLE_TMPL({

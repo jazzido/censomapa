@@ -88,12 +88,23 @@
             .append('text')
             .attr('y', 22)
             .attr('x', function(d, i) { return legend_element_width * i; })
-            .text(function(d, i) { return d[0].toFixed(precision) });
+            .text(function(d, i) { 
+                return d[0] % 1 === 0 ? Math.round(d[0]) : d[0].toFixed(precision);
+            });
+
         mapa.legend
             .append('text')
             .attr('y', 22)
-            .attr('x', legend_element_width * n_classes - 20)
-            .text(data[data.length -1][1].toFixed(precision));
+            .attr('x', legend_element_width * n_classes)
+            .text(data[data.length - 1][1] % 1 === 0 ? Math.round(data[data.length -1][1]) : data[data.length - 1][1].toFixed(precision));
+
+        mapa.legend.selectAll('text')
+        .attr('x', function(d,i) { 
+            if (i == n_classes) return this.getAttribute('x') - this.getBBox().width;
+            else if (i != 0) return this.getAttribute('x') - this.getBBox().width / 2;
+            else return this.getAttribute('x');
+        });
+        
 
     };
 
@@ -110,50 +121,44 @@
             return breaks;
         };
 
+        // buscar maximo y minimo valor
+        var values_array = d3.entries(values)
+            .map(function(v) {
+                return parseFloat(v.value);
+            })
+            .filter(function(v) { return !isNaN(v);})
+            .sort(d3.ascending);
+
+        var fixed;
+
         if (breaks_method === undefined)
             breaks_method = 'jenks';
 
-        // buscar maximo y minimo valor
-        var values_array = d3.entries(values)
-                              .map(function(v) {
-                                  return parseFloat(v.value);
-                              })
-                              .filter(function(v) { return !isNaN(v);})
-                              .sort(d3.ascending);
+        switch (breaks_method) {
+            // jenks optimization is default
+            case undefined:
+            case 'jenks':
+            var j = jenks(values_array, n_classes);
+            fixed = fixNegativeBreaks(j);
+            break;
 
-        // Quantiles
-//         var quantile = d3.scale.quantile()
-//                          .domain(values_array)
-//                          .range(d3.range(n_classes));
+            case 'htt':
+            var htt = headTailThresholds(values_array, n_classes-1);
+            fixed = fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
+            break;
 
-        // head Tail Thresholds
-        var htt = headTailThresholds(values_array, n_classes-1);
-
-        // console.log('htt', htt);
-        // var fixed_htt = fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
-        // console.log(fixed_htt);
-
-//        var quantile = d3.scale.threshold()
-  //          .domain(fixed_htt.splice(1,4))
-    //        .range(d3.range(n_classes));
-
-        // jenks optimization
-        var j = jenks(values_array, n_classes);
-        var fixed_jenks = fixNegativeBreaks(j);
-        console.log('jenks', j);
-        console.log('jenks fixeado', fixed_jenks);
+            default:
+            break;
+        }
 
         var n_negative_classes = 0;
-        fixed_jenks.forEach(function(v) { if (v < 0) n_negative_classes++; });
+        fixed.forEach(function(v) { if (v < 0) n_negative_classes++; });
 
-        var quantile = d3.scale.threshold()
-            .domain(fixed_jenks.splice(1,4))
+        var thresholds = d3.scale.threshold()
+            .domain(fixed.splice(1,4))
             .range(d3.range(n_classes));
 
-        // console.log('max', values_array[values_array.length - 1]);
-        // console.log('min', values_array[0]);
-
-        drawLegend(quantile,
+        drawLegend(thresholds,
                    values_array[0],
                    values_array[values_array.length - 1],
                    n_negative_classes);
@@ -162,7 +167,7 @@
         mapa.departamentos
             .selectAll('path')
             .attr('class', function(d) { 
-                return 'q' + quantile(values[d.id]) + '-' + n_classes + '-' + n_negative_classes + 'n'; 
+                return 'q' + thresholds(values[d.id]) + '-' + n_classes + '-' + n_negative_classes + 'n'; 
             });
 
     };
@@ -176,6 +181,7 @@
 
             .attr("class", "Poblacion");
 
+        mapa.root_svg = svg; // TODO tmp - deleteme
         mapa.mapa_svg = svg.append('g').classed('mapa', true).attr('transform', 'translate(0, 20)');
         mapa.departamentos = mapa.mapa_svg.append('g').attr('class', 'departamentos');
 //        mapa.gran_buenos_aires = mapa.departamentos.append('g').attr('class', 'gran-buenos-aires');

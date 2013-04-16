@@ -24,8 +24,8 @@ all:
 	cp -RL css/font build/css
 	cp -RL img build
 
-TOPOJSON_QUANTIZATION=3000
-TOPOJSON_SIMPLIFY_PROPORTION=.45
+TOPOJSON_QUANTIZATION=2000
+TOPOJSON_SIMPLIFY_PROPORTION=.5
 data:
 	# genero mapa en topojson
 	topojson -p DNE_ID -p PROVINCIA -p DEPARTAMEN --id-property DNE_ID -q $(TOPOJSON_QUANTIZATION) --simplify-proportion=$(TOPOJSON_SIMPLIFY_PROPORTION) -o /tmp/ea.json ../mapas/departamentos.shp ../mapas/provincias.shp
