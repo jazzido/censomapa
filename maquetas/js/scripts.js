@@ -121,10 +121,52 @@ function poner_bg_li(){
     });
 }
 
+function start_spin(){
+}
+
+function Loader(cont_spin){
+    // cont_spin -> id del div que va a contiener el loader 
+    
+    // config spin
+    var opts = {
+      lines: 13, // The number of lines to draw
+      length: 20, // The length of each line
+      width: 10, // The line thickness
+      radius: 30, // The radius of the inner circle
+      corners: 1, // Corner roundness (0..1)
+      rotate: 0, // The rotation offset
+      direction: 1, // 1: clockwise, -1: counterclockwise
+      color: '#000', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 60, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      top: '100px', // Top position relative to parent in px
+      left: '150px' // Left position relative to parent in px
+    };
+    
+    var target = document.getElementById(cont_spin);
+    var spinner = new Spinner(opts).spin(target);
+    var $target = $(target);
+
+    this.mostrar= function(){
+        $target.show();
+    };
+    this.ocultar= function(){
+        $target.fadeOut();
+    };
+    this.destruir= function(){
+        $target.remove();
+    };
+}
+var loader;
 $(function(){
     filtros();
     variables();
     creditos();
     poner_bg_li();
+    loader = new Loader("spin");
 });
 

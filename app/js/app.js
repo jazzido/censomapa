@@ -237,6 +237,7 @@ $(function() {
         });
 
         // cargar datos
+        // loader.mostrar();
         $.getJSON('data/data.json',
               function(data) {
                   map_data = new DataAccessor(data);
@@ -254,7 +255,9 @@ $(function() {
                   // disparo evento hashchange en carga inicial
                   $(window).trigger('hashchange');
 
+                  // loader..
 
+                  loader.destruir();
                   $('g.mapa g.departamentos g').on('click', function() {
                       var id = $(this).attr('id').split(/provincia-(.+)/)[1];
                       var zoomTo = id == mapa.zoomedTo ? null : id;
