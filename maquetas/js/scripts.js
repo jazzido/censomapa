@@ -110,9 +110,20 @@ function creditos(){
         return false; 
     });
 }
+
+function poner_bg_li(){
+    var lis= $("div.variables ul li");
+    lis.each(function(){
+        var $this = $(this);
+        var src_img= $this.find("img").attr("src");
+        $this.css("background-image", "url("+$this.find("img").attr("src")+")");
+    });
+}
+
 $(function(){
     filtros();
     variables();
     creditos();
+    poner_bg_li();
 });
 
