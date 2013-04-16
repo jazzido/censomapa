@@ -47,7 +47,7 @@ $(function() {
 
             var rv = {};
             for (var dpto_id in values) {
-                rv[dpto_id] = (values[dpto_id] / totals[dpto_id]).toPrecision(5) * 100;
+                rv[dpto_id] = (values[dpto_id] / (totals[dpto_id] || 0.1)).toPrecision(5) * 100;
             }
             return rv;
         });
@@ -95,7 +95,7 @@ $(function() {
         if (arg2 == 'intercensal') {
             rv = { 
                 data: data_accessor.getIntercensalVariation(var_name),
-                data_label: 'Variación Intercensal',
+                data_label: 'Variación intercensal',
                 other_data: [
                     ['Censo 2001', data_accessor.getVariable(var_name, '2001')],
                     ['Censo 2010', data_accessor.getVariable(var_name, '2010')],
@@ -103,6 +103,8 @@ $(function() {
             };
         }
         else if (arg2 == 'ratio') {
+            var d = data_accessor.getVariableAsRatio(var_name, arg3, total_var_name);
+            console.log(var_name, arg3, total_var_name);
             rv = {
                 data: data_accessor.getVariableAsRatio(var_name, arg3, total_var_name),
                 other_data: [['Total', data_accessor.getVariable(var_name, arg3)]],
@@ -118,12 +120,15 @@ $(function() {
     };
 
     var filterRankingTable = function(provincia_id) {
-        if (provincia_id)
+        if (provincia_id) {
             $('#ranking tbody tr')
               .not('[data-provincia="'+provincia_id+'"]')
               .css('display', 'none');
-        else
+            
+        }
+        else {
             $('#ranking tbody tr').css('display', 'table-row');
+        }
 
     };
 
@@ -148,14 +153,12 @@ $(function() {
         var data;
 
         if (data = interpretFragment(location.hash, map_data)) {
-            mapa.drawMap(data.data, 5);
+            mapa.drawMap(data.data, 5, 'jenks');
 
             // setear clase del mapa segun unidad de relevamiento
             var m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
             if (m.length == 2) 
                 $('body').attr('class', m[1]);
-
-            setActiveMapContainer();
 
             // setear 'active' en el boton correspondiente
             $('.variables li.active').removeClass('active');
@@ -164,7 +167,7 @@ $(function() {
             // setear el título
             var t = $('a[href="'+location.hash+'"]').attr('title').split('—');
             t = '<strong>' + t[0] + '</strong> — ' + t[1];
-            $('nav h2, #ranking th').html(t);
+            $('nav h2').html(t);
 
             // actualizar la tabla de ranking
             // TODO optimizar.
@@ -179,6 +182,7 @@ $(function() {
                 distrito_info_dict[k].data_label = data.data_label;
             }
             ranking_tbody_el.html(RANKING_TABLE_TMPL({
+                suffix: '%',
                 data: d3.entries(distrito_info_dict).sort(function(a,b) {
                     return a.value.data - b.value.data;
                 })
@@ -208,7 +212,9 @@ $(function() {
 
     $(document).on({
         mouseenter: function() {
-            showDistritoTooltip($('path#' + $(this).data('id'))[0]);
+            // XXX
+            var p = $('path#' + $(this).data('id'));
+            if (p.length) showDistritoTooltip(p[0]);
         },
         mouseleave: hideDistritoTooltip
     }, '#ranking tbody tr');
@@ -243,6 +249,7 @@ $(function() {
                   map_data = new DataAccessor(data);
 
                   if (location.hash == '') location.hash = '#Poblacion_Total-intercensal';
+                  else $(window).trigger('hashchange');
 
                   var m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
 
@@ -253,17 +260,28 @@ $(function() {
 
                   setActiveMapContainer();
                   // disparo evento hashchange en carga inicial
-                  $(window).trigger('hashchange');
+
+//                  $(window).trigger('hashchange');
 
                   // loader..
-
                   loader.destruir();
+
+                  $('#volver').on('click', function(e) {
+                      e.preventDefault();
+                      if (!mapa.zoomedTo) return;
+                      mapa.zoomToProvincia(null);
+                      filterRankingTable(null);
+                      $('#ranking thead tr:nth-child(2) th').html('Ranking para todo el país');
+                      $(this).css('visibility', 'hidden');
+                  });
+
                   $('g.mapa g.departamentos g').on('click', function() {
+                      if (mapa.zoomedTo) return;
                       var id = $(this).attr('id').split(/provincia-(.+)/)[1];
-                      var zoomTo = id == mapa.zoomedTo ? null : id;
-                      mapa.zoomToProvincia(zoomTo, function() { 
-                          if (!zoomTo || mapa.zoomedTo) filterRankingTable(null);
-                          if (zoomTo) filterRankingTable(id);
+                      mapa.zoomToProvincia(id, function() { 
+                          filterRankingTable(id);
+                          $('#ranking thead tr:nth-child(2) th').html('Ranking para ' + $('#ranking tbody tr[data-provincia="'+id+'"] td:nth-child(2) span').html());
+                          $('#volver').css('visibility', 'visible');
                       });
                   });
               });

@@ -20,9 +20,9 @@ all:
 	tail -n +`grep -n "END_CSS" index.html | cut -d: -f 1` build/index.html.tmp >> build/index.html
 	rm build/index.html.tmp
 	# copiar css y eso
-	cp -RL data build
-	cp -RL css/font build/css
-	cp -RL img build
+	cp -RLp data build
+	cp -RLp css/font build/css
+	cp -RLp img build
 
 TOPOJSON_QUANTIZATION=2000
 TOPOJSON_SIMPLIFY_PROPORTION=.5

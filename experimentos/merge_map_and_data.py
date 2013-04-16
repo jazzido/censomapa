@@ -1,7 +1,21 @@
+# coding: utf-8
 import sys
 import simplejson
 import csv
+import re
 from itertools import ifilter
+from collections import defaultdict
+from unidecode import unidecode
+
+FIXPROVINCIAS = { 
+    'NEUQUEN': u'Neuquén',
+    'CORDOBA': u'Córdoba',
+    'ENTRE RIOS': u'Entre Ríos',
+    'TUCUMAN': u'Tucumán',
+    'SANTIAGO DEL ESTERO': 'Santiago del Estero',
+    'TIERRA DEL FUEGO': 'Tierra del Fuego',
+    'RIO NEGRO': u'Río Negro'
+}
 
 def merge(topojson, data):
     """ topojson: parsed topojson file
@@ -17,7 +31,10 @@ def merge(topojson, data):
         if len(dpto_geoms) == 0: continue
 
         for dpto in dpto_geoms:
-            dpto['properties']['p'] = dpto['properties'].pop('PROVINCIA')
+            p = dpto['properties'].pop('PROVINCIA')
+            dpto['properties']['p'] = FIXPROVINCIAS[p] if p in FIXPROVINCIAS else p.title()
+            dpto['properties']['p_id'] = re.sub(r'(?s)\s+', '-', 
+                                                 unidecode(unicode(dpto['properties']['p'])).lower())
             dpto['properties']['a'] = r['AKA']
             dpto['properties']['c'] = r['CABECERA']
             dpto['properties']['d'] = dpto['properties'].pop('DEPARTAMEN')

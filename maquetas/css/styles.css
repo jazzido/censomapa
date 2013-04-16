@@ -40,7 +40,7 @@ section {/*overflow: hidden;*/ padding: 20px 0 0}
 article.col_1, article.col_2 {float: left}
 article.col_1 { width: 450px; min-width: 450px; height: 950px; position: relative;}
 article.col_2 { width: 530px; position: relative}
-article.col_1 a#volver{ display: block; background: #fff url(../img/sprite.png) 5px -293px no-repeat; width: 60px; height: 22px; position: absolute; top: 50px; right: 55px; text-indent: -5000px; box-shadow: 2px 2px 5px #ccc}
+article.col_1 a#volver{ display: block; background: #fff url(../img/sprite.png) 5px -293px no-repeat; width: 60px; height: 22px; position: absolute; top: 50px; right: 55px; text-indent: -5000px; box-shadow: 2px 2px 5px #ccc; visibility: hidden;}
 article.col_1 div#spin{ background: #fff; position: absolute; width: 100%; height: 100%; opacity: .9}
 
 div#cont_mapas { /*background: #F2F2F2;*/ border: 1px solid #D3D3D3}
@@ -65,7 +65,7 @@ div.variables ul li.active, div.variables ul li:hover {opacity: 1}
 table#ranking {width: 100%; color: #333; margin-top: 25px}
 table#ranking th { text-align: left;font-weight: normal; }
 table#ranking th.parrafo { padding: 3px 0 15px 0; text-transform: none; font-weight: normal; font-family: arial}
-table#ranking th span { display: block;font-size: 13px; text-transform: none; font-weight: normal; padding-top: 3px}
+/*table#ranking th span { display: block; font-size: 13px; text-transform: none; font-weight: normal; padding-top: 3px}*/
 table#ranking td {height: 20px; padding-top: 3px}
 table#ranking tbody tr {border-bottom: solid 1px #ccc;}
 table#ranking td.td_1 {width: 6%; font-weight: bold}

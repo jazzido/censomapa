@@ -134,16 +134,20 @@
         if (breaks_method === undefined)
             breaks_method = 'jenks';
 
+        console.log('values', values_array);
+
         switch (breaks_method) {
             // jenks optimization is default
             case undefined:
             case 'jenks':
             var j = jenks(values_array, n_classes);
+            console.log('jenks', j);
             fixed = fixNegativeBreaks(j);
             break;
 
             case 'htt':
             var htt = headTailThresholds(values_array, n_classes-1);
+            console.log('htt', htt);
             fixed = fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
             break;
 
@@ -207,7 +211,7 @@
                 .attr('id', 'provincia-' + p_id)
                 .selectAll('path')
                 .data(departamentos_geometries.filter(function(d) {
-                    return p_id === to_id(d.properties.p);
+                    return p_id === to_id(d.properties.p_id);
                 }))
                 .enter()
                 .append('path')

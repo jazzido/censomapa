@@ -121,8 +121,8 @@
                 <li><a href="#Hogares_Total-2001" title="Total Hogares — Censo 2001">Total hogares<img src="img/map_thumbs/thumb_Hogares_Total-2001.png" /></a></li>
                 <li><a href="#Hogares_Con_Heladera-ratio-2001" title="Hogares Con Heladera — Censo 2001">Con heladera (%)<img src="img/map_thumbs/thumb_Hogares_Con_Heladera-ratio-2001.png" /></a></li>
                 <li><a href="#Hogares_Sin_Heladera-ratio-2001" title="Hogares Sin Heladera — Censo 2001">Sin heladera (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Heladera-ratio-2001.png" /></a></li>
-                <li><a href="#Hogares_Con_Telefono Linea-ratio-2001" title="Hogares Con_Telefono_Linea — Censo 2001">Con telefono línea (%)<img src="img/map_thumbs/thumb_Hogares_Con_Telefono Linea-ratio-2001.png" /></a></li>
-                <li><a href="#Hogares_Sin_Telefono Linea-ratio-2001" title="Hogares Sin_Telefono_Linea — Censo 2001">Sin telefono línea (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Telefono Linea-ratio-2001.png" /></a></li>
+                <li><a href="#Hogares_Con_Telefono_Linea-ratio-2001" title="Hogares Con_Telefono_Linea — Censo 2001">Con telefono línea (%)<img src="img/map_thumbs/thumb_Hogares_Con_Telefono Linea-ratio-2001.png" /></a></li>
+                <li><a href="#Hogares_Sin_Telefono_Linea-ratio-2001" title="Hogares Sin_Telefono_Linea — Censo 2001">Sin telefono línea (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Telefono Linea-ratio-2001.png" /></a></li>
                 <li><a href="#Hogares_Con_Celular-ratio-2001" title="Hogares Con Celular — Censo 2001">Con celular (%)<img src="img/map_thumbs/thumb_Hogares_Con_Celular-ratio-2001.png" /></a></li>
                 <li><a href="#Hogares_Sin_Celular-ratio-2001" title="Hogares Sin Celular — Censo 2001">Sin celular (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Celular-ratio-2001.png" /></a></li>
                 <li><a href="#Hogares_Sin_Computadora-ratio-2001" title="Hogares Sin Computadora — Censo 2001">Sin computadora (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Computadora-ratio-2001.png" /></a></li>
@@ -159,8 +159,8 @@
                 <li><a href="#Hogares_Total-2010" title="Total Hogares — Censo 2010">Total hogares<img src="img/map_thumbs/thumb_Hogares_Total-2010.png" /></a></li>
                 <li><a href="#Hogares_Con_Heladera-ratio-2010" title="Hogares Con Heladera — Censo 2010">Con heladera (%)<img src="img/map_thumbs/thumb_Hogares_Con_Heladera-ratio-2010.png" /></a></li>
                 <li><a href="#Hogares_Sin_Heladera-ratio-2010" title="Hogares Sin Heladera — Censo 2010">Sin heladera (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Heladera-ratio-2010.png" /></a></li>
-                <li><a href="#Hogares_Con_Telefono Linea-ratio-2010" title="Hogares Con_Telefono_Linea — Censo 2010">Con telefono línea (%)<img src="img/map_thumbs/thumb_Hogares_Con_Telefono Linea-ratio-2010.png" /></a></li>
-                <li><a href="#Hogares_Sin_Telefono Linea-ratio-2010" title="Hogares Sin_Telefono_Linea — Censo 2010">Sin telefono línea (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Telefono Linea-ratio-2010.png" /></a></li>
+                <li><a href="#Hogares_Con_Telefono_Linea-ratio-2010" title="Hogares Con_Telefono_Linea — Censo 2010">Con telefono línea (%)<img src="img/map_thumbs/thumb_Hogares_Con_Telefono Linea-ratio-2010.png" /></a></li>
+                <li><a href="#Hogares_Sin_Telefono_Linea-ratio-2010" title="Hogares Sin_Telefono_Linea — Censo 2010">Sin telefono línea (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Telefono Linea-ratio-2010.png" /></a></li>
                 <li><a href="#Hogares_Con_Celular-ratio-2010" title="Hogares Con Celular — Censo 2010">Con celular (%)<img src="img/map_thumbs/thumb_Hogares_Con_Celular-ratio-2010.png" /></a></li>
                 <li><a href="#Hogares_Sin_Celular-ratio-2010" title="Hogares Sin Celular — Censo 2010">Sin celular (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Celular-ratio-2010.png" /></a></li>
                 <li><a href="#Hogares_Sin_Computadora-ratio-2010" title="Hogares Sin Computadora — Censo 2010">Sin computadora (%)<img src="img/map_thumbs/thumb_Hogares_Sin_Computadora-ratio-2010.png" /></a></li>
@@ -233,19 +233,10 @@
     <div id="tooltip" style="visibility: hidden;"></div>
     <script id="distrito-info-template" type="text/x-handlebars-template">
       <div class="header">
-        <h3>{{ d }} <span>- {{ lower p }}</span></h3>
+        <h3>{{ a }} <span>- {{ p }}</span></h3>
         <p>Puesto nro. {{ rank }} </p>
       </div>
       <table>
-      <!--
-        <thead>
-          <tr>
-            <th class="th1">Población total</th>
-            <th class="th2">4.524.548</th>
-            <th class="th3">+6%</th>
-          </tr>
-        </thead>
-      -->
         <tbody>
           {{#other_data}}
           <tr>
@@ -260,11 +251,12 @@
       </table>
     </script>
     <script id="tabla-ranking-template" type="text/x-handlebars-template">
+      {{suffix}}
       {{#data}}
-      <tr data-id="{{this.key}}" data-provincia="{{to_id this.value.p}}">
+      <tr data-id="{{this.key}}" data-provincia="{{to_id this.value.p_id}}">
         <td class="td_1">{{mais_um @index}}</td>
-        <td class="td_2"><strong>{{this.value.a}}</strong>, {{lower this.value.p}}</td>
-        <td class="td_3">{{prec this.value.data}}%</td>
+        <td class="td_2"><strong>{{this.value.a}}</strong>, <span>{{this.value.p}}</span></td>
+        <td class="td_3">{{prec this.value.data}} {{suffix}}</td>
       </tr>
       {{/data}}
     </script>
