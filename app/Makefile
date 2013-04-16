@@ -6,12 +6,23 @@ all:
 	# minificar javascript
 	awk '/BEGIN_JS/ {flag=1;next} /END_JS/{flag=0} flag {print}' index.html | cut -d\" -f 2 | xargs cat | uglifyjs > build/all_$(DATE).js
 	# procesar html y cambiar el path al js
-	head -n `grep -n "BEGIN_JS" index.html | cut -d: -f 1` index.html > build/index.html
-	echo "<script type=\"text/javascript\" src=\"all_$(DATE).js\"></script>" >> build/index.html
-	tail -n +`grep -n "END_JS" index.html | cut -d: -f 1` index.html >> build/index.html
+	head -n `grep -n "BEGIN_JS" index.html | cut -d: -f 1` index.html > build/index.html.tmp
+	echo "<script type=\"text/javascript\" src=\"all_$(DATE).js\"></script>" >> build/index.html.tmp
+	tail -n +`grep -n "END_JS" index.html | cut -d: -f 1` index.html >> build/index.html.tmp
+	# minificar css
+	awk '/BEGIN_CSS/ {flag=1;next} /END_CSS/{flag=0} flag {print}' index.html | pcregrep -o1 'href="([^"]*)"' | xargs cat > /tmp/tmp.css
+	mkdir -p build/css
+	csso /tmp/tmp.css > build/css/all_$(DATE).css
+	rm /tmp/tmp.css
+	# preprocesar html y cambiar el path al css
+	head -n `grep -n "BEGIN_CSS" index.html | cut -d: -f 1` build/index.html.tmp > build/index.html
+	echo '<link rel="stylesheet" href="css/all_$(DATE).css" type="text/css">' >> build/index.html
+	tail -n +`grep -n "END_CSS" index.html | cut -d: -f 1` build/index.html.tmp >> build/index.html
+	rm build/index.html.tmp
 	# copiar css y eso
-	cp -RL css build
 	cp -RL data build
+	cp -RL css/font build/css
+	cp -RL img build
 
 TOPOJSON_QUANTIZATION=3000
 TOPOJSON_SIMPLIFY_PROPORTION=.45
