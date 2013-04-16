@@ -6,8 +6,6 @@ function filtros(){ // eventos unidades de relevamiento
     $(".filtro").click(function(){
         var oThis = $(this);
         check_active(oThis, $(".filtro.active"));
-        var dm;
-        if (dm = $(this).data('default-map')) location.hash = dm;
         return false;
     });
 }
@@ -16,6 +14,7 @@ function variables(){ // eventos unidades de relevamiento
     $("ul#variaciones li").click(function(){
         var oThis = $(this);
         check_active(oThis, $("ul#variaciones .active"));
+        
         return false;
     });
 }
@@ -44,6 +43,8 @@ function check_active(btn, active){ // cambia el estado del btn
             urel.obj.addClass("active");
         }
     }
+    var dm;
+    if (dm = $("div#cont_mapas div.active ul.active li:first-child a").attr("href")) location.hash = dm;
 
 }
 /*
