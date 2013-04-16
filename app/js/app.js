@@ -165,9 +165,12 @@ $(function() {
             $('.variables a[href="'+ location.hash +'"]').parent().addClass('active');
 
             // setear el título
-            var t = $('a[href="'+location.hash+'"]').attr('title').split('—');
+            var a = $('a[href="'+location.hash+'"]')
+            var t = a.attr('title').split('—');
             t = '<strong>' + t[0] + '</strong> — ' + t[1];
             $('nav h2').html(t);
+
+            $('#legend-units').html(a.data('units') || '%');
 
             // actualizar la tabla de ranking
             // TODO optimizar.
@@ -182,7 +185,6 @@ $(function() {
                 distrito_info_dict[k].data_label = data.data_label;
             }
             ranking_tbody_el.html(RANKING_TABLE_TMPL({
-                suffix: '%',
                 data: d3.entries(distrito_info_dict).sort(function(a,b) {
                     return a.value.data - b.value.data;
                 })
