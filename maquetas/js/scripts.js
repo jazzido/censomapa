@@ -93,7 +93,7 @@ function creditos(){
         mostrar: $("a#ver_creditos"),
         cont: $("div#creditos"),
         box: $("div#creditos div.box"),  
-        cerrar: $("div#creditos div.box li.cerrar")  
+        cerrar: $("div#creditos div.box li.cerrar, div#creditos div.bg_box")  
     }
     ctos.mostrar.click(function(){
         ctos.cont.fadeIn("slow", function(){
