@@ -81,13 +81,13 @@ table#ranking td.td_2 {width: 60%; text-transform: capitalize; }
 table#ranking td.td_3 {width: 9%; text-align: left;}
 table#ranking td strong { font-weight: bold; text-transform: uppercase;}
 
-footer { border-top: 1px solid #ccc; padding: 20px 0; position: relative; }
+footer { border-top: 1px solid #ccc; padding: 10px 0; position: relative; }
 footer ul#especificaciones{  overflow: hidden;}
 footer ul#especificaciones li 
 { float: left;  padding: 3px 10px; display: inline-block; border-left:  1px solid #ccc}
 footer ul#especificaciones li:first-child { border: none} 
 footer ul#especificaciones li a { color: #333; font-weight: normal; text-decoration: none;}
-footer a#ver_creditos{ display: inline-block; color: #fff; padding: 3px 5px; background: #999; text-decoration: none; position: absolute; top: 20px; right: 20px }
+footer a#ver_creditos{ display: inline-block; color: #fff; padding: 3px 5px; background: #999; text-decoration: none; position: absolute; top: 10px; right: 20px }
 
 
 div#tooltip { width: 250px; position: absolute;top: 765px; left: 200px; border: 1px solid #ccc; /*border-radius: 5px;*/ background: #fff;}
