@@ -7,13 +7,13 @@ ul {list-style: none}
 .clear { clear: both; display: block;}
 .bold { font-weight: bold;}
 body {font-family: Arial, Helvetica, sans-serif; font-size: 13px;}
-h1, h2, nav, article ul#variaciones li,table#ranking th strong, footer
+h1, h2 strong, nav, article ul#variaciones li,table#ranking th strong, footer
 {font-family: TheSans, Arial, Helvetica, sans-serif;text-transform: uppercase;}
 h1 { font-size: 20px; text-transform: none;}
 div#wrapper { width: 980px; margin: 0 auto; padding: 20px 25px; position: relative;}
 a#descargar
-{ background: url(../img/sprite.png) 0 -227px no-repeat;padding: 5px 0 5px 23px;display: inline-block; position: absolute; top: 25px; right: 30px; text-decoration: none; text-transform:uppercase; color: #333 }
-header p {margin: 5px 0 0; font-size: 13.5px; line-height: 15px;}
+{ background: url(../img/sprite.png?2) 0 -227px no-repeat;padding: 5px 0 5px 23px;display: inline-block; position: absolute; top: 25px; right: 30px; text-decoration: none; text-transform:uppercase; color: #333 }
+header p {margin: 5px 0 0; font-size: 13.5px; line-height: 18px;}
 .num { /*font-family: arial; position: static;*/}
 /* barra de navegacion principal */
 nav { color: #fff; margin: 30px 0 0; }
@@ -22,15 +22,15 @@ nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png); heig
 nav #filtros { width: 530px; display: block; cursor: pointer;height: 25px; padding: 0; }
 nav #filtros div.filtro { width: 175px; float: left; position: relative; height: 19px; padding: 6px 0 0 0px;background: #81C9E2;margin-left: 1px; text-align: center;}
 nav #filtros div.filtro h3 { display: block; }
-/*nav #filtros div.filtro h3 span { display: block; background: url(../img/sprite.png) 10px -100px no-repeat; width: 15px; height: 15px}*/
+/*nav #filtros div.filtro h3 span { display: block; background: url(../img/sprite.png?2) 10px -100px no-repeat; width: 15px; height: 15px}*/
 nav #filtros div.filtro:hover {background: #33AAD4;}
-/*nav #filtros div.filtro.active h3 { background: url(../img/sprite.png) 10px -100px no-repeat;}*/
+/*nav #filtros div.filtro.active h3 { background: url(../img/sprite.png?2) 10px -100px no-repeat;}*/
 nav #filtros div.filtro.active {background: #33AAD4;}
 .bg_2 {background: url(../img/bg_cel_2.png);}
 .bg_3 {background: url(../img/bg_cel_3.png);}
 nav #filtros div.filtro span,
 article ul#variaciones li span.flecha
-{ display: none; position: absolute; top: -13px; left: calc(50% - 8px); width: 15px; height: 15px; background: url(../img/sprite.png) -2px -197px no-repeat;}
+{ display: none; position: absolute; top: -13px; left: calc(50% - 8px); width: 15px; height: 15px; background: url(../img/sprite.png?2) -2px -197px no-repeat;}
 nav #filtros div.filtro.active span,
 article ul#variaciones li.active span.flecha
 { display: block;}
@@ -40,7 +40,7 @@ section {/*overflow: hidden;*/ padding: 20px 0 0}
 article.col_1, article.col_2 {float: left}
 article.col_1 { width: 450px; min-width: 450px; height: 950px; position: relative;}
 article.col_2 { width: 530px; position: relative}
-article.col_1 a#volver{ display: block; background: #fff url(../img/sprite.png?cachebust) 5px -293px no-repeat; width: 60px; height: 22px; position: absolute; top: 50px; right: 55px; text-indent: -5000px; box-shadow: 2px 2px 5px #ccc; visibility: hidden;}
+article.col_1 a#volver{ display: block; background: #fff url(../img/sprite.png?cachebust) 5px -293px no-repeat; width: 60px; height: 22px; position: absolute; top: 50px; left: 0px; text-indent: -5000px; visibility: hidden;}
 article.col_1 div#spin{ background: #fff; position: absolute; width: 100%; height: 100%; opacity: .9}
 
 div#cont_mapas { /*background: #F2F2F2;*/ border: 1px solid #D3D3D3}
@@ -65,7 +65,7 @@ div.variables ul li.active, div.variables ul li:hover {opacity: 1}
 table#ranking {width: 100%; color: #333; margin-top: 25px}
 table#ranking th { text-align: left;font-weight: normal; }
 table#ranking th.parrafo { padding: 3px 0 15px 0; text-transform: none; font-weight: normal; font-family: arial}
-/*table#ranking th span { display: block; font-size: 13px; text-transform: none; font-weight: normal; padding-top: 3px}*/
+table#ranking th span { display: block;font-size: 13px; text-transform: none; font-weight: normal; padding-top: 3px}
 table#ranking td {height: 20px; padding-top: 3px}
 table#ranking tbody tr {border-bottom: solid 1px #ccc;}
 table#ranking td.td_1 {width: 6%; font-weight: bold}
@@ -81,14 +81,14 @@ footer ul#especificaciones li
 { float: left;  padding: 3px 10px; display: inline-block; border-left:  1px solid #ccc}
 footer ul#especificaciones li:first-child { border: none} 
 footer ul#especificaciones li a { color: #333; font-weight: normal; text-decoration: none;}
-footer a#ver_creditos{ display: block; background: url(../img/sprite.png) 0 -325px no-repeat; width: 70px; height: 22px; position: absolute; top: 10px; right: 20px; text-indent: -5000px}
+footer a#ver_creditos{ display: block; background: url(../img/sprite.png?2) 0 -325px no-repeat; width: 70px; height: 22px; position: absolute; top: 10px; right: 20px; text-indent: -5000px}
 
 
 div#tooltip { width: 250px; position: absolute;top: 765px; left: 200px; border: 1px solid #ccc; /*border-radius: 5px;*/ background: #fff;}
 div#tooltip div.header { margin-bottom: 5px; border-bottom: 1px solid #ccc; }
 div#tooltip div.header, div#tooltip div.tabla {padding: 5px}
 div#tooltip div.header h3 { font-weight: bold; text-transform: uppercase; }
-div#tooltip div.header h3 span { font-weight: normal; text-transform: capitalize; }
+div#tooltip div.header h3 span { font-weight: normal; }
 div#tooltip div.header p { color: #33AAD4; margin-top: 3px; font-weight: bold; }
 div#tooltip div.tabla {}
 div#tooltip table { width:95%; margin: 0 auto}
