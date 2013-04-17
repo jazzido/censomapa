@@ -21,14 +21,15 @@ all:
 	tail -n +`grep -n "END_CSS" index.html | cut -d: -f 1` build/index.html.tmp >> build/index.html
 	# "sed -i -e" solo funciona en MacOS
 	sed -i -e 's/\?cachebust/\?$(DATE)/' build/index.html
+	rm build/index.html-e
 	rm build/index.html.tmp
 	# copiar css y eso (preservando fechas para optmizar sync con el server)
 	cp -RLp data build
 	cp -RLp css/font build/css
 	cp -RLp img build
 
-TOPOJSON_QUANTIZATION=2000
-TOPOJSON_SIMPLIFY_PROPORTION=.5
+TOPOJSON_QUANTIZATION=8000
+TOPOJSON_SIMPLIFY_PROPORTION=.8
 FUSION_TABLE_ID=12c7R5dNjevKmg6RHbOb9FJdGjo9olIAYUt99jF0
 data:
 	# genero mapa en topojson

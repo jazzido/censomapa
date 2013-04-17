@@ -74,7 +74,10 @@ $(function() {
         return context + 1;
     });
     Handlebars.registerHelper('to_id', to_id);
-    Handlebars.registerHelper('prec', function(n) { return n % 1 === 0 ? n : n.toPrecision(4); });
+    Handlebars.registerHelper('prec', function(n) { 
+        if (n === undefined) return '-';
+        return n % 1 === 0 ? n : n.toPrecision(4); 
+    });
     Handlebars.registerHelper('display_number',
                              function(n) {
                                  n % 1 === 0 ? Math.round(n) : n;
@@ -104,7 +107,7 @@ $(function() {
             };
         }
         else if (arg2 == 'ratio') {
-            // ESTO ES UN HACK MUY MUY FEO.
+            // ESTO ES UN HACK FEO.
             // Si estamos viendo proporcion de analfabetos,
             // calcular la proporcion sobre la poblacion mayor a 10 años
             if (var_name == 'Poblacion_Analfabetos') {
@@ -176,6 +179,7 @@ $(function() {
             t = '<strong>' + t[0] + '</strong> — ' + t[1];
             $('nav h2, #ranking thead tr:first-child th').html(t);
             
+            
             var units = a.data('units') || '%';
 
             $('#legend-units').html(units);
@@ -195,6 +199,7 @@ $(function() {
                 }
                 distrito_info_dict[k].data_label = data.data_label;
             }
+
             ranking_tbody_el.html(RANKING_TABLE_TMPL({
                 units: units == '%' ? '%' : '',
                 data: d3.entries(distrito_info_dict).sort(function(a,b) {
@@ -226,12 +231,23 @@ $(function() {
 
     $(document).on({
         mouseenter: function() {
-            // XXX
             var p = $('path#' + $(this).data('id'));
             if (p.length) showDistritoTooltip(p[0]);
         },
         mouseleave: hideDistritoTooltip
     }, '#ranking tbody tr');
+
+
+    var zoomOut = function() {
+        if (!mapa.zoomedTo) return;
+        mapa.zoomToProvincia(null);
+        filterRankingTable(null);
+        $('#volver').css('visibility', 'hidden');
+        $('#ranking thead tr:nth-child(2) th span:first-child')
+            .html('Ranking de todo el país');
+    };
+
+
 
 
     // cargar geometrias
@@ -279,20 +295,24 @@ $(function() {
 
                   $('#volver').on('click', function(e) {
                       e.preventDefault();
-                      if (!mapa.zoomedTo) return;
-                      mapa.zoomToProvincia(null);
-                      filterRankingTable(null);
-                      $('#ranking thead tr:nth-child(2) th span:first-child')
-                          .html('Ranking de todo el país');
-                      $(this).css('visibility', 'hidden');
-
+                      zoomOut();
                   });
 
-                  $('g.mapa g.departamentos g').on('click', function() {
-                      if (mapa.zoomedTo) return;
-                      var id = $(this).attr('id').split(/provincia-(.+)/)[1];
+                  $('g.mapa g.departamentos g').on('click', function(e) {
+                      var id = $(this).attr('id');
+                      if ((mapa.zoomedTo == 'gran-buenos-aires') || (mapa.zoomedTo && id.indexOf('gran-buenos-aires') !== 0)) { 
+                          zoomOut(); 
+                          return; 
+                      }
+                      if (id.indexOf('gran-buenos-aires') != 0) {
+                          id = id.split(/provincia-(.+)/)[1];
+                      }
+                      else {
+                          e.stopPropagation();
+                      }
                       mapa.zoomToProvincia(id, function() { 
-                          filterRankingTable(id);
+                          console.log(id);
+                          filterRankingTable(id == 'gran-buenos-aires' ? 'buenos-aires' : id);
                           $('#ranking thead tr:nth-child(2) th span:first-child')
                               .html('Ranking de ' + $('#ranking tbody tr[data-provincia="'+id+'"] td:nth-child(2) span').html());
 

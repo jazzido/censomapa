@@ -3,6 +3,9 @@
     var mapa = {};
     t.mapa = mapa;
 
+    var AMBA_IDS = ['D02003','D02004','D02011','D02017','D02035','D02036','D02132','D02038','D02051','D02052','D02134','D02133','D02129','D02061','D02063','D02062','D02070','D02130','D02075','D02077','D02079','D02080','D02089','D02128','D02092','D02105','D02106','D02053','D02109','D02113','D02118','D02122','CAPFED'];
+    mapa.AMBA_IDS = AMBA_IDS;
+
     // TODO hacer que esto sea configurable
     mapa.width = 400;
     mapa.height = 950;
@@ -134,20 +137,20 @@
         if (breaks_method === undefined)
             breaks_method = 'jenks';
 
-        console.log('values', values_array);
+//        console.log('values', values_array);
 
         switch (breaks_method) {
             // jenks optimization is default
             case undefined:
             case 'jenks':
             var j = jenks(values_array, n_classes);
-            console.log('jenks', j);
+//            console.log('jenks', j);
             fixed = fixNegativeBreaks(j);
             break;
 
             case 'htt':
             var htt = headTailThresholds(values_array, n_classes-1);
-            console.log('htt', htt);
+//            console.log('htt', htt);
             fixed = fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
             break;
 
@@ -169,7 +172,7 @@
 
         // pintar el mapa
         mapa.departamentos
-            .selectAll('path')
+            .selectAll('path, g.path')
             .attr('class', function(d) { 
                 return 'q' + thresholds(values[d.id]) + '-' + n_classes + '-' + n_negative_classes + 'n'; 
             });
@@ -181,14 +184,10 @@
         var svg = d3.select(container_element_selector).append("svg")
             .attr("width", mapa.width)
             .attr("height", mapa.height)
-
-
             .attr("class", "Poblacion");
 
-        mapa.root_svg = svg; // TODO tmp - deleteme
         mapa.mapa_svg = svg.append('g').classed('mapa', true).attr('transform', 'translate(0, 20)');
         mapa.departamentos = mapa.mapa_svg.append('g').attr('class', 'departamentos');
-//        mapa.gran_buenos_aires = mapa.departamentos.append('g').attr('class', 'gran-buenos-aires');
         mapa.provincias =  mapa.mapa_svg.append('g').attr('class', 'provincias');
         mapa.legend = svg.append('g').attr('class', 'legend');
 
@@ -204,6 +203,16 @@
             .attr('d', path)
             .attr('class', 'provincia');
 
+        mapa.provincias
+            
+
+        mapa.gran_buenos_aires = mapa.departamentos.append('g').attr('class', 'gran-buenos-aires');
+        mapa.gran_buenos_aires_mesh = topojson.mesh(topology, 
+                                                    {type: 'GeometryCollection',
+                                                     geometries: topology.objects.departamentos.geometries.filter(function(g) {
+                                                         return AMBA_IDS.indexOf(g.id) !== -1; 
+                                                     })});
+
         provincias_geometries.forEach(function(pg) {
             var p_id = to_id(pg.properties.PROVINCIA);
             mapa.departamentos
@@ -211,7 +220,7 @@
                 .attr('id', 'provincia-' + p_id)
                 .selectAll('path')
                 .data(departamentos_geometries.filter(function(d) {
-                    return p_id === to_id(d.properties.p_id);
+                    return p_id === to_id(d.properties.p_id) && AMBA_IDS.indexOf(d.id) == -1;
                 }))
                 .enter()
                 .append('path')
@@ -219,6 +228,34 @@
                 .attr('d', path)
                 .attr('class', 'departamento');
         });
+
+        mapa.departamentos
+            .select('g#provincia-buenos-aires')
+            .append('g')
+            .attr('id', 'gran-buenos-aires')
+            .selectAll('path')
+            .data(departamentos_geometries.filter(function(d) {
+                return AMBA_IDS.indexOf(d.id) !== -1
+            }))
+            .enter()
+            .append('path')
+            .attr('id', function(d) { return d.id })
+            .attr('d', path)
+            .attr('class', 'departamento');
+
+//        departamentos_geometries.forEach(function(e) { console.log(path.centroid(e));});
+
+/*
+        var vertices = departamentos_geometries.map(path.centroid).filter(function(x) { return x !== undefined; });
+        mapa.mapa_svg.append('g')
+            .attr('id', 'voronoi')
+            .selectAll('path')
+            .data(d3.zip(d3.geom.voronoi(vertices), departamentos_geometries))
+            .enter().append('path')
+            .attr('d', function(d) { return "M" + d[0].join(",") + "Z"; })
+            .style('fill-opacity', 0)
+            .on('mouseover', function(d, i) { console.log(d,i); });
+*/
     };
 
     mapa.zoomToProvincia = function(v, callback) {
@@ -251,10 +288,8 @@
 
         }
         else {
-            var p = d3.select('.provincias path#' + to_id(v));
-
             mapa.mapa_svg.selectAll('g.departamentos g').classed('inactive', false);
-            var b = path.bounds(p[0][0].__data__);
+            var b = path.bounds(v != 'gran-buenos-aires' ? d3.select('.provincias path#' + to_id(v))[0][0].__data__ : mapa.gran_buenos_aires_mesh);
             k = 1 / Math.max((b[1][0] - b[0][0]) / mapa.width, (b[1][1] - b[0][1]) / mapa.height);
 
             mapa.mapa_svg
@@ -272,7 +307,9 @@
                     mapa.mapa_svg
                         .selectAll('g.departamentos path')
                         .style('stroke-width', 1/k + 'px');
-                    mapa.mapa_svg.selectAll('g.departamentos g:not(#provincia-' + to_id(v) + ')').classed('inactive', true);
+
+                    mapa.mapa_svg.selectAll('g.departamentos > g:not(#provincia-' + to_id(v == 'gran-buenos-aires' ? 'buenos-aires' : v) + ')').classed('inactive', true);
+
                     mapa.zoomedTo = to_id(v);
                     if (callback !== undefined) callback();
                 });
