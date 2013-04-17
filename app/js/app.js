@@ -80,16 +80,6 @@ $(function() {
                                  n % 1 === 0 ? Math.round(n) : n;
                              });
 
-    // Handlebars.registerHelper('if_eq', function(context, options) {
-    //     if (context == options.hash.compare)
-    //         return options.fn(this);
-    //     return options.inverse(this);
-    // });
-    // Handlebars.registerHelper('unless_eq', function(context, options) {
-    //     if (context == options.hash.compare)
-    //         return options.inverse(this);
-    //     return options.fn(this);
-    // });
 
     var DISTRITO_INFO_TMPL = Handlebars.compile($('#distrito-info-template').html());
     var RANKING_TABLE_TMPL = Handlebars.compile($('#tabla-ranking-template').html());
@@ -278,9 +268,6 @@ $(function() {
                   }
 
                   setActiveMapContainer();
-                  // disparo evento hashchange en carga inicial
-
-//                  $(window).trigger('hashchange');
 
                   // loader..
                   loader.destruir();

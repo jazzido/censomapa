@@ -12,25 +12,25 @@ h1, h2 strong, nav, article ul#variaciones li,table#ranking th strong, footer
 h1 { font-size: 20px; text-transform: none;}
 div#wrapper { width: 980px; margin: 0 auto; padding: 20px 25px; position: relative;}
 a#descargar
-{ background: url(../img/sprite.png?2) 0 -227px no-repeat;padding: 5px 0 5px 23px;display: inline-block; position: absolute; top: 25px; right: 30px; text-decoration: none; text-transform:uppercase; color: #333 }
+{ background: url(../img/sprite.png?cachebust) 0 -227px no-repeat;padding: 5px 0 5px 23px;display: inline-block; position: absolute; top: 25px; right: 30px; text-decoration: none; text-transform:uppercase; color: #333 }
 header p {margin: 5px 0 0; font-size: 13.5px; line-height: 18px;}
 .num { /*font-family: arial; position: static;*/}
 /* barra de navegacion principal */
 nav { color: #fff; margin: 30px 0 0; }
 nav h2, nav #filtros { float: left; }
-nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png); height: 18px; padding: 7px 0 0 10px; font-weight: normal; }
+nav h2{ width: 440px; display: block; background: url(../img/bg_cel_1.png?cachebust); height: 18px; padding: 7px 0 0 10px; font-weight: normal; }
 nav #filtros { width: 530px; display: block; cursor: pointer;height: 25px; padding: 0; }
 nav #filtros div.filtro { width: 175px; float: left; position: relative; height: 19px; padding: 6px 0 0 0px;background: #81C9E2;margin-left: 1px; text-align: center;}
 nav #filtros div.filtro h3 { display: block; }
-/*nav #filtros div.filtro h3 span { display: block; background: url(../img/sprite.png?2) 10px -100px no-repeat; width: 15px; height: 15px}*/
+/*nav #filtros div.filtro h3 span { display: block; background: url(../img/sprite.png?cachebust) 10px -100px no-repeat; width: 15px; height: 15px}*/
 nav #filtros div.filtro:hover {background: #33AAD4;}
-/*nav #filtros div.filtro.active h3 { background: url(../img/sprite.png?2) 10px -100px no-repeat;}*/
+/*nav #filtros div.filtro.active h3 { background: url(../img/sprite.png?cachebust) 10px -100px no-repeat;}*/
 nav #filtros div.filtro.active {background: #33AAD4;}
-.bg_2 {background: url(../img/bg_cel_2.png);}
-.bg_3 {background: url(../img/bg_cel_3.png);}
+.bg_2 {background: url(../img/bg_cel_2.png?cachebust);}
+.bg_3 {background: url(../img/bg_cel_3.png?cachebust);}
 nav #filtros div.filtro span,
 article ul#variaciones li span.flecha
-{ display: none; position: absolute; top: -13px; left: calc(50% - 8px); width: 15px; height: 15px; background: url(../img/sprite.png?2) -2px -197px no-repeat;}
+{ display: none; position: absolute; top: -13px; left: calc(50% - 8px); width: 15px; height: 15px; background: url(../img/sprite.png?cachebust) -2px -197px no-repeat;}
 nav #filtros div.filtro.active span,
 article ul#variaciones li.active span.flecha
 { display: block;}
@@ -81,14 +81,14 @@ footer ul#especificaciones li
 { float: left;  padding: 3px 10px; display: inline-block; border-left:  1px solid #ccc}
 footer ul#especificaciones li:first-child { border: none} 
 footer ul#especificaciones li a { color: #333; font-weight: normal; text-decoration: none;}
-footer a#ver_creditos{ display: block; background: url(../img/sprite.png?2) 0 -325px no-repeat; width: 70px; height: 22px; position: absolute; top: 10px; right: 20px; text-indent: -5000px}
+footer a#ver_creditos{ display: block; background: url(../img/sprite.png?cachebust) 0 -325px no-repeat; width: 70px; height: 22px; position: absolute; top: 10px; right: 20px; text-indent: -5000px}
 
 
 div#tooltip { width: 250px; position: absolute;top: 765px; left: 200px; border: 1px solid #ccc; /*border-radius: 5px;*/ background: #fff;}
 div#tooltip div.header { margin-bottom: 5px; border-bottom: 1px solid #ccc; }
 div#tooltip div.header, div#tooltip div.tabla {padding: 5px}
 div#tooltip div.header h3 { font-weight: bold; text-transform: uppercase; }
-div#tooltip div.header h3 span { font-weight: normal; }
+div#tooltip div.header h3 span { font-weight: normal; text-transform: none;}
 div#tooltip div.header p { color: #33AAD4; margin-top: 3px; font-weight: bold; }
 div#tooltip div.tabla {}
 div#tooltip table { width:95%; margin: 0 auto}
@@ -155,7 +155,7 @@ div#creditos div.box ul li.link,
 div#creditos div.box ul li.cerrar { cursor: pointer; position: absolute;} 
 div#creditos div.box ul li.link a { text-decoration: none;}
 div#creditos div.box ul li.cerrar {
-    background: url("../img/cerrar.jpg") no-repeat scroll 0 0 transparent; display: block; height: 30px; right: 10px;
+    background: url("../img/cerrar.jpg?cachebust") no-repeat scroll 0 0 transparent; display: block; height: 30px; right: 10px;
     text-indent: -5000px;
     top: 0;
     width: 35px;

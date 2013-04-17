@@ -9,8 +9,9 @@ all:
 	head -n `grep -n "BEGIN_JS" index.html | cut -d: -f 1` index.html > build/index.html.tmp
 	echo "<script type=\"text/javascript\" src=\"all_$(DATE).js\"></script>" >> build/index.html.tmp
 	tail -n +`grep -n "END_JS" index.html | cut -d: -f 1` index.html >> build/index.html.tmp
-	# minificar css
+	# preprocesar css
 	awk '/BEGIN_CSS/ {flag=1;next} /END_CSS/{flag=0} flag {print}' index.html | pcregrep -o1 'href="([^"]*)"' | xargs cat > /tmp/tmp.css
+	sed -i -e 's/\?cachebust/\?$(DATE)/' /tmp/tmp.css
 	mkdir -p build/css
 	csso /tmp/tmp.css > build/css/all_$(DATE).css
 	rm /tmp/tmp.css
@@ -18,6 +19,7 @@ all:
 	head -n `grep -n "BEGIN_CSS" index.html | cut -d: -f 1` build/index.html.tmp > build/index.html
 	echo '<link rel="stylesheet" href="css/all_$(DATE).css" type="text/css">' >> build/index.html
 	tail -n +`grep -n "END_CSS" index.html | cut -d: -f 1` build/index.html.tmp >> build/index.html
+	sed -i -e 's/\?cachebust/\?$(DATE)/' build/index.html
 	rm build/index.html.tmp
 	# copiar css y eso
 	cp -RLp data build
