@@ -100,7 +100,7 @@
 
         mapa.legend.selectAll('text')
         .attr('x', function(d,i) { 
-            if (i == n_classes) return this.getAttribute('x') - this.getBBox().width;
+            if (i == n_classes) return this.getAttribute('x') - this.getBBox().width + 1;
             else if (i != 0) return this.getAttribute('x') - this.getBBox().width / 2;
             else return this.getAttribute('x');
         });
