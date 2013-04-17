@@ -104,8 +104,13 @@ $(function() {
             };
         }
         else if (arg2 == 'ratio') {
+            // ESTO ES UN HACK MUY MUY FEO.
+            // Si estamos viendo proporcion de analfabetos,
+            // calcular la proporcion sobre la poblacion mayor a 10 años
+            if (var_name == 'Poblacion_Analfabetos') {
+                total_var_name = 'Poblacion_Mayor10';
+            }
             var d = data_accessor.getVariableAsRatio(var_name, arg3, total_var_name);
-            console.log(var_name, arg3, total_var_name);
             rv = {
                 data: data_accessor.getVariableAsRatio(var_name, arg3, total_var_name),
                 other_data: [['Total', data_accessor.getVariable(var_name, arg3)]],

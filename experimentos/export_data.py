@@ -6,7 +6,7 @@ import requests
 import simplejson
 
 API_KEY = 'AIzaSyBrM8jb4-i5xxm0uPZtEUaQSD8JbsKiY3E'
-TABLE_ID = '1SgJ4aJEsxG2unWQA_qW__bSA_b2yu6_1Gn-vZHo'
+TABLE_ID = '12c7R5dNjevKmg6RHbOb9FJdGjo9olIAYUt99jF0'
 QUERY_PREFIX = 'https://www.googleapis.com/fusiontables/v1/query'
 DEFAULT_PARAMS = { 'typed': 'false', 'key': API_KEY }
 
@@ -15,6 +15,8 @@ VARIABLES = ["Poblacion_Densidad_2001",
              "Poblacion_Densidad_2010",
              "Poblacion_Total_2001",
              "Poblacion_Total_2010",
+             "Poblacion_Mayor10_2001",
+             "Poblacion_Mayor10_2010",
              "Poblacion_Varones_2001",
              "Poblacion_Varones_2010",
              "Poblacion_Mujeres_2001",
@@ -89,7 +91,7 @@ def query(query):
     return r.json()
 
 
-def get_variables(vars):
+def get_variables(vars, table):
 
     def to_f(s):
         try:
@@ -97,7 +99,7 @@ def get_variables(vars):
         except:
             return None
 
-    r = query("SELECT DNE_ID, %s FROM %s" % (', '.join(vars), TABLE_ID))
+    r = query("SELECT DNE_ID, %s FROM %s" % (', '.join(vars), table))
 
     # nombres de variables sin el agno
     variable_names = sorted(set([x[1]
@@ -124,7 +126,7 @@ def get_variables(vars):
 
 if __name__ == '__main__':
 
-    values = get_variables(VARIABLES)
+    values = get_variables(VARIABLES, sys.argv[1])
 
     rv = dict()
     rv['_years'] = ['2001', '2010']
