@@ -78,10 +78,35 @@ $(function() {
         if (n === undefined) return '-';
         return n % 1 === 0 ? n : n.toPrecision(4); 
     });
+
     Handlebars.registerHelper('display_number',
                              function(n) {
                                  n % 1 === 0 ? Math.round(n) : n;
                              });
+
+    Handlebars.registerHelper('format_number', function(n) {
+        
+        if (n % 1=== 0) n = Math.round(n);
+        else n = n.toPrecision(4);
+
+        var number = n.toString();
+        var dec = number.split('.')[1];
+
+        number = number.split('.')[0];
+
+        var result="", isNegative = false;
+        
+        if (number.indexOf("-")>-1){ number=number.substr(1); isNegative=true;}
+        while (number.length > 3 ) {
+            result = '.' + number.substr(number.length - 3) + result;
+            number = number.substring(0, number.length - 3);
+        }
+        result = number + result;
+
+        if(isNegative) result='-'+result;
+
+        return result + (dec !== undefined ? ',' + dec : '');
+    });
 
 
     var DISTRITO_INFO_TMPL = Handlebars.compile($('#distrito-info-template').html());

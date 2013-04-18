@@ -142,9 +142,7 @@
                 <li><a href="#Poblacion_0a14-ratio-2001" title="Población de 0 a 14 años — Censo 2001">0 a 14 años<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_0a14-ratio-2001.png?cachebust" /></a></li>
                 <li><a href="#Poblacion_15a64-ratio-2001" title="Población de 15 a 64 años — Censo 2001">15 a 64 años<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_15a64-ratio-2001.png?cachebust" /></a></li>
                 <li><a href="#Poblacion_65ymas-ratio-2001" title="Población de 65 años o más — Censo 2001">65 años o más<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_65ymas-ratio-2001.png?cachebust" /></a></li>
-                <li><a href="#Poblac<iframe frameborder="0" width="620" height="500" scrolling="yes" src="http://olcreativa.lanacion.com.ar/dev/sort_spreadsheet/?key=0AuNh4LTzbqXMdEhsMXBTQjJrUlVkSWlfRzY3bUVoUGc&gid=0
-
-"></iframe>ion_Nacida_Extranjero-ratio-2001" title="Nacidos en el extranjero — Censo 2001">Nacidos en el extranjero<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Nacida_Extranjero-ratio-2001.png?cachebust" /></a></li>
+                <li><a href="#Poblacion_Nacida_Extranjero-ratio-2001" title="Nacidos en el extranjero — Censo 2001">Nacidos en el extranjero<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Nacida_Extranjero-ratio-2001.png?cachebust" /></a></li>
                 <li><a href="#Poblacion_Nacida_Argentina-ratio-2001" title="Nacidos en Argentina — Censo 2001">Nacidos en Argentina<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Nacida_Argentina-ratio-2001.png?cachebust" /></a></li>
 
               </ul>
@@ -274,12 +272,12 @@
           {{#other_data}}
           <tr>
             <td class="th1">{{this.[0]}}</td>
-            <td class="th2">{{this.[1]}}</td>
+            <td class="th2">{{ format_number this.[1]}}</td>
           </tr>
           {{/other_data}}
           <tr>
           <td class="th1">{{ data_label }}</td>
-          <td class="th2">{{ prec data }}</td>
+          <td class="th2">{{ format_number data }}</td>
           </tr>
         </tbody>
       </table>
@@ -289,7 +287,7 @@
       <tr data-id="{{this.key}}" data-provincia="{{to_id this.value.p_id}}">
         <td class="td_1"><span>{{mais_um @index}}</span><span></span></td>
         <td class="td_2"><strong>{{this.value.a}}</strong>, <span>{{this.value.p}}</span></td>
-        <td class="td_3">{{prec this.value.data}} {{../units}}</td>
+        <td class="td_3">{{format_number this.value.data}} {{../units}}</td>
       </tr>
       {{/each}}
     </script>
