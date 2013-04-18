@@ -283,7 +283,7 @@
     <script id="tabla-ranking-template" type="text/x-handlebars-template">
       {{#each data}}
       <tr data-id="{{this.key}}" data-provincia="{{to_id this.value.p_id}}">
-        <td class="td_1">{{mais_um @index}}</td>
+        <td class="td_1"><span>{{mais_um @index}}</span><span></span></td>
         <td class="td_2"><strong>{{this.value.a}}</strong>, <span>{{this.value.p}}</span></td>
         <td class="td_3">{{prec this.value.data}} {{../units}}</td>
       </tr>

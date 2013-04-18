@@ -304,7 +304,6 @@
                 .style('stroke-width', 1/k + 'px');
 
 
-
             mapa.mapa_svg
                 .transition()
                 .duration(750)

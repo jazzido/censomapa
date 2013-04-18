@@ -133,10 +133,17 @@ $(function() {
             $('#ranking tbody tr')
               .not('[data-provincia="'+provincia_id+'"]')
               .css('display', 'none');
-            
+            var prov_rows = $('#ranking tbody tr[data-provincia="'+provincia_id+'"] td:first-child');
+            $.each(prov_rows, function(i, pr) {
+                $('span:first-child', pr).css('display', 'none');
+                $('span:nth-child(2)', pr).html(i+1);
+            });
         }
         else {
-            $('#ranking tbody tr').css('display', 'table-row');
+            var trs = $('#ranking tbody tr');
+            trs.css('display', 'table-row');
+            $('td:first-child span:first-child', trs).css('display', 'inline');
+            $('td:first-child span:nth-child(2)', trs).html('');
         }
 
     };
@@ -215,7 +222,7 @@ $(function() {
     showDistritoTooltip = function(distrito_path) {
         // busco el puesto del ranking en la tabla
         var d = {
-            rank: $('tr[data-id='+distrito_path.id+'] td:first-child', ranking_tbody_el).html(),
+            rank: $('tr[data-id='+distrito_path.id+'] td:first-child span:first-child', ranking_tbody_el).html(),
             data: distrito_info_dict[distrito_path.id].data,
             other_data: distrito_info_dict[distrito_path.id].other_data,
             data_label: distrito_info_dict[distrito_path.id].data_label
