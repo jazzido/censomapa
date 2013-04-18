@@ -216,6 +216,7 @@ $(function() {
 
             filterRankingTable(mapa.zoomedTo);
         }
+        $("tbody.scrollContent").scrollTop(0); // reset scroll ranking
     });
 
 
