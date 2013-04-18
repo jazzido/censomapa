@@ -71,8 +71,8 @@ table#ranking tbody tr {border-bottom: solid 1px #ccc; display: block; overflow:
 table#ranking tbody tr td { display: block; overflow: hidden; float: left}
 
 table#ranking td.td_1 {width: 6%; font-weight: bold}
-table#ranking td.td_2 {width: 85%; }
-table#ranking td.td_3 {width: 9%; text-align: left; font-weight: bold;}
+table#ranking td.td_2 {width: 76%; }
+table#ranking td.td_3 {width: 18%; text-align: left; font-weight: bold;}
 table#ranking.hogares td.td_1 { color:#339A99;}
 table#ranking td strong { font-weight: bold; text-transform: uppercase;}
 
