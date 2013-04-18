@@ -45,9 +45,8 @@ function check_active(btn, active){ // cambia el estado del btn
             urel.obj.addClass("active");
         }
     }
-    // var dm;
-    // if (dm = $("div#cont_mapas div.active ul.active li:first-child a").attr("href")) location.hash = dm;
-
+    // selecciona el primer mapa de cada tab
+    location.hash = $(".active .active li:first-child a").attr("href")
 }
 /*
    * mover objeto en el mouse over
