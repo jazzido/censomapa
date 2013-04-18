@@ -67,12 +67,13 @@ table#ranking th { text-align: left;font-weight: normal; }
 table#ranking th.parrafo { padding: 3px 0 15px 0; text-transform: none; font-weight: normal; font-family: arial}
 table#ranking th span { display: block;font-size: 13px; text-transform: none; font-weight: normal; padding-top: 3px}
 table#ranking td {height: 20px; padding-top: 3px}
-table#ranking tbody tr {border-bottom: solid 1px #ccc;}
-table#ranking td.td_1 {width: 6%; font-weight: bold}
+table#ranking tbody tr {border-bottom: solid 1px #ccc; display: block; overflow: hidden;}
+table#ranking tbody tr td { display: block; overflow: hidden; float: left}
 
-table#ranking.hogares td.td_1 { color:#339A99;}
-table#ranking td.td_2 {width: 60%; }
+table#ranking td.td_1 {width: 6%; font-weight: bold}
+table#ranking td.td_2 {width: 85%; }
 table#ranking td.td_3 {width: 9%; text-align: left; font-weight: bold;}
+table#ranking.hogares td.td_1 { color:#339A99;}
 table#ranking td strong { font-weight: bold; text-transform: uppercase;}
 
 footer { border-top: 1px solid #ccc; padding: 10px 0; position: relative; }
