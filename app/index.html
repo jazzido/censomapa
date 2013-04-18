@@ -49,7 +49,7 @@
     </script>
     </head>
   <body>
-    <iframe src="http://especiales.lanacion.com.ar/varios/censo-argentina/header.html" width="100%" height="150" scrolling="no"></iframe>
+    <iframe src="http://especiales.lanacion.com.ar/varios/censo-argentina/header.html" width="100%" height="150" scrolling="no" style="width:100%; height: 150px; overflow:hidden"></iframe>
     <div id="wrapper">
       <header>
         <h1>PROYECTO CENSO - 2001 y 2010</h1>
@@ -61,15 +61,15 @@
         <div id="filtros">
           <div data-default-map="#Poblacion_Total-intercensal" data-urel="poblacion" class="filtro active">
             <h3>Población</h3>
-            <span>&nbsp</span>
+            <span>&nbsp;</span>
           </div>
           <div data-default-map="#Hogares_Total-intercensal" data-urel="hogares" class="filtro">
             <h3>Hogares</h3>
-            <span>&nbsp</span>
+            <span>&nbsp;</span>
           </div>
           <div data-urel="viviendas" data-default-map="#Viviendas_Total-intercensal" class="filtro">
             <h3>Viviendas</h3>
-            <span>&nbsp</span>
+            <span>&nbsp;</span>
           </div>
 
           <span class="clear"></span>
@@ -88,12 +88,12 @@
         <article class="col_2">
           <div id="cont_mapas">
             <ul id="variaciones">
-              <li id="variacion" class="active" data-left="10"><h3>Variación <span class="num">2001 - 2010</span></h3><span class="flecha">&nbsp</span></li>
-              <li id="censo_2001" data-left="145"><h3>Censo <span class="num">2001</span></h3><span class="flecha">&nbsp</span></li>
-              <li id="censo_2010" data-left="285"><h3>Censo <span class="num">2010</span></h3><span class="flecha">&nbsp</span></li>
+              <li id="variacion" class="active" data-left="10"><h3>Variación <span class="num">2001 - 2010</span></h3><span class="flecha">&nbsp;</span></li>
+              <li id="censo_2001" data-left="145"><h3>Censo <span class="num">2001</span></h3><span class="flecha">&nbsp;</span></li>
+              <li id="censo_2010" data-left="285"><h3>Censo <span class="num">2010</span></h3><span class="flecha">&nbsp;</span></li>
             </ul>
             <!-- variacion -->
-            <div id="" class="variables variacion active">
+            <div class="variables variacion active">
               <ul class="poblacion active">
                 <li class="active"><a href="#Poblacion_Total-intercensal" title="Población Total — Variación 2001-2010">Población Total<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Total-intercensal.png?cachebust" /></a></li>
                 <li><a href="#Poblacion_Densidad-intercensal" title="Densidad Poblacional — Variación 2001-2010">Densidad<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Densidad-intercensal.png?cachebust" /></a></li>
@@ -131,7 +131,7 @@
               </ul>
             </div>
             <!--  censo_2001 -->
-            <div id="" class="variables censo_2001">
+            <div class="variables censo_2001">
               <ul class="poblacion active">
                 <li class="active"><a href="#Poblacion_Total-2001" data-units-long="en cantidad de habitantes" data-units="Habitantes" title="Población Total — Censo 2001">Población total<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Total-2001.png?cachebust" /></a></li>
                 <li><a href="#Poblacion_Densidad-2001" data-units-long="en habitantes por km²" data-units="hab/km²" title="Densidad Poblacional — Censo 2001">Densidad<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Densidad-2001.png?cachebust" /></a></li>
@@ -142,17 +142,13 @@
                 <li><a href="#Poblacion_0a14-ratio-2001" title="Población de 0 a 14 años — Censo 2001">0 a 14 años<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_0a14-ratio-2001.png?cachebust" /></a></li>
                 <li><a href="#Poblacion_15a64-ratio-2001" title="Población de 15 a 64 años — Censo 2001">15 a 64 años<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_15a64-ratio-2001.png?cachebust" /></a></li>
                 <li><a href="#Poblacion_65ymas-ratio-2001" title="Población de 65 años o más — Censo 2001">65 años o más<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_65ymas-ratio-2001.png?cachebust" /></a></li>
-                <li><a href="#Poblac<iframe frameborder="0" width="620" height="500" scrolling="yes" src="http://olcreativa.lanacion.com.ar/dev/sort_spreadsheet/?key=0AuNh4LTzbqXMdEhsMXBTQjJrUlVkSWlfRzY3bUVoUGc&gid=0
-
-"></iframe>ion_Nacida_Extranjero-ratio-2001" title="Nacidos en el extranjero — Censo 2001">Nacidos en el extranjero<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Nacida_Extranjero-ratio-2001.png?cachebust" /></a></li>
+                <li><a href="#Poblacion_Nacida_Extranjero-ratio-2001" title="Nacidos en el extranjero — Censo 2001">Nacidos en el extranjero<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Nacida_Extranjero-ratio-2001.png?cachebust" /></a></li>
                 <li><a href="#Poblacion_Nacida_Argentina-ratio-2001" title="Nacidos en Argentina — Censo 2001">Nacidos en Argentina<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Nacida_Argentina-ratio-2001.png?cachebust" /></a></li>
 
               </ul>
               <ul class="hogares">
                 <li><a href="#Hogares_Total-2001" data-units-long="en cantidad de hogares" data-units="Hogares" title="Total Hogares — Censo 2001">Total hogares<img width="48" height="103" src="img/map_thumbs/thumb_Hogares_Total-2001.png?cachebust" /></a></li>
-                <li><a href="#Hogares_Con_Heladera-ratio-2001" title="Hogares Con Heladera — Censo 2001">Con heladera<img widt<iframe frameborder="0" width="620" height="500" scrolling="yes" src="http://olcreativa.lanacion.com.ar/dev/sort_spreadsheet/?key=0AuNh4LTzbqXMdEhsMXBTQjJrUlVkSWlfRzY3bUVoUGc&gid=0
-
-"></iframe>h="48" height="103" src="img/map_thumbs/thumb_Hogares_Con_Heladera-ratio-2001.png?cachebust" /></a></li>
+                <li><a href="#Hogares_Con_Heladera-ratio-2001" title="Hogares Con Heladera — Censo 2001">Con heladera<img width="48" height="103" src="img/map_thumbs/thumb_Hogares_Con_Heladera-ratio-2001.png?cachebust" /></a></li>
                 <li><a href="#Hogares_Sin_Heladera-ratio-2001" title="Hogares Sin Heladera — Censo 2001">Sin heladera<img width="48" height="103" src="img/map_thumbs/thumb_Hogares_Sin_Heladera-ratio-2001.png?cachebust" /></a></li>
                 <li><a href="#Hogares_Con_Telefono_Linea-ratio-2001" title="Hogares Con_Teléfono Línea — Censo 2001">Con teléfono línea<img width="48" height="103" src="img/map_thumbs/thumb_Hogares_Con_Telefono_Linea-ratio-2001.png?cachebust" /></a></li>
                 <li><a href="#Hogares_Sin_Telefono_Linea-ratio-2001" title="Hogares Sin Teléfono Línea — Censo 2001">Sin teléfono línea<img width="48" height="103" src="img/map_thumbs/thumb_Hogares_Sin_Telefono_Linea-ratio-2001.png?cachebust" /></a></li>
@@ -174,7 +170,7 @@
               </ul>
             </div>
             <!--  censo_2010 -->
-            <div id="" class="variables censo_2010">
+            <div class="variables censo_2010">
               <ul class="poblacion active">
                 <li class="active"><a href="#Poblacion_Total-2010" data-units-long="en cantidad de habitantes" data-units="Habitantes" title="Población Total — Censo 2010">Población Total<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Total-2010.png?cachebust" /></a></li>
                 <li><a href="#Poblacion_Densidad-2010" data-units-long="en habitantes por km²" data-units="hab/km²" title="Densidad Poblacional — Censo 2010">Densidad<img width="48" height="103" src="img/map_thumbs/thumb_Poblacion_Densidad-2010.png?cachebust" /></a></li>
@@ -229,7 +225,7 @@
             </table>
           </div>
         </article>
-        <div class="clear">&nbsp</div>
+        <div class="clear">&nbsp;</div>
       </section>
       <!-- footer -->
       <footer class="clear">
@@ -287,12 +283,12 @@
     <script id="tabla-ranking-template" type="text/x-handlebars-template">
       {{#each data}}
       <tr data-id="{{this.key}}" data-provincia="{{to_id this.value.p_id}}">
-        <td class="td_1"><span>{{mais_um @index}}</span><span></span></td>
+        <td class="td_1"><span>{{mais_um @index}}</span><span>&nbsp;</span></td>
         <td class="td_2"><strong>{{this.value.a}}</strong>, <span>{{this.value.p}}</span></td>
         <td class="td_3">{{prec this.value.data}} {{../units}}</td>
       </tr>
       {{/each}}
     </script>
-    <iframe src="http://especiales.lanacion.com.ar/varios/censo-argentina/footer.html" width="100%" height="150" scrolling="no"></iframe>
+    <iframe src="http://especiales.lanacion.com.ar/varios/censo-argentina/footer.html" width="100%" height="150" scrolling="no" style="width:100%; height: 150px; overflow:hidden"></iframe>
 </body>
 </html>
