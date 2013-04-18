@@ -270,12 +270,12 @@
           {{#other_data}}
           <tr>
             <td class="th1">{{this.[0]}}</td>
-            <td class="th2">{{this.[1]}}</td>
+            <td class="th2">{{ format_number this.[1]}}</td>
           </tr>
           {{/other_data}}
           <tr>
           <td class="th1">{{ data_label }}</td>
-          <td class="th2">{{ prec data }}</td>
+          <td class="th2">{{ format_number data }}</td>
           </tr>
         </tbody>
       </table>
@@ -285,7 +285,7 @@
       <tr data-id="{{this.key}}" data-provincia="{{to_id this.value.p_id}}">
         <td class="td_1"><span>{{mais_um @index}}</span><span>&nbsp;</span></td>
         <td class="td_2"><strong>{{this.value.a}}</strong>, <span>{{this.value.p}}</span></td>
-        <td class="td_3">{{prec this.value.data}} {{../units}}</td>
+        <td class="td_3">{{format_number this.value.data}} {{../units}}</td>
       </tr>
       {{/each}}
     </script>
