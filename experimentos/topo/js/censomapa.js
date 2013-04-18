@@ -253,9 +253,10 @@
             .data(d3.zip(d3.geom.voronoi(vertices), departamentos_geometries))
             .enter().append('path')
             .attr('d', function(d) { return "M" + d[0].join(",") + "Z"; })
-            .style('fill-opacity', 0)
-            .on('mouseover', function(d, i) { console.log(d,i); });
-*/
+            .style('fill-opacity', 0.1)
+            .style('stroke', 'red')
+            .on('mouseover', function(d, i) { console.log(d,i); }); */
+
     };
 
     mapa.zoomToProvincia = function(v, callback) {
@@ -274,7 +275,8 @@
 
                     mapa.mapa_svg
                         .selectAll('g.provincias path')
-                        .style('stroke-opacity',1);
+                        .style('stroke-opacity',1)
+                        .style('stroke-width', 2);
 
                     mapa.mapa_svg
                         .selectAll('g.departamentos path')
@@ -293,6 +295,17 @@
             k = 1 / Math.max((b[1][0] - b[0][0]) / mapa.width, (b[1][1] - b[0][1]) / mapa.height);
 
             mapa.mapa_svg
+                .selectAll('g.provincias path')
+                .style('stroke-opacity', 0)
+                .style('stroke-width', 0.1);
+
+            mapa.mapa_svg
+                .selectAll('g.departamentos path')
+                .style('stroke-width', 1/k + 'px');
+
+
+
+            mapa.mapa_svg
                 .transition()
                 .duration(750)
                 .attr("transform",
@@ -300,13 +313,14 @@
                       + "scale(" + k + ")"
                       + "translate(" + -(b[1][0] + b[0][0]) / 2 + "," + -(b[1][1] + b[0][1]) / 2 + ")")
                 .each('end', function() {
-                    mapa.mapa_svg
-                        .selectAll('g.provincias path')
-                        .style('stroke-opacity', 0);
+                    // mapa.mapa_svg
+                    //     .selectAll('g.provincias path')
+                    //     .style('stroke-opacity', 0)
+                    //     .style('stroke-width', 0.1);
 
-                    mapa.mapa_svg
-                        .selectAll('g.departamentos path')
-                        .style('stroke-width', 1/k + 'px');
+                    // mapa.mapa_svg
+                    //     .selectAll('g.departamentos path')
+                    //     .style('stroke-width', 1/k + 'px');
 
                     mapa.mapa_svg.selectAll('g.departamentos > g:not(#provincia-' + to_id(v == 'gran-buenos-aires' ? 'buenos-aires' : v) + ')').classed('inactive', true);
 
