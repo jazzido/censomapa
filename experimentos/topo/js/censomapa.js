@@ -48,7 +48,7 @@
 
     var path = d3.geo.path().projection(projection);
 
-    var drawLegend = function(quantile, min, max, n_negative_classes, precision) {
+    var drawLegend = function(thresholds, min, max, n_negative_classes, precision) {
 
         // TODO Esto esta roto para cuando quantile == d3.quantile
         // arreglarlo
@@ -60,8 +60,8 @@
         mapa.legend.selectAll('rect, text').remove();
         var precision = precision === undefined ? 2 : precision;
 
-        var n_classes = quantile.range().length;
-        var domain = quantile.domain();
+        var n_classes = thresholds.range().length;
+        var domain = thresholds.domain();
 
         var data = [[min, domain[0] - Math.pow(10, -precision), rangeClassName(0)]];
         d3.range(n_classes - 2).forEach(function(i) {
@@ -132,7 +132,7 @@
             .filter(function(v) { return !isNaN(v);})
             .sort(d3.ascending);
 
-        var fixed;
+        var fixed, htt;
 
         if (breaks_method === undefined)
             breaks_method = 'jenks';
@@ -144,18 +144,33 @@
             case undefined:
             case 'jenks':
             var j = jenks(values_array, n_classes);
-//            console.log('jenks', j);
             fixed = fixNegativeBreaks(j);
             break;
 
             case 'htt':
-            var htt = headTailThresholds(values_array, n_classes-1);
-//            console.log('htt', htt);
+            htt = headTailThresholds(values_array, n_classes-1);
             fixed = fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
             break;
-
-            default:
+            case 'htt-left':
+            htt = headTailThresholds(values_array, n_classes-1, true);
+            fixed = fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
             break;
+            case 'quantiles':
+            var quant_thresholds = d3.scale.quantile()
+                                           .domain(values_array)
+                                           .range(d3.range(n_classes))
+                                           .quantiles();
+            fixed = [values_array[0]].concat(quant_thresholds).concat([values_array[values_array.length - 1]]);
+            break;
+            default:
+            // parse argument
+            var manual_thresholds = $.grep(breaks_method.split(re), 
+                                           function(v,i) { 
+                                               return i % 2 == 1; 
+                                           }).map(parseFloat);
+            if (manual_thresholds.length ==0 || manual_thresholds.length != n_classes - 2)
+                break;
+            fixed = [values_array[0]].concat(manual_thresholds).concat([values_array[values_array.length - 1]]);
         }
 
         var n_negative_classes = 0;

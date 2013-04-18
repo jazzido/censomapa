@@ -91,21 +91,9 @@ $(function() {
 
         var number = n.toString();
         var dec = number.split('.')[1];
-
         number = number.split('.')[0];
 
-        var result="", isNegative = false;
-        
-        if (number.indexOf("-")>-1){ number=number.substr(1); isNegative=true;}
-        while (number.length > 3 ) {
-            result = '.' + number.substr(number.length - 3) + result;
-            number = number.substring(0, number.length - 3);
-        }
-        result = number + result;
-
-        if(isNegative) result='-'+result;
-
-        return result + (dec !== undefined ? ',' + dec : '');
+        return number + (dec !== undefined ? ',' + dec : '');
     });
 
 
@@ -192,9 +180,10 @@ $(function() {
 
         // dibujar el mapa
         var data;
+        var a = $('a[href="'+location.hash+'"]')
 
         if (data = interpretFragment(location.hash, map_data)) {
-            mapa.drawMap(data.data, 5, 'jenks');
+            mapa.drawMap(data.data, 5, a.data('breaks') || 'jenks');
 
             // setear clase del mapa segun unidad de relevamiento
             var m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
@@ -206,7 +195,6 @@ $(function() {
             $('.variables a[href="'+ location.hash +'"]').parent().addClass('active');
 
             // setear el título
-            var a = $('a[href="'+location.hash+'"]')
             var t = a.attr('title').split('—');
             t = '<strong>' + t[0] + '</strong> — ' + t[1];
             $('nav h2, #ranking thead tr:first-child th').html(t);
