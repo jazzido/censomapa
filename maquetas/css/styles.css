@@ -30,7 +30,7 @@ nav #filtros div.filtro.active {background: #33AAD4;}
 .bg_3 {background: url(../img/bg_cel_3.png?cachebust);}
 nav #filtros div.filtro span,
 article ul#variaciones li span.flecha
-{ display: none; position: absolute; top: -13px; left: calc(50% - 8px); width: 15px; height: 15px; background: url(../img/sprite.png?cachebust) -2px -197px no-repeat;}
+{ display: none; position: absolute; top: -13px; left: 50%; margin-left: -8px; width: 15px; height: 15px; background: url(../img/sprite.png?cachebust) -2px -197px no-repeat;}
 nav #filtros div.filtro.active span,
 article ul#variaciones li.active span.flecha
 { display: block;}
@@ -122,7 +122,8 @@ div#creditos div.box {
   border-radius: 5px 5px 5px 5px;
   top: 10%;
   height: auto;
-  left: calc(50% - 280px);
+  left: 50%;
+  margin-left: -280px;
   min-height: 260px;
   padding: 20px;
   position: fixed;
