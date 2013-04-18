@@ -157,17 +157,21 @@ $(function() {
         if (provincia_id) {
             $('#ranking tbody tr')
               .not('[data-provincia="'+provincia_id+'"]')
-              .css('display', 'none');
+              // .css('display', 'none');
+              .hide();
             var prov_rows = $('#ranking tbody tr[data-provincia="'+provincia_id+'"] td:first-child');
             $.each(prov_rows, function(i, pr) {
-                $('span:first-child', pr).css('display', 'none');
+                // $('span:first-child', pr).css('display', 'none');
+                $('span:first-child', pr).hide();
                 $('span:nth-child(2)', pr).html(i+1);
             });
         }
         else {
             var trs = $('#ranking tbody tr');
-            trs.css('display', 'table-row');
-            $('td:first-child span:first-child', trs).css('display', 'inline');
+            // trs.css('display', 'table-row');
+            trs.show();
+            // $('td:first-child span:first-child', trs).css('display', 'inline');
+            $('td:first-child span:first-child', trs).show();
             $('td:first-child span:nth-child(2)', trs).html('');
         }
 
