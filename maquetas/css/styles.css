@@ -30,7 +30,8 @@ nav #filtros div.filtro.active {background: #33AAD4;}
 .bg_3 {background: url(../img/bg_cel_3.png?cachebust);}
 nav #filtros div.filtro span,
 article ul#variaciones li span.flecha
-{ display: none; position: absolute; top: -13px; left: 50%; margin-left: -8px; width: 15px; height: 15px; background: url(../img/sprite.png?cachebust) -2px -197px no-repeat;}
+/*{ display: none; position: absolute; top: -13px; left: 50%; margin-left: -8px; width: 15px; height: 15px; background: url(../img/sprite.png?cachebust) -2px -197px no-repeat;}*/
+{  position: absolute; top: -11px; left: 50%; margin-left: -8px; display: none; width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 7px solid #3282BD; }
 nav #filtros div.filtro.active span,
 article ul#variaciones li.active span.flecha
 { display: block;}
@@ -45,12 +46,12 @@ article.col_1 div#spin{ background: #fff; position: absolute; width: 100%; heigh
 
 div#cont_mapas { /*background: #F2F2F2;*/ border: 1px solid #D3D3D3}
 article ul#variaciones{ /*overflow: hidden*/}
-article ul#variaciones li { width: 155px; display: block; cursor: pointer; float: left; margin-right: 1px; position: relative;background: #81C9E2; color: #fff; font-weight: bold; text-align: center; }
+article ul#variaciones li { width: 155px; display: block; cursor: pointer; float: left; margin-right: 1px; position: relative; background: #81C9E2; color: #fff; font-weight: bold; text-align: center; opacity: .6;}
 article ul#variaciones li#variacion { width: 215px;}
 article ul#variaciones li#censo_2010 { margin: 0;width: 156px;}
 article ul#variaciones li h3{ display: inline-block; padding: 3px 0; }
 article ul#variaciones li.active, article ul#variaciones li:hover{ background: #33AAD4; }
-
+article ul#variaciones li.active { opacity: 1}
 div.variables ul { display: none; padding: 25px 20px 20px }
 div.variables.active ul.active { display: block;}
 div.variables.censo_2001 ul { }
@@ -97,16 +98,33 @@ div#tooltip table thead { }
 div#tooltip table tbody { }
 div#tooltip table td { padding-bottom: 5px}
 div#tooltip table .th1 { width:60%; text-align: left;} div#tooltip table .th2 { width:40%; text-align: left;}
+/*colors avtives */
+  /* tooltip color active & table ranking numbers  */
+  .Poblacion div#tooltip .header p, .Poblacion table#ranking td.td_1 {
+      color: #3282BD ;
+  }
+  .Viviendas div#tooltip .header p, .Viviendas table#ranking td.td_1 {
+      color: #006766;
+  }
+  .Hogares div#tooltip .header p, .Hogares table#ranking td.td_1{
+      color: #54278E;
+  }
+  /* triangulo active */
+  /*body.Poblacion nav #filtros div.filtro span,*/
+  body.Poblacion article ul#variaciones li span.flecha
+  {border-top-color: #3282BD;}
+  /*body.Viviendas nav #filtros div.filtro span,*/
+  body.Viviendas article ul#variaciones li span.flecha
+  {border-top-color: #339A99;}
+  /*body.Hogares nav #filtros div.filtro span,*/
+  body.Hogares article ul#variaciones li span.flecha
+  {border-top-color: #54278E;}
+  /* lista variaciones active*/
+  body.Poblacion article ul#variaciones li { background: #3282BD}
+  body.Viviendas article ul#variaciones li { background: #339A99}
+  body.Hogares article ul#variaciones li { background: #54278E}
 
-.Poblacion div#tooltip .header p, .Poblacion table#ranking td.td_1 {
-    color: #3282BD ;
-}
-.Viviendas div#tooltip .header p, .Viviendas table#ranking td.td_1 {
-    color: #006766;
-}
-.Hogares div#tooltip .header p, .Hogares table#ranking td.td_1{
-    color: #54278E;
-}
+
 
 #legend-units {
     position: absolute;
