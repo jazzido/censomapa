@@ -1,6 +1,6 @@
 # Para hacer los thumbnails de los mapitas
 
-CROP_BOX = (24, 322, 24+401, 322+861)
+CROP_BOX = (24, 330, 24+401, 330+861)
 THUMBNAIL_SIZE = (103, 103)
 
 import selenium, time, string

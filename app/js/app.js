@@ -26,6 +26,17 @@ $(function() {
         return destination;
     };
 
+    Number.prototype.format = function(c, d, t){
+        var n = this, 
+        c = isNaN(c = Math.abs(c)) ? 2 : c, 
+        d = d == undefined ? "." : d, 
+        t = t == undefined ? "," : t, 
+        s = n < 0 ? "-" : "", 
+        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+        j = (j = i.length) > 3 ? j % 3 : 0;
+        return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    };
+
     var DataAccessor = function(data) {
         var data = data;
 
@@ -85,15 +96,7 @@ $(function() {
                              });
 
     Handlebars.registerHelper('format_number', function(n) {
-        
-        if (n % 1=== 0) n = Math.round(n);
-        else n = n.toPrecision(4);
-
-        var number = n.toString();
-        var dec = number.split('.')[1];
-        number = number.split('.')[0];
-
-        return number + (dec !== undefined ? ',' + dec : '');
+        return n % 1 === 0 ? n : n.format(2, ',', '');
     });
 
 
@@ -106,16 +109,17 @@ $(function() {
     var interpretFragment = function(fragment, data_accessor) {
         var parts = fragment.substring(1).split('-');
         var var_name = parts[0], arg2 = parts[1], arg3 = parts[2];
-        var total_var_name = var_name.split('_')[0] + '_Total';
-
         var rv = null;
+
         if (arg2 == 'intercensal') {
+            var total_var_units = $('a[href="#'+var_name+'-2001"]').data('units');
             rv = { 
                 data: data_accessor.getIntercensalVariation(var_name),
                 data_label: 'Variación intercensal',
+                units: '%',
                 other_data: [
-                    ['Censo 2001', data_accessor.getVariable(var_name, '2001')],
-                    ['Censo 2010', data_accessor.getVariable(var_name, '2010')],
+                    ['Censo 2001', data_accessor.getVariable(var_name, '2001'), total_var_units],
+                    ['Censo 2010', data_accessor.getVariable(var_name, '2010'), total_var_units],
                 ]
             };
         }
@@ -123,8 +127,12 @@ $(function() {
             // ESTO ES UN HACK FEO.
             // Si estamos viendo proporcion de analfabetos,
             // calcular la proporcion sobre la poblacion mayor a 10 años
+            var total_var_name;
             if (var_name == 'Poblacion_Analfabetos') {
                 total_var_name = 'Poblacion_Mayor10';
+            }
+            else {
+                total_var_name = var_name.split('_')[0] + '_Total';
             }
             var d = data_accessor.getVariableAsRatio(var_name, arg3, total_var_name);
             rv = {
@@ -135,30 +143,35 @@ $(function() {
         }
         else {
             rv = { 
-                data: data_accessor.getVariable(var_name, arg2) 
+                data: data_accessor.getVariable(var_name, arg2),
+                other_data: [],
             };
         }
         return rv;
     };
 
+    // esta es una de las funciones mas feas jamás escrita
     var filterRankingTable = function(provincia_id) {
-        if (provincia_id) {
-            $('#ranking tbody tr')
-              .not('[data-provincia="'+provincia_id+'"]')
-              // .css('display', 'none');
+        var tbody = $('#ranking tbody');
+        if (typeof(provincia_id) == 'string') {
+            $('tr:not([data-provincia="'+provincia_id+'"])', tbody)
               .hide();
             var prov_rows = $('#ranking tbody tr[data-provincia="'+provincia_id+'"] td:first-child');
             $.each(prov_rows, function(i, pr) {
-                // $('span:first-child', pr).css('display', 'none');
                 $('span:first-child', pr).hide();
                 $('span:nth-child(2)', pr).html(i+1);
             });
         }
-        else {
-            var trs = $('#ranking tbody tr');
-            // trs.css('display', 'table-row');
+        else if ($.isArray(provincia_id)) {
+            $('tr', tbody).hide();
+            var trs = $(provincia_id.map(function(id) { 
+                                            return 'tr[data-id="'+id+'"]'; 
+                                         }).join(','),
+                        tbody).show();
+        }
+        else if (provincia_id == null || provincia_id === undefined ) {
+            var trs = $('tr', tbody);
             trs.show();
-            // $('td:first-child span:first-child', trs).css('display', 'inline');
             $('td:first-child span:first-child', trs).show();
             $('td:first-child span:nth-child(2)', trs).html('');
         }
@@ -203,8 +216,7 @@ $(function() {
             t = '<strong>' + t[0] + '</strong> — ' + t[1];
             $('nav h2, #ranking thead tr:first-child th').html(t);
             
-            
-            var units = a.data('units') || '%';
+            var units = a.data('units') || 'Porcentaje';
 
             $('#legend-units').html(units);
 
@@ -212,20 +224,23 @@ $(function() {
             $('#ranking thead tr:nth-child(2) th span:nth-child(2)').html('(' + units_long + ')');
 
             // actualizar la tabla de ranking
-            // TODO optimizar.
+            // TODO optimizar, no hacen falta tantas copias
             for (var k in data.data) {
                 if (!distrito_info_dict[k]) continue;
                 distrito_info_dict[k].data = data.data[k];
                 if (data.other_data) {
                     distrito_info_dict[k].other_data = data.other_data.map(function(od) { 
-                        return [od[0], od[1][k]]; 
+                        return [od[0], od[1][k]];
                     });
                 }
-                distrito_info_dict[k].data_label = data.data_label;
+                // TODO XXX al pedo copiar esto en cada elemento de distrito_info_dict
+                distrito_info_dict[k].data_label = data.data_label || units;
+                distrito_info_dict[k].units = data.units;
+                
             }
 
             ranking_tbody_el.html(RANKING_TABLE_TMPL({
-                units: units == '%' ? '%' : '',
+                units: units == 'Porcentaje' ? '%' : '',
                 data: d3.entries(distrito_info_dict).sort(function(a,b) {
                     return a.value.data - b.value.data;
                 })
@@ -243,7 +258,8 @@ $(function() {
             rank: $('tr[data-id='+distrito_path.id+'] td:first-child span:first-child', ranking_tbody_el).html(),
             data: distrito_info_dict[distrito_path.id].data,
             other_data: distrito_info_dict[distrito_path.id].other_data,
-            data_label: distrito_info_dict[distrito_path.id].data_label
+            data_label: distrito_info_dict[distrito_path.id].data_label,
+            units: distrito_info_dict[distrito_path.id].units
         };
 
         tooltip_el
@@ -336,10 +352,10 @@ $(function() {
                           e.stopPropagation();
                       }
                       mapa.zoomToProvincia(id, function() { 
-                          console.log(id);
-                          filterRankingTable(id == 'gran-buenos-aires' ? 'buenos-aires' : id);
+                          filterRankingTable(id == 'gran-buenos-aires' ? mapa.AMBA_IDS : id);
                           $('#ranking thead tr:nth-child(2) th span:first-child')
-                              .html('Ranking de ' + $('#ranking tbody tr[data-provincia="'+id+'"] td:nth-child(2) span').html());
+                              .html('Ranking de ' + 
+                                    (id == 'gran-buenos-aires' ? 'Capital Federal y Gran Buenos Aires' : $('#ranking tbody tr[data-provincia="'+id+'"] td:nth-child(2) span').html()));
 
                           $('#volver').css('visibility', 'visible');
                       });

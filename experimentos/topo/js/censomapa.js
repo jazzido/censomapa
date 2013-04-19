@@ -137,8 +137,6 @@
         if (breaks_method === undefined)
             breaks_method = 'jenks';
 
-//        console.log('values', values_array);
-
         switch (breaks_method) {
             // jenks optimization is default
             case undefined:
@@ -146,13 +144,9 @@
             var j = jenks(values_array, n_classes);
             fixed = fixNegativeBreaks(j);
             break;
-
             case 'htt':
-            htt = headTailThresholds(values_array, n_classes-1);
-            fixed = fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
-            break;
             case 'htt-left':
-            htt = headTailThresholds(values_array, n_classes-1, true);
+            htt = headTailThresholds(values_array, n_classes-1, breaks_method == 'htt-left');
             fixed = fixNegativeBreaks([values_array[0]].concat(htt).concat([values_array[values_array.length - 1]]));
             break;
             case 'quantiles':
@@ -164,11 +158,11 @@
             break;
             default:
             // parse argument
-            var manual_thresholds = $.grep(breaks_method.split(re), 
+            var manual_thresholds = $.grep(breaks_method.split(/(-?\d+\.?\d*)/), 
                                            function(v,i) { 
                                                return i % 2 == 1; 
                                            }).map(parseFloat);
-            if (manual_thresholds.length ==0 || manual_thresholds.length != n_classes - 2)
+            if (manual_thresholds.length == 0 || manual_thresholds.length != n_classes - 1)
                 break;
             fixed = [values_array[0]].concat(manual_thresholds).concat([values_array[values_array.length - 1]]);
         }
@@ -258,20 +252,6 @@
             .attr('d', path)
             .attr('class', 'departamento');
 
-//        departamentos_geometries.forEach(function(e) { console.log(path.centroid(e));});
-
-/*
-        var vertices = departamentos_geometries.map(path.centroid).filter(function(x) { return x !== undefined; });
-        mapa.mapa_svg.append('g')
-            .attr('id', 'voronoi')
-            .selectAll('path')
-            .data(d3.zip(d3.geom.voronoi(vertices), departamentos_geometries))
-            .enter().append('path')
-            .attr('d', function(d) { return "M" + d[0].join(",") + "Z"; })
-            .style('fill-opacity', 0.1)
-            .style('stroke', 'red')
-            .on('mouseover', function(d, i) { console.log(d,i); }); */
-
     };
 
     mapa.zoomToProvincia = function(v, callback) {
@@ -327,15 +307,6 @@
                       + "scale(" + k + ")"
                       + "translate(" + -(b[1][0] + b[0][0]) / 2 + "," + -(b[1][1] + b[0][1]) / 2 + ")")
                 .each('end', function() {
-                    // mapa.mapa_svg
-                    //     .selectAll('g.provincias path')
-                    //     .style('stroke-opacity', 0)
-                    //     .style('stroke-width', 0.1);
-
-                    // mapa.mapa_svg
-                    //     .selectAll('g.departamentos path')
-                    //     .style('stroke-width', 1/k + 'px');
-
                     mapa.mapa_svg.selectAll('g.departamentos > g:not(#provincia-' + to_id(v == 'gran-buenos-aires' ? 'buenos-aires' : v) + ')').classed('inactive', true);
 
                     mapa.zoomedTo = to_id(v);
