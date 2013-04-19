@@ -59,7 +59,7 @@ div.variables.censo_2010 ul { }
 div.variables ul li { background: no-repeat 5px 85%; display: inline-block; width: 87px; margin: 10px 0 0 7px; padding-bottom: 10px; cursor:pointer; height: 130px; vertical-align: top; position: relative;}
 div.variables ul li a { font-size: 12px; color: #404040; font-weight: bold; text-decoration: none; display: block; height: 100%;}
 div.variables ul li a img { display: none }
-div.variables ul li {opacity: 0.35}
+div.variables ul li {opacity: 0.45}
 div.variables ul li.active, div.variables ul li:hover {opacity: 1}
 
 /* tabla ranking */
