@@ -78,25 +78,13 @@ $(function() {
     var map_data;
     var distrito_info_dict = {};
 
-    Handlebars.registerHelper('lower', function(str) {
-        return str.toLowerCase();
-    });
     Handlebars.registerHelper('mais_um', function(context) {
         return context + 1;
     });
     Handlebars.registerHelper('to_id', to_id);
-    Handlebars.registerHelper('prec', function(n) { 
-        if (n === undefined) return '-';
-        return n % 1 === 0 ? n : n.toPrecision(4); 
-    });
-
-    Handlebars.registerHelper('display_number',
-                             function(n) {
-                                 n % 1 === 0 ? Math.round(n) : n;
-                             });
 
     Handlebars.registerHelper('format_number', function(n) {
-        return n % 1 === 0 ? n : n.format(2, ',', '');
+        return n.format(n % 1 === 0 ? null : 2, ',', '.');
     });
 
 
@@ -110,6 +98,7 @@ $(function() {
         var parts = fragment.substring(1).split('-');
         var var_name = parts[0], arg2 = parts[1], arg3 = parts[2];
         var rv = null;
+
 
         if (arg2 == 'intercensal') {
             var total_var_units = $('a[href="#'+var_name+'-2001"]').data('units');
@@ -152,30 +141,34 @@ $(function() {
 
     // esta es una de las funciones mas feas jamás escrita
     var filterRankingTable = function(provincia_id) {
-        var tbody = $('#ranking tbody');
+        var tbody = $('#ranking tbody'), trs;
+        $('tr', tbody).hide();
+
         if (typeof(provincia_id) == 'string') {
-            $('tr:not([data-provincia="'+provincia_id+'"])', tbody)
-              .hide();
+            trs = $('tr[data-provincia="'+provincia_id+'"]', tbody).show();
             var prov_rows = $('#ranking tbody tr[data-provincia="'+provincia_id+'"] td:first-child');
+            $('span:first-child', prov_rows).hide();
             $.each(prov_rows, function(i, pr) {
-                $('span:first-child', pr).hide();
                 $('span:nth-child(2)', pr).html(i+1);
             });
         }
         else if ($.isArray(provincia_id)) {
-            $('tr', tbody).hide();
-            var trs = $(provincia_id.map(function(id) { 
-                                            return 'tr[data-id="'+id+'"]'; 
-                                         }).join(','),
-                        tbody).show();
+            trs = $(provincia_id.map(function(id) { 
+                                       return 'tr[data-id="'+id+'"]'; 
+                                     }).join(','),
+                    tbody).show();
+            $('td:first-child span:first-child', trs).hide();
+            $.each(trs, function(i, pr) {
+                $('td:first-child span:nth-child(2)', pr).html(i+1);
+            });
+
         }
         else if (provincia_id == null || provincia_id === undefined ) {
-            var trs = $('tr', tbody);
+            trs = $('tr', tbody);
             trs.show();
             $('td:first-child span:first-child', trs).show();
             $('td:first-child span:nth-child(2)', trs).html('');
         }
-
     };
 
     var setActiveMapContainer = function() {
@@ -242,11 +235,11 @@ $(function() {
             ranking_tbody_el.html(RANKING_TABLE_TMPL({
                 units: units == 'Porcentaje' ? '%' : '',
                 data: d3.entries(distrito_info_dict).sort(function(a,b) {
-                    return a.value.data - b.value.data;
+                    return b.value.data - a.value.data;
                 })
             }));
 
-            filterRankingTable(mapa.zoomedTo);
+            filterRankingTable(mapa.zoomedTo == 'gran-buenos-aires' ? mapa.AMBA_IDS : mapa.zoomedTo);
         }
         $("tbody.scrollContent").scrollTop(0); // reset scroll ranking
     });
