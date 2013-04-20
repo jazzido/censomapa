@@ -117,7 +117,7 @@ $(function() {
             // Si estamos viendo proporcion de analfabetos,
             // calcular la proporcion sobre la poblacion mayor a 10 años
             var total_var_name;
-            if (var_name == 'Poblacion_Analfabetos') {
+            if (var_name == 'Poblacion_Analfabetos' || var_name == 'Poblacion_Alfabetos') {
                 total_var_name = 'Poblacion_Mayor10';
             }
             else {
@@ -186,7 +186,7 @@ $(function() {
 
 
     $(window).hashchange( function(){
-        if (location.hash.indexOf('#') !== 0) return;
+        if (location.hash.match(/^#(Viviendas|Poblacion|Hogares)/) == null) return;
 
         // dibujar el mapa
         var data;

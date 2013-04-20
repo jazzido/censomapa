@@ -267,7 +267,6 @@
                 .attr('transform', 'translate(0,20)')
                 .each('end', function() {
                     mapa.mapa_svg.selectAll('g.departamentos g').classed('inactive', false);
-
                     mapa.mapa_svg
                         .selectAll('g.provincias path')
                         .style('stroke-opacity',1)
