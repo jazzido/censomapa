@@ -46,6 +46,15 @@
           'title': $('a[href="'+location.hash+'"]').attr('title')
         });
       });
+
+      $(function() {
+        $('a#descargar').click(function(e) {
+          ga('send',
+             'pageview',
+             { 'page': $(this).attr('href'), 'title': 'Descargar datos' });
+        });
+      });
+
     </script>
     </head>
   <body>
@@ -237,7 +246,7 @@
         <!-- Place this tag in your head or just before your close body tag. -->
 
         <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f0d9fe726d14ac9"></script>
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f0d9fe726d14ac9&async=1"></script>
       </div>
       <!-- AddThis Button END -->
 

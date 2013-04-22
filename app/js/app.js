@@ -261,12 +261,17 @@ $(function() {
             .css('visibility', 'visible');
     };
 
-    hideDistritoTooltip = function() { tooltip_el.css('visibility', 'hidden'); };
+    var lastHighlighted;
+    hideDistritoTooltip = function() { 
+        tooltip_el.css('visibility', 'hidden'); 
+        lastHighlighted[0].classList.remove('hover');
+    };
 
     $(document).on({
         mouseenter: function() {
-            var p = $('path#' + $(this).data('id'));
-            if (p.length) showDistritoTooltip(p[0]);
+            lastHighlighted = $('path#' + $(this).data('id'));
+            lastHighlighted[0].classList.add('hover');
+            if (lastHighlighted) showDistritoTooltip(lastHighlighted[0]);
         },
         mouseleave: hideDistritoTooltip
     }, '#ranking tbody tr');
@@ -282,12 +287,14 @@ $(function() {
     };
 
 
-
-
     // cargar geometrias
     $.getJSON('data/ea.json', function(topojson) {
+
         mapa.drawPaths(topojson, 'article#svg');
-        var tootip = new moverObjMouseOver($("path, #ranking"), $("#tooltip"), $("svg"));
+        
+        $('#ranking, svg').mousemove(function(e) { 
+            $('#tooltip').css('left', e.pageX - 200).css('top', e.pageY - 120);
+        })
 
         // llenar distrito_info_dict (convenience)
         topojson.objects.departamentos.geometries.forEach(function(g) {
@@ -297,14 +304,10 @@ $(function() {
         // tooltip en mouseover sobre los distritos
         $('.departamentos path')
             .on('mouseover', function() {
-                $(this).css('opacity', 0.1);
+                (lastHighlighted = $(this))[0].classList.add('hover');
                 showDistritoTooltip(this);
             })
-            .on('mouseout', function() { $(this).css('opacity', 1); });
-
-        $('.departamentos').on('mouseout', function() {
-            hideDistritoTooltip();
-        });
+            .on('mouseout', hideDistritoTooltip );
 
         // cargar datos
         // loader.mostrar();
@@ -326,6 +329,9 @@ $(function() {
 
                   // loader..
                   loader.destruir();
+
+                  // init addthis
+                  addthis.init();
 
                   $('#volver').on('click', function(e) {
                       e.preventDefault();

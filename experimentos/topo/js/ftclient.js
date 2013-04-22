@@ -1,4 +1,4 @@
-/**
+x/**
  * simple JSONP support
  *
  *     JSONP.get('https://api.github.com/gists/1431613', function (data) { console.log(data); });

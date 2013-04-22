@@ -86,7 +86,7 @@ function moverObjMouseOver(objetoOver, objetoMover, parent){
     objetoMover.h = objetoMover.height(); // capturamos el height
     $(this).mousemove(function(e){  
         postion.top= e.pageY  + 10;
-        postion.left= e.pageX  + 10;
+        postion.left= e.pageX + 10;
         
         if((postion.top + objetoMover.h) > (postion.parentH + 40)){ // valida position left
             postion.top -= objetoMover.h + 50; //exedente
