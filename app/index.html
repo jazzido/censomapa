@@ -104,6 +104,7 @@
             <p class="clear" style="color:red;display:inline-block;">Para visualizar correctamente esta aplicacione recomendamos utilizar Chrome, Firefox o Internet Explorer 9 o superior.</p>
         <![endif]-->
         <a href="#" id="volver">Volver</a>
+        <p id="haga_clic" style="display: inline-block;font-size: 10px;left: 0;position: absolute;text-align: right; top: 50px;width: 120px; text-align: left">Haga clic sobre el mapa para ver detalles</p>
         <div id="spin">&nbsp;</div>
         </article>
         <article class="col_2">
@@ -304,6 +305,9 @@
       </div>
       <table>
         <tbody>
+          <tr>
+            <td id="filtro" colspan="2">{{ group }}</td>
+          </tr>
           {{#other_data}}
           <tr>
             <td class="th1">{{this.[0]}}</td>

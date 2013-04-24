@@ -92,7 +92,6 @@ $(function() {
     var RANKING_TABLE_TMPL = Handlebars.compile($('#tabla-ranking-template').html());
     var tooltip_el = $('#tooltip');
     var ranking_tbody_el = $('#ranking tbody');
-
     // obtener datos de acuerdo al fragment (hash) del URL
     var interpretFragment = function(fragment, data_accessor) {
         var parts = fragment.substring(1).split('-');
@@ -252,9 +251,10 @@ $(function() {
             data: distrito_info_dict[distrito_path.id].data,
             other_data: distrito_info_dict[distrito_path.id].other_data,
             data_label: distrito_info_dict[distrito_path.id].data_label,
-            units: distrito_info_dict[distrito_path.id].units
+            units: distrito_info_dict[distrito_path.id].units,
+            group: $("nav #filtros div.filtro.active h3").text()
         };
-
+        console.log(d)
         tooltip_el
             .html(DISTRITO_INFO_TMPL(Object.extend(d,
                                                    distrito_path.__data__.properties)))
@@ -282,6 +282,7 @@ $(function() {
         mapa.zoomToProvincia(null);
         filterRankingTable(null);
         $('#volver').css('visibility', 'hidden');
+        $('#haga_clic').css('visibility', 'visible');
         $('#ranking thead tr:nth-child(2) th span:first-child')
             .html('Ranking de todo el país');
     };
@@ -322,7 +323,7 @@ $(function() {
 
                   // disparo click sobre los tabs correspondientes en carga inicial
                   if (m.length == 2) {
-                      $('#filtros h3:contains('+m[1]+')').parent().trigger('click')
+                      $('#filtros h3:contains('+m[1]+')').parent().trigger('click');
                   }
 
                   setActiveMapContainer();
@@ -357,6 +358,7 @@ $(function() {
                                     (id == 'gran-buenos-aires' ? 'Capital Federal y Gran Buenos Aires' : $('#ranking tbody tr[data-provincia="'+id+'"] td:nth-child(2) span').html()));
 
                           $('#volver').css('visibility', 'visible');
+                          $('#haga_clic').css('visibility', 'hidden');
                       });
                   });
               });

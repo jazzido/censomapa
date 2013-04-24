@@ -98,6 +98,7 @@ div#tooltip table thead { }
 div#tooltip table tbody { }
 div#tooltip table td { padding-bottom: 5px}
 div#tooltip table .th1 { width:60%; text-align: left;} div#tooltip table .th2 { width:40%; text-align: left;}
+div#tooltip table #filtro { font-weight: bold;}
 /*colors avtives */
   /* tooltip color active & table ranking numbers  */
   .Poblacion div#tooltip .header p, .Poblacion table#ranking td.td_1 {
