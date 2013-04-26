@@ -252,7 +252,8 @@ $(function() {
             other_data: distrito_info_dict[distrito_path.id].other_data,
             data_label: distrito_info_dict[distrito_path.id].data_label,
             units: distrito_info_dict[distrito_path.id].units,
-            group: $("nav #filtros div.filtro.active h3").text()
+            group: $("nav #filtros div.filtro.active h3").text(),
+            test_gruop: $("#variaciones li.active").is("#variacion")
         };
         console.log(d)
         tooltip_el

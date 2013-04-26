@@ -247,7 +247,7 @@
             </table>
           </div>
       <!-- AddThis Button BEGIN -->
-      <div style="text-align:right; margin-top: 10px">
+      <div style="text-align:right; margin-top: 15px">
         <div class="addthis_toolbox addthis_default_style " style="display: inline-block;width: 400px;">
         <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
         <a class="addthis_button_tweet"></a>
@@ -305,9 +305,11 @@
       </div>
       <table>
         <tbody>
+          {{#if test_gruop}}
           <tr>
             <td id="filtro" colspan="2">{{ group }}</td>
           </tr>
+          {{/if}}
           {{#other_data}}
           <tr>
             <td class="th1">{{this.[0]}}</td>
