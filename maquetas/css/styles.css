@@ -65,8 +65,9 @@ div.variables ul li.active, div.variables ul li:hover {opacity: 1}
 /* tabla ranking */
 table#ranking {width: 100%; color: #333; margin-top: 25px}
 table#ranking th { text-align: left;font-weight: normal; }
-table#ranking th.parrafo { padding: 3px 0 15px 0; text-transform: none; font-weight: normal; font-family: arial}
+table#ranking th.parrafo { padding: 3px 0 10px 0; text-transform: none; font-weight: normal; font-family: arial}
 table#ranking th span { font-size: 13px; text-transform: none; font-weight: normal; padding-top: 3px}
+table#ranking thead tr:nth-child(3) { margin-bottom: 14px; }
 table#ranking td {height: 20px; padding-top: 3px}
 table#ranking tbody tr {border-bottom: solid 1px #ccc; display: block; overflow: hidden;}
 table#ranking tbody tr td { display: block; overflow: hidden; float: left}

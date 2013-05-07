@@ -255,7 +255,6 @@ $(function() {
             group: $("nav #filtros div.filtro.active h3").text(),
             test_gruop: $("#variaciones li.active").is("#variacion")
         };
-        console.log(d)
         tooltip_el
             .html(DISTRITO_INFO_TMPL(Object.extend(d,
                                                    distrito_path.__data__.properties)))
@@ -287,6 +286,19 @@ $(function() {
         $('#ranking thead tr:nth-child(2) th span:first-child')
             .html('Ranking de todo el país');
     };
+
+    $('input[type=search]').on('keyup search', function(e) {
+        var t = $(this);
+        if (t.val() == '') { $('table#ranking tbody tr').show(); return; }
+        if (this.lastSearch == t.val()) return;
+        this.lastSearch = t.val();
+
+        var re = new RegExp(t.val(), 'i');
+        $('table#ranking tbody tr td:nth-child(2)').each(function(i) {
+            $(this).parent().toggle($(this).text().search(re) >= 0);
+        });
+
+    });
 
 
     // cargar geometrias
