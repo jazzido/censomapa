@@ -1,1 +1,6 @@
 build
+venv
+node_modules
+__production
+
+app/paso2013

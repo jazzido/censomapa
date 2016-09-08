@@ -11,4 +11,24 @@ Tener en cuenta que hace falta gdal >= 1.9.2 (que use libkml), para poder export
 
 ### Para convertir un SHP a TopoJSON
 
-!TODO Escribir!
+....
+
+### Dependencias
+
+`npm install`
+`virtualenv .venv && source .venv/bin/activate`
+`pip install -r requirements.txt`
+
+
+### Server de desarrollo:
+
+`$ gulp` abrir el navegador en http://localhost:8080
+
+
+### Build del proyecto:
+
+`$ gulp build`
+
+`$ gulp server_pro` abrir el navegador en http://localhost:9000
+
+

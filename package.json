@@ -1,0 +1,38 @@
+{
+  "name": "censomapa",
+  "version": "1.0.0",
+  "description": "Mapa Censo 2001-2010 ====================",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lanacioncom/censomapa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lanacioncom/censomapa/issues"
+  },
+  "homepage": "https://github.com/lanacioncom/censomapa#readme",
+  "dependencies": {
+    "csso": "^2.0.0",
+    "uglifyjs": "^2.4.10",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-connect": "^5.0.0",
+    "gulp-html-replace": "^1.6.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "jshint": "^2.9.3",
+    "jshint-stylish": "^2.2.1",
+    "merge-stream": "^1.0.0",
+    "require-dir": "^0.3.0",
+    "run-sequence": "^1.2.2"
+  }
+}
