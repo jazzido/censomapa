@@ -328,11 +328,16 @@ $(function() {
         $.getJSON('data/data.json',
               function(data) {
                   map_data = new DataAccessor(data);
-
-                  if (location.hash == '') location.hash = '#Poblacion_Total-intercensal';
-                  else $(window).trigger('hashchange');
-
+                  
                   var m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
+
+                  if (!m){
+                    location.hash = '#Poblacion_Total-intercensal';
+                    m = location.hash.match(/^#(Viviendas|Poblacion|Hogares)/);
+                  } else {
+                    $(window).trigger('hashchange');
+                  }
+
 
                   // disparo click sobre los tabs correspondientes en carga inicial
                   if (m.length == 2) {

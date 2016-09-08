@@ -11,4 +11,13 @@ Tener en cuenta que hace falta gdal >= 1.9.2 (que use libkml), para poder export
 
 ### Para convertir un SHP a TopoJSON
 
+....
+
+### Dependencias
+
+`npm install`
+`virtualenv .venv && source .venv/bin/activate`
+`pip install -r requirements.txt`
+
+
 !TODO Escribir!

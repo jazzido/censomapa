@@ -54,11 +54,11 @@
         // arreglarlo
 
         var rangeClassName = function(i) {
-            return 'q' + i + '-' + n_classes + '-' + n_negative_classes + 'n'
+            return 'q' + i + '-' + n_classes + '-' + n_negative_classes + 'n';
         };
 
         mapa.legend.selectAll('rect, text').remove();
-        var precision = precision === undefined ? 2 : precision;
+        precision = precision === undefined ? 2 : precision;
 
         var n_classes = thresholds.range().length;
         var domain = thresholds.domain();
@@ -212,7 +212,7 @@
             .attr('d', path)
             .attr('class', 'provincia');
 
-        mapa.provincias
+        // mapa.provincias;
             
 
         mapa.gran_buenos_aires = mapa.departamentos.append('g').attr('class', 'gran-buenos-aires');
@@ -233,7 +233,7 @@
                 }))
                 .enter()
                 .append('path')
-                .attr('id', function(d) { return d.id })
+                .attr('id', function(d) { return d.id; })
                 .attr('d', path)
                 .attr('class', 'departamento');
         });
